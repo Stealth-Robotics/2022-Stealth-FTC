@@ -60,7 +60,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
     // them, and take different actions based on the alliance color.
     @SuppressWarnings("unused")
-    @TeleOp(name = "RED | Tele-Op", group = "Red")
+    @TeleOp(name = "Mishap RED | Tele-Op", group = "Red")
     public static class RedTeleOp extends TeleOpBase {
         public RedTeleOp() {
             super(AllianceColor.RED);
@@ -68,7 +68,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     }
 
     @SuppressWarnings("unused")
-    @TeleOp(name = "BLUE | Tele-Op", group = "Blue")
+    @TeleOp(name = "Mishap BLUE | Tele-Op", group = "Blue")
     public static class BlueTeleOp extends TeleOpBase {
         public BlueTeleOp() {
             super(AllianceColor.BLUE);
