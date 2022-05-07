@@ -18,3 +18,16 @@
     - Use AS to move those down to a roadrunner subdir
       - The refactor will kick in automatically when you drag-and-drop to the subdir.
   
+
+
+
+
+
+- TODO
+  - Need reasonable teamcode dir structure
+    - ss, cmds, opmodes
+  - Need the base code to bootstrap the bot from the opmodes
+  - examples
+  - basic mechanum drive, simple and not fancy
+  - basic arm cmd
+  
