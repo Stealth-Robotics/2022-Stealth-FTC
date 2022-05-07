@@ -7,31 +7,36 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ExampleCommand extends CommandBase {
 
     final String something;
-    final Telemetry telemetry;
+    int loopCount;
 
-    public ExampleCommand(String somethingToSay, Telemetry telemetry) {
+    public ExampleCommand(String somethingToSay) {
         this.something = somethingToSay;
-        this.telemetry = telemetry;
     }
 
     @Override
     public void initialize() {
-        telemetry.addData(something, "Initialize");
+        loopCount = 0;
+        System.out.println("Initialize, loopCount=" + loopCount);
     }
 
     @Override
     public void execute() {
-        telemetry.addData(something, "Execute");
+        loopCount++;
+        System.out.println("Execute, loopCount=" + loopCount);
     }
 
     @Override
     public void end(boolean interrupted) {
-        telemetry.addData(something, "End, interrupted=%s", interrupted);
+        System.out.println("End, interrupted=" + interrupted + ", loopCount=" + loopCount);
     }
 
     @Override
     public boolean isFinished() {
-        telemetry.addData(something, "isFinished");
-        return false;
+        System.out.println("isFinished, loopCount=" + loopCount);
+        if (loopCount > 10) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

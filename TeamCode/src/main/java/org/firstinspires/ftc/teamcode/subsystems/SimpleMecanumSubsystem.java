@@ -22,9 +22,13 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
     }
 
-    public void drive(double y, double x, double rx) {
+    public void drive(double leftSickY, double leftStickX, double rightStickX) {
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
+
+        double y = -leftSickY; // Remember, this is reversed!
+        double x = leftStickX * 1.1; // Counteract imperfect strafing
+        double rx = rightStickX;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when

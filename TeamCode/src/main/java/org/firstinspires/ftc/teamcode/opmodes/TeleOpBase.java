@@ -43,14 +43,14 @@ public abstract class TeleOpBase extends CommandOpMode {
                 )
         );
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> telemetry.addLine("Oh hai"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whileHeld(new DuckForwardCommand(duckSpinner));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new DuckBackwardsCommand(duckSpinner));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz?", telemetry));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whileHeld(new ExampleCommand("I can haz?", telemetry));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenReleased(new ExampleCommand("I can haz?", telemetry));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz?"));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whileHeld(new ExampleCommand("I can haz?"));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenReleased(new ExampleCommand("I can haz?"));
     }
 
     TeleOpBase(AllianceColor allianceColor) {
@@ -62,7 +62,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     @SuppressWarnings("unused")
     @TeleOp(name = "RED | Tele-Op", group = "Red")
     public static class RedTeleOp extends TeleOpBase {
-        RedTeleOp() {
+        public RedTeleOp() {
             super(AllianceColor.RED);
         }
     }
@@ -70,7 +70,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     @SuppressWarnings("unused")
     @TeleOp(name = "BLUE | Tele-Op", group = "Blue")
     public static class BlueTeleOp extends TeleOpBase {
-        BlueTeleOp() {
+        public BlueTeleOp() {
             super(AllianceColor.BLUE);
         }
     }

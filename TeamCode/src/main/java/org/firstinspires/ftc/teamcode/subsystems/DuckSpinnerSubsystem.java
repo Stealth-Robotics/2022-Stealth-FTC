@@ -20,7 +20,7 @@ public class DuckSpinnerSubsystem extends SubsystemBase {
 
     public DuckSpinnerSubsystem(HardwareMap hardwareMap, AllianceColor allianceColor) {
         this.allianceColor = allianceColor;
-        duckDrive = hardwareMap.get(DcMotorEx.class, "Quack wheel");
+        duckDrive = hardwareMap.get(DcMotorEx.class, "duckMotor");
         duckDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         duckDrive.setDirection(DcMotor.Direction.FORWARD);
         duckDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
