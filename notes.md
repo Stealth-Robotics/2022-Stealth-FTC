@@ -30,4 +30,4 @@
   - examples
   - basic mechanum drive, simple and not fancy
   - basic arm cmd
-  
+  - turn off that annoying code analysis and todo analysis before comitting. 
