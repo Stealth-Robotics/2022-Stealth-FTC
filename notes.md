@@ -17,7 +17,9 @@
   - After adding the deps, copy all the files from the quickstart's teamcode dir.
     - Use AS to move those down to a roadrunner subdir
       - The refactor will kick in automatically when you drag-and-drop to the subdir.
-  
+- Add OpenCV
+  - https://github.com/OpenFTC/EasyOpenCV
+    
 
 
 

@@ -7,14 +7,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.stealthrobotics.library.Alliance;
 
-public class DuckWheel extends SubsystemBase {
+public class DuckWheelSubSystem extends SubsystemBase {
     private final DcMotorEx duckMotor;
 
     // The fast and slow speeds for automated spinning
     private final int AUTO_SLOW_SPEED = 1000;
     private final int AUTO_FAST_SPEED = 10000;
 
-    public DuckWheel(HardwareMap hardwareMap) {
+    public DuckWheelSubSystem(HardwareMap hardwareMap) {
         duckMotor = hardwareMap.get(DcMotorEx.class, "duckMotor");
         duckMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         duckMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

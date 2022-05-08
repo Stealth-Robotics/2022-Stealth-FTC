@@ -10,11 +10,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
-public class MecanumDrivetrain extends SubsystemBase {
+public class MecanumSubsystem extends SubsystemBase {
     private final SampleMecanumDrive drive;
     private final boolean fieldCentric;
 
-    public MecanumDrivetrain(HardwareMap hardwareMap, boolean isFieldCentric) {
+    public MecanumSubsystem(HardwareMap hardwareMap, boolean isFieldCentric) {
         this.drive = new SampleMecanumDrive(hardwareMap);
         fieldCentric = isFieldCentric;
     }

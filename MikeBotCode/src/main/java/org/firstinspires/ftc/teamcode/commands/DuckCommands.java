@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
-import org.firstinspires.ftc.teamcode.subsystems.DuckWheel;
+import org.firstinspires.ftc.teamcode.subsystems.DuckWheelSubSystem;
 
 // We use full Commands for the simple forward, backwards, and stop so that they can properly
 // interrupt the single delivery command based on their subsystem use. Just using lambdas means they
@@ -12,25 +12,25 @@ import org.firstinspires.ftc.teamcode.subsystems.DuckWheel;
 public class DuckCommands {
 
     public static class SpinForward extends InstantCommand {
-        public SpinForward(DuckWheel duckWheel) {
+        public SpinForward(DuckWheelSubSystem duckWheel) {
             super(() -> duckWheel.spinForward(), duckWheel);
         }
     }
 
     public static class SpinBackwards extends InstantCommand {
-        public SpinBackwards(DuckWheel duckWheel) {
+        public SpinBackwards(DuckWheelSubSystem duckWheel) {
             super(() -> duckWheel.spinBackwards(), duckWheel);
         }
     }
 
     public static class Stop extends InstantCommand {
-        public Stop(DuckWheel duckWheel) {
+        public Stop(DuckWheelSubSystem duckWheel) {
             super(() -> duckWheel.stop(), duckWheel);
         }
     }
 
     public static class DeliverSingleDuck extends CommandBase {
-        final DuckWheel duckWheel;
+        final DuckWheelSubSystem duckWheel;
 
         boolean done;
         int startPosition;
@@ -40,7 +40,7 @@ public class DuckCommands {
         private final int AUTO_START_FAST_POSITION = 400; // encoder ticks
         private final int AUTO_STOP_POSITION = 2000; // encoder ticks
 
-        public DeliverSingleDuck(DuckWheel duckWheel) {
+        public DeliverSingleDuck(DuckWheelSubSystem duckWheel) {
             this.duckWheel = duckWheel;
             addRequirements(duckWheel);
         }

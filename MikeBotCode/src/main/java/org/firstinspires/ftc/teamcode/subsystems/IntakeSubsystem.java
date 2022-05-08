@@ -4,11 +4,11 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Intake extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
 
     private final CRServo intakeServo;
 
-    public Intake(HardwareMap hardwareMap) {
+    public IntakeSubsystem(HardwareMap hardwareMap) {
         intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
     }
 

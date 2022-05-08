@@ -2,55 +2,55 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.Arm;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 
 import java.util.Arrays;
 
 public class ArmCommands {
 
-    public static class ArmUp extends CommandBase {
-        final Arm arm;
+    public static class Up extends CommandBase {
+        final ArmSubsystem arm;
 
-        public ArmUp(Arm arm) {
+        public Up(ArmSubsystem arm) {
             this.arm = arm;
             addRequirements(arm);
         }
 
         @Override
         public void initialize() {
-            arm.setPosition(Arm.MAX_POSITION);
+            arm.setPosition(ArmSubsystem.MAX_POSITION);
         }
 
         @Override
         public void end(boolean isInterrupted) {
             int p = arm.getCurrentPositionNoCache();
             // Aim a little farther up than we sense to give a softer landing.
-            arm.setPosition(Math.min(Arm.MAX_POSITION, p + 100));
+            arm.setPosition(Math.min(ArmSubsystem.MAX_POSITION, p + 100));
         }
     }
 
-    public static class ArmDown extends CommandBase {
-        final Arm arm;
+    public static class Down extends CommandBase {
+        final ArmSubsystem arm;
 
-        public ArmDown(Arm arm) {
+        public Down(ArmSubsystem arm) {
             this.arm = arm;
             addRequirements(arm);
         }
 
         @Override
         public void initialize() {
-            arm.setPosition(Arm.MIN_POSITION);
+            arm.setPosition(ArmSubsystem.MIN_POSITION);
         }
 
         @Override
         public void end(boolean isInterrupted) {
             int p = arm.getCurrentPositionNoCache();
             // Aim a little farther down than we sense to give a softer landing.
-            arm.setPosition(Math.max(Arm.MIN_POSITION, p - 100));
+            arm.setPosition(Math.max(ArmSubsystem.MIN_POSITION, p - 100));
         }
     }
 
-    public static class ArmNextPreset extends CommandBase {
+    public static class NextPreset extends CommandBase {
         //        private static final int[] presetPositions = {0, 200, 2200, 2800, 3500};
         private static final int[] presetPositions = {20, 200, 400, 600, 800, 1000, 1200, 1400, 1600};
 
@@ -59,10 +59,10 @@ public class ArmCommands {
 
         public enum Direction {UP, DOWN}
 
-        final Arm arm;
+        final ArmSubsystem arm;
         final Direction direction;
 
-        public ArmNextPreset(Arm arm, Direction direction) {
+        public NextPreset(ArmSubsystem arm, Direction direction) {
             this.arm = arm;
             this.direction = direction;
         }
@@ -98,5 +98,26 @@ public class ArmCommands {
         }
     }
 
+    public static class ResetPosition extends CommandBase {
+        final ArmSubsystem arm;
 
+        public ResetPosition(ArmSubsystem a) {
+            arm = a;
+        }
+
+        @Override
+        public void initialize() {
+            arm.setPosition(-5000, 0.5); // ~5000 encoder ticks in a full revolution.
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+            arm.resetLowerPosition();
+        }
+
+        @Override
+        public boolean isFinished() {
+            return arm.isArmAtLowerLimit();
+        }
+    }
 }

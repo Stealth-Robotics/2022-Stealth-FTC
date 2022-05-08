@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.List;
 
-public class Extension extends SubsystemBase {
+public class ExtensionSubsystem extends SubsystemBase {
     final DcMotorEx extensionMotor;
     final Telemetry telemetry;
     List<LynxModule> lynxModules;
@@ -18,7 +18,7 @@ public class Extension extends SubsystemBase {
     public static final int MIN_POSITION = 0;
     public static final int MAX_POSITION = 1600;
 
-    public Extension(HardwareMap hardwareMap, Telemetry telemetry) {
+    public ExtensionSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
 
         extensionMotor = hardwareMap.get(DcMotorEx.class, "extMotor");
