@@ -1,3 +1,3 @@
 include ':FtcRobotController'
 include ':StealthLib'
-include ':TeamCode', ':MishapCode'
+include ':AutoPrimeCode', ':MishapCode', ':JankbotCode'

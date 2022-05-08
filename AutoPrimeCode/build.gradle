@@ -1,5 +1,5 @@
 //
-// build.gradle in TeamCode
+// build.gradle in AutoPrimeCode
 //
 // Most of the definitions for building your module reside in a common, shared
 // file 'build.common.gradle'. Being factored in this way makes it easier to
