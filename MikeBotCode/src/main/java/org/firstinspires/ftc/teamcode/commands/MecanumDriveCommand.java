@@ -1,18 +1,22 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrivetrain;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-public class DefaultDriveCommand extends CommandBase {
+public class MecanumDriveCommand extends CommandBase {
+
     private final MecanumDrivetrain drive;
     private final DoubleSupplier forward, strafe, rotate;
     private final BooleanSupplier slowdown;
 
-    public DefaultDriveCommand(MecanumDrivetrain drive, DoubleSupplier forward,
+    public MecanumDriveCommand(MecanumDrivetrain drive, DoubleSupplier forward,
                                DoubleSupplier strafe, DoubleSupplier rotate,
                                BooleanSupplier slowdown) {
         this.drive = drive;
@@ -23,7 +27,6 @@ public class DefaultDriveCommand extends CommandBase {
 
         addRequirements(drive);
     }
-
 
     @Override
     public void execute() {

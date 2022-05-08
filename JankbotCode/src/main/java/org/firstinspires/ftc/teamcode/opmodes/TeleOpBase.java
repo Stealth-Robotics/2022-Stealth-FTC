@@ -27,6 +27,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     public void initialize() {
         drive = new SimpleMecanumSubsystem(hardwareMap);
         duckSpinner = new DuckSpinnerSubsystem(hardwareMap);
+        register(drive, duckSpinner);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
