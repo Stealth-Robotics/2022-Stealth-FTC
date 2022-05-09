@@ -56,15 +56,15 @@ public class AutoExample1 extends AutoCommandOpMode {
         TSEDetectorSubsystem.TSEPosition tseStartingPosition = tseDetector.getPosition();
 
         Trajectory t1 = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(10)
+                .strafeRight(1)
                 .build();
 
         Trajectory t2 = drive.trajectoryBuilder(t1.end())
-                .strafeLeft(10)
+                .strafeLeft(1)
                 .build();
 
         Trajectory t3 = drive.trajectoryBuilder(t2.end())
-                .splineTo(new Vector2d(10, 10), Math.toRadians(90)) // +90 is counter-clockwise
+                .splineTo(new Vector2d(2, 2), Math.toRadians(90)) // +90 is counter-clockwise
                 .build();
 
         return new SequentialCommandGroup(

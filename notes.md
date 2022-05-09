@@ -30,6 +30,20 @@
     - ss, cmds, opmodes
   - Need the base code to bootstrap the bot from the opmodes
   - examples
-  - basic mechanum drive, simple and not fancy
-  - basic arm cmd
-  - turn off that annoying code analysis and todo analysis before comitting. 
+  - turn off that annoying code analysis and todo analysis before comitting.
+  - base classes for tele and auto
+    - need to do work while waiting for start via cmds
+    - simplify autos as much as possible, focus on sequences of actions and commands not boilerplate
+  - telemetry from commands
+    - single update in the main loop?
+  - dashboard?
+    - What's in there now, what should we be using.
+    - guidance on where to println or log. API's? Where to see (logcat vs. run output)
+    - guidance on prints/logs vs. telemetry/dashboard
+  - guidance on subsystems, commands, periodic vs default cmds, 
+  - good examples of auto movement
+    - roadrunner, yes
+    - but also simple things, like drive fwd for a distance or a few seconds.
+  - hardware caching
+    - go manual and embed it in our loops?
+  
