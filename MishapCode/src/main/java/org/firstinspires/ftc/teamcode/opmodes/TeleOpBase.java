@@ -40,7 +40,8 @@ public abstract class TeleOpBase extends CommandOpMode {
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
-                        () -> driveGamepad.gamepad.right_stick_x
+                        () -> driveGamepad.gamepad.right_stick_x,
+                        () -> driveGamepad.gamepad.a
                 )
         );
 

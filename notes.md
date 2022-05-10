@@ -46,4 +46,12 @@
     - but also simple things, like drive fwd for a distance or a few seconds.
   - hardware caching
     - go manual and embed it in our loops?
+  - useful utilities
+    - debounce
+    - deadbands
+    
+
+- resources
+  - https://github.com/Beta8397/virtual_robot
+    
   

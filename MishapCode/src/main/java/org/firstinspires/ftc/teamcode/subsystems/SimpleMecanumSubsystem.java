@@ -22,7 +22,7 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
     }
 
-    public void drive(double leftSickY, double leftStickX, double rightStickX) {
+    public void drive(double leftSickY, double leftStickX, double rightStickX, boolean goSlow) {
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
@@ -38,6 +38,13 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
         double leftRearDrivePower = (y - x + rx) / denominator;
         double rightFrontDrivePower = (y - x - rx) / denominator;
         double rightRearDrivePower = (y + x - rx) / denominator;
+
+        if (goSlow == true) {
+            leftFrontDrivePower = leftFrontDrivePower / 2;
+            leftRearDrivePower /= 2;
+            rightRearDrivePower /= 2;
+            rightFrontDrivePower /= 2;
+        }
 
         leftFrontDrive.setPower(leftFrontDrivePower);
         leftRearDrive.setPower(leftRearDrivePower);
