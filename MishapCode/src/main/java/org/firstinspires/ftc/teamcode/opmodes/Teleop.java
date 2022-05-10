@@ -11,12 +11,9 @@ import org.firstinspires.ftc.teamcode.commands.DuckForwardCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DuckSpinnerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
-import org.stealthrobotics.library.AllianceColor;
+import org.stealthrobotics.library.Alliance;
 
-public abstract class TeleOpBase extends CommandOpMode {
-
-    // Set for us by the red and blue teleop modes
-    final AllianceColor allianceColor;
+public abstract class Teleop extends CommandOpMode {
 
     // Subsystems
     SimpleMecanumSubsystem drive;
@@ -29,7 +26,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     @Override
     public void initialize() {
         drive = new SimpleMecanumSubsystem(hardwareMap);
-        duckSpinner = new DuckSpinnerSubsystem(hardwareMap, allianceColor);
+        duckSpinner = new DuckSpinnerSubsystem(hardwareMap);
         register(drive, duckSpinner);
 
         driveGamepad = new GamepadEx(gamepad1);
@@ -40,8 +37,7 @@ public abstract class TeleOpBase extends CommandOpMode {
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
-                        () -> driveGamepad.gamepad.right_stick_x,
-                        () -> driveGamepad.gamepad.a
+                        () -> driveGamepad.gamepad.right_stick_x
                 )
         );
 
@@ -55,25 +51,21 @@ public abstract class TeleOpBase extends CommandOpMode {
 //        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenReleased(new ExampleCommand("I can haz?"));
     }
 
-    TeleOpBase(AllianceColor allianceColor) {
-        this.allianceColor = allianceColor;
-    }
-
     // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
     // them, and take different actions based on the alliance color.
     @SuppressWarnings("unused")
-    @TeleOp(name = "Mishap RED | Tele-Op", group = "Red")
-    public static class RedTeleOp extends TeleOpBase {
-        public RedTeleOp() {
-            super(AllianceColor.RED);
+    @TeleOp(name = "RED | Tele-Op", group = "Red")
+    public static class RedTeleop extends Teleop {
+        public RedTeleop() {
+            Alliance.set(Alliance.RED);
         }
     }
 
     @SuppressWarnings("unused")
-    @TeleOp(name = "Mishap BLUE | Tele-Op", group = "Blue")
-    public static class BlueTeleOp extends TeleOpBase {
-        public BlueTeleOp() {
-            super(AllianceColor.BLUE);
+    @TeleOp(name = "BLUE | Tele-Op", group = "Blue")
+    public static class BlueTeleop extends Teleop {
+        public BlueTeleop() {
+            Alliance.set(Alliance.BLUE);
         }
     }
 }

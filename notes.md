@@ -49,6 +49,10 @@
   - useful utilities
     - debounce
     - deadbands
+  - can we make this work well w/ on-bot?
+    - Probably not. Could make the lib and examples work, but for the monorepo we'd need AS.
+  - auto-format on save?
+    
     
 
 - resources
