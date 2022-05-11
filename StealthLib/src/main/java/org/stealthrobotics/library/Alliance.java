@@ -22,7 +22,7 @@ public enum Alliance {
         return alliance == RED ? redValue : blueValue;
     }
 
-    // mmmfixme: why??
+    // mmmfixme: why?? Compiler failed to infer Runnable from lambda args.
     public static Runnable select(Runnable redValue, Runnable blueValue) {
         return alliance == RED ? redValue : blueValue;
     }
