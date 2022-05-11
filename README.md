@@ -42,9 +42,9 @@ This repo is to help us figure out how we want to do FTC development next season
 
 # In-progress work
 
-I am working on getting the StartCode dir into shape to serve as a good baseline example. Next I'll
-port the Mishap code over and see how it fits and what changes it suggests. I already ported over my
-own test bot code (in MikeBotCode) and made some adjustments based on that.
+I am working on getting the `StarterCode` dir into shape to serve as a good baseline example. Next
+I'll port the Mishap code over and see how it fits and what changes it suggests. I already ported
+over my own test bot code (in MikeBotCode) and made some adjustments based on that.
 
 I would love to see someone port over the Autonomous Prime code and the Jankbot code. Those
 directories are just stubs right now, with some random in-progress version of StarterCode.

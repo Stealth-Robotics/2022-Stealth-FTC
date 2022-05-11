@@ -10,8 +10,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.ArmCommands;
-import org.stealthrobotics.library.AutoCommandOpMode;
-import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
 import org.firstinspires.ftc.teamcode.commands.DuckCommands;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
@@ -19,9 +17,11 @@ import org.firstinspires.ftc.teamcode.subsystems.DuckWheelSubSystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
 import org.stealthrobotics.library.Alliance;
+import org.stealthrobotics.library.StealthOpMode;
 
-public class AutoExample1 extends AutoCommandOpMode {
+public class AutoExample1 extends StealthOpMode {
     MecanumSubsystem drive;
     IntakeSubsystem intake;
     DuckWheelSubSystem duckWheel;
@@ -85,6 +85,14 @@ public class AutoExample1 extends AutoCommandOpMode {
     @SuppressWarnings("unused")
     @Autonomous(name = "RED | Auto Test 2", group = "Red", preselectTeleOp = "RED | Tele-Op")
     public static class RedAutoExample1 extends AutoExample1 {
+        // mmmfixme: we need to be able to remember something else about autos.
+        //   - A "strategy" or something similar to record the different start positions and goals
+        //     for the mode. In Freight Frenzy we might have started in top position, and wanted to
+        //     either 1) just park in the loading dock, 2) wait and park late in the warehouse,
+        //     3) do duck then either 1 or 2, 4) score then 3.
+        //   - We need to enable that without a ton of copy-pasta between all those autos.
+        //   - Would a map<String, Boolean> do? To remember "duck yes", "score no", "park warehouse yes",
+        //     etc?
         public RedAutoExample1() {
             Alliance.set(Alliance.RED);
         }

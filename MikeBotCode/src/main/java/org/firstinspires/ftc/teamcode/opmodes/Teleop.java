@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -19,9 +16,10 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumSubsystem;
 import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.StealthOpMode;
 
 @SuppressWarnings("unused")
-public abstract class Teleop extends CommandOpMode {
+public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     MecanumSubsystem drive;
@@ -75,20 +73,6 @@ public abstract class Teleop extends CommandOpMode {
         // Arm Extension System
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenHeld(new ExtensionCommands.Extend(extension));
         driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(new ExtensionCommands.Retract(extension));
-    }
-
-    // mmmfixme: placement, and needs the opmode
-    //  - This vs. overriding waitForStart():
-    //    - Could do it in waitForStart, but then all the default commands for the subsystems are responsive, too.
-    //    - I think that would be confusing.
-    //    - So better to just complete the commands in question before setting all that up.
-    public void runInitCommands(Command... commands) {
-        CommandScheduler.getInstance().schedule(commands);
-        while (!isStarted() && !isStopRequested() && CommandScheduler.getInstance().isScheduled(commands)) {
-            CommandScheduler.getInstance().run();
-            telemetry.update();
-        }
-        CommandScheduler.getInstance().reset();
     }
 
     // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -12,8 +11,9 @@ import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DuckSpinnerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 import org.stealthrobotics.library.Alliance;
+import org.stealthrobotics.library.StealthOpMode;
 
-public abstract class Teleop extends CommandOpMode {
+public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumSubsystem drive;
