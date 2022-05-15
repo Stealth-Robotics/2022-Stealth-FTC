@@ -8,19 +8,21 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class DefaultDriveCommand extends CommandBase {
-    private final SimpleMecanumSubsystem drive;
-    private final DoubleSupplier leftY, leftX, rightX;
+    final SimpleMecanumSubsystem drive;
+    final DoubleSupplier leftY, leftX, rightX;
+    final BooleanSupplier slowMode;
 
-    public DefaultDriveCommand(SimpleMecanumSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
+    public DefaultDriveCommand(SimpleMecanumSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier slowMode) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
         this.rightX = rightX;
+        this.slowMode = slowMode;
         addRequirements(drive);
     }
 
     @Override
     public void execute() {
-        drive.drive(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble());
+        drive.drive(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), slowMode.getAsBoolean());
     }
 }

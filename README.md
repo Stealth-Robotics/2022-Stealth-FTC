@@ -49,9 +49,10 @@ over my own test bot code (in MikeBotCode) and made some adjustments based on th
 I would love to see someone port over the Autonomous Prime code and the Jankbot code. Those
 directories are just stubs right now, with some random in-progress version of StarterCode.
 
-- Mishap repo: https://github.com/BenA101/7760
+- Mishap repo: https://github.com/TristenYim/FtcRobotController
 - Auto Prime repo: https://github.com/clemstardust/AutoPrime2021
 - Jankbot: https://github.com/SamarthRao91/FreightFrenzy2021-Jankbot13648
+- FRC: https://github.com/Stealth-Robotics/Stealth2022
 
 # TODO
 

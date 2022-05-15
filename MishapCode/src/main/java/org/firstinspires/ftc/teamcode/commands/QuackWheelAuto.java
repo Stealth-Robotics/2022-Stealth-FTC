@@ -2,19 +2,19 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.DuckSpinnerSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.QuackSpinnerSubsystem;
 
-public class DuckBackwardsCommand extends CommandBase {
-    final DuckSpinnerSubsystem duckSpinner;
+public class QuackWheelAuto extends CommandBase {
+    final QuackSpinnerSubsystem duckSpinner;
 
-    public DuckBackwardsCommand(DuckSpinnerSubsystem duckSpinner) {
+    public QuackWheelAuto(QuackSpinnerSubsystem duckSpinner) {
         this.duckSpinner = duckSpinner;
         addRequirements(duckSpinner);
     }
 
     @Override
     public void initialize() {
-        duckSpinner.spinBackwardsSlow();
+        duckSpinner.spinForwardAuto();
     }
 
     @Override

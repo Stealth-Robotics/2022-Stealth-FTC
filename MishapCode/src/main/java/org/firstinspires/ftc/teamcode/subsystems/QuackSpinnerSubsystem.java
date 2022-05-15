@@ -7,19 +7,27 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.stealthrobotics.library.Alliance;
 
-public class DuckSpinnerSubsystem extends SubsystemBase {
+public class QuackSpinnerSubsystem extends SubsystemBase {
     final DcMotorEx duckDrive;
 
     final int SLOW_SPEED = 500;
     final int SUPER_SPEED = 10000;
     final int AUTO_SPEED = 250;
 
-    public DuckSpinnerSubsystem(HardwareMap hardwareMap) {
-        duckDrive = hardwareMap.get(DcMotorEx.class, "duckMotor");
+    public QuackSpinnerSubsystem(HardwareMap hardwareMap) {
+        duckDrive = hardwareMap.get(DcMotorEx.class, "Quack wheel");
         duckDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         duckDrive.setDirection(DcMotor.Direction.FORWARD);
         duckDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         duckDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    public void resetEncoder() {
+        duckDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public int getEncoderValue() {
+        return duckDrive.getCurrentPosition();
     }
 
     public void stop() {
@@ -41,5 +49,30 @@ public class DuckSpinnerSubsystem extends SubsystemBase {
             duckDrive.setVelocity(-SLOW_SPEED);
         }
     }
+
+    public void spinForwardSuper() {
+        if (Alliance.isBlue()) {
+            duckDrive.setVelocity(-SUPER_SPEED);
+        } else {
+            duckDrive.setVelocity(SUPER_SPEED);
+        }
+    }
+
+    public void spinBackwardsSuper() {
+        if (Alliance.isBlue()) {
+            duckDrive.setVelocity(SUPER_SPEED);
+        } else {
+            duckDrive.setVelocity(-SUPER_SPEED);
+        }
+    }
+
+    public void spinForwardAuto() {
+        if (Alliance.isBlue()) {
+            duckDrive.setVelocity(-AUTO_SPEED);
+        } else {
+            duckDrive.setVelocity(AUTO_SPEED);
+        }
+    }
+
 
 }
