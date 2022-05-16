@@ -4,7 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.DuckSpinnerSubsystem;
 
-// @TODO: bother to have such a specific example, or make more generic.
+// @TODO: bother to have such a specific example, or make more generic?
 //   Could be "ExampleMotorCommand" that just runs a motor fwd/backwards
 
 public class DuckForwardCommand extends CommandBase {

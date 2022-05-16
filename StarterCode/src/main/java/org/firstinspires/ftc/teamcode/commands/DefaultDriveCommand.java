@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 import java.util.function.DoubleSupplier;
 
 public class DefaultDriveCommand extends CommandBase {
-    private final SimpleMecanumSubsystem drive;
-    private final DoubleSupplier leftY, leftX, rightX;
+    final SimpleMecanumSubsystem drive;
+    final DoubleSupplier leftY, leftX, rightX;
 
     public DefaultDriveCommand(SimpleMecanumSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
         this.drive = drive;

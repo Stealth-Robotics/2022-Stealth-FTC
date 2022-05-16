@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class SimpleMecanumSubsystem extends SubsystemBase {
-    public DcMotor leftFrontDrive = null;
-    public DcMotor leftRearDrive = null;
-    public DcMotor rightFrontDrive = null;
-    public DcMotor rightRearDrive = null;
+    final DcMotor leftFrontDrive;
+    final DcMotor leftRearDrive;
+    final DcMotor rightFrontDrive;
+    final DcMotor rightRearDrive;
 
     public SimpleMecanumSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");

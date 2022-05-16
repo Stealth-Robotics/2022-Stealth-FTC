@@ -46,9 +46,9 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whileHeld(new DuckForwardCommand(duckSpinner));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whileHeld(new DuckBackwardsCommand(duckSpinner));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz?"));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whileHeld(new ExampleCommand("I can haz?"));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenReleased(new ExampleCommand("I can haz?"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz now?"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(new ExampleCommand("I can haz while?"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
     }
 
     // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
