@@ -9,7 +9,8 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.QuackSpinnerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
-import org.stealthrobotics.library.StealthOpMode;
+import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem.TSEPosition;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class AutoBase extends StealthOpMode {
 
@@ -46,10 +47,10 @@ public abstract class AutoBase extends StealthOpMode {
         telemetry.addData("TSE Detector", "Position %s", tseDetector.getPosition());
     }
 
-    public Command moveArmForTSE(TSEDetectorSubsystem.TSEPosition p) {
-        if (p == TSEDetectorSubsystem.TSEPosition.LEFT) {
+    public Command moveArmForTSE(TSEPosition p) {
+        if (p == TSEPosition.LEFT) {
             return new ArmPresetCommands.Low(arm);
-        } else if (p == TSEDetectorSubsystem.TSEPosition.CENTER) {
+        } else if (p == TSEPosition.CENTER) {
             return new ArmPresetCommands.Middle(arm);
         } else {
             return new ArmPresetCommands.High(arm);

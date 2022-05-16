@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
 import org.stealthrobotics.library.Alliance;
-import org.stealthrobotics.library.StealthOpMode;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public class AutoExample1 extends StealthOpMode {
     MecanumSubsystem drive;

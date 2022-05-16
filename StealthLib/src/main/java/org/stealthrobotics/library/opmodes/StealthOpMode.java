@@ -1,9 +1,11 @@
-package org.stealthrobotics.library;
+package org.stealthrobotics.library.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+
+import org.stealthrobotics.library.AutoToTeleStorage;
 
 /**
  * Base class for all Stealth op-modes.

@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumSubsystem;
 import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.AutoToTeleStorage;
-import org.stealthrobotics.library.StealthOpMode;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
 public abstract class Teleop extends StealthOpMode {

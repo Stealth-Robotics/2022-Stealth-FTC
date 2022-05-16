@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.QuackSpinnerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 import org.stealthrobotics.library.Alliance;
-import org.stealthrobotics.library.StealthOpMode;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 import java.util.function.BooleanSupplier;
 

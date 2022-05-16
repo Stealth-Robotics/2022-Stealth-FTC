@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DuckSpinnerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 import org.stealthrobotics.library.Alliance;
-import org.stealthrobotics.library.StealthOpMode;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
 

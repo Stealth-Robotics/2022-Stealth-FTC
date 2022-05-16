@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -13,7 +12,9 @@ import org.firstinspires.ftc.teamcode.commands.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.RotateDegreesCommand;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem.TSEPosition;
 import org.stealthrobotics.library.Alliance;
+import org.stealthrobotics.library.commands.IfCommand;
 
 @SuppressWarnings("unused")
 @Autonomous(name = "7760 BLUE | Auto Warehouse", group = "Blue Auto", preselectTeleOp = "7760 BLUE | Dual Tele-Op")
@@ -29,20 +30,15 @@ public class AutoFathomBlueWarehouse extends AutoBase {
         double movement_speed = 0.3;
 
         // Remember the position of the TSE before we start moving the bot!
-        TSEDetectorSubsystem.TSEPosition tseStartingPosition = tseDetector.getPosition();
-
-        Command adjustPositionForTSE;
-        if (tseStartingPosition == TSEDetectorSubsystem.TSEPosition.LEFT) {
-            adjustPositionForTSE = new DriveForFathomsCommand(drive, 0.0, movement_speed, 0.0, 1.0 / 3.0 / 24.0 * 1.0);
-        } else if (tseStartingPosition == TSEDetectorSubsystem.TSEPosition.RIGHT) {
-            adjustPositionForTSE = new DriveForFathomsCommand(drive, 0.0, movement_speed, 0.0, 1.0 / 3.0 / 24.0 * 1.0);
-        } else {
-            adjustPositionForTSE = new InstantCommand();
-        }
+        TSEPosition tseStartingPosition = tseDetector.getPosition();
 
         return new SequentialCommandGroup(
                 new ArmPresetCommands.Drive(arm),
-                adjustPositionForTSE,
+
+                new IfCommand(() -> tseStartingPosition == TSEPosition.LEFT,
+                        new DriveForFathomsCommand(drive, 0.0, movement_speed, 0.0, 1.0 / 3.0 / 24.0 * 1.0)),
+                new IfCommand(() -> tseStartingPosition == TSEPosition.RIGHT,
+                        new DriveForFathomsCommand(drive, 0.0, movement_speed, 0.0, 1.0 / 3.0 / 24.0 * 1.0)),
 
                 // Move right to avoid pipes
                 new DriveForFathomsCommand(drive, 0.0, movement_speed, 0.0, 1.0 / 3.0 / 24.0 * 7.5),
