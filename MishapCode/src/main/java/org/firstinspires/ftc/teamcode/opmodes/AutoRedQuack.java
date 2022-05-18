@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.commands.QuackWheelAuto;
 import org.firstinspires.ftc.teamcode.commands.RotateDegreesCommand;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem.TSEPosition;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.commands.IfCommand;
 
 
@@ -24,7 +23,6 @@ public class AutoRedQuack extends AutoBase {
 
     public AutoRedQuack() {
         super(TSEDetectorSubsystem.CAMERA_1_NAME);
-        Alliance.set(Alliance.BLUE);
     }
 
     @Override

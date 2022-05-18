@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.commands.WheelForwardCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleTwoWheelDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
@@ -53,16 +52,10 @@ public abstract class Teleop extends StealthOpMode {
     @SuppressWarnings("unused")
     @TeleOp(name = "RED | Tele-Op", group = "Red")
     public static class RedTeleop extends Teleop {
-        public RedTeleop() {
-            Alliance.set(Alliance.RED);
-        }
     }
 
     @SuppressWarnings("unused")
     @TeleOp(name = "BLUE | Tele-Op", group = "Blue")
     public static class BlueTeleop extends Teleop {
-        public BlueTeleop() {
-            Alliance.set(Alliance.BLUE);
-        }
     }
 }

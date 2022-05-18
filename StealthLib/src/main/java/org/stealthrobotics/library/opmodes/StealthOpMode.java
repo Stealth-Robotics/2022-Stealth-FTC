@@ -6,9 +6,12 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.Subsystem;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.AutoToTeleStorage;
 
 /**
@@ -72,6 +75,23 @@ public abstract class StealthOpMode extends LinearOpMode {
      */
     @Override
     public void runOpMode() throws InterruptedException {
+        // Pull the alliance color from the opmode's group name. "red" or "blue" anywhere in the
+        // name, any case. Default to red.
+        String groupName = null;
+        if (this.getClass().isAnnotationPresent(TeleOp.class)) {
+            TeleOp annotation = this.getClass().getAnnotation(TeleOp.class);
+            groupName = annotation.group();
+        } else if (this.getClass().isAnnotationPresent(Autonomous.class)) {
+            Autonomous annotation = this.getClass().getAnnotation(Autonomous.class);
+            groupName = annotation.group();
+            // @TODO: warn them if there's no pre-selected teleop
+        }
+        if (groupName != null && groupName.toLowerCase().contains("blue")) {
+            Alliance.set(Alliance.BLUE);
+        } else {
+            Alliance.set(Alliance.RED);
+        }
+
         // Make the telemetry object available as a static so we don't have to pass it everywhere.
         telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
 

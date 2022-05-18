@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public class AutoExample1 extends StealthOpMode {
@@ -85,25 +84,11 @@ public class AutoExample1 extends StealthOpMode {
     @SuppressWarnings("unused")
     @Autonomous(name = "RED | Auto Test 2", group = "Red", preselectTeleOp = "RED | Tele-Op")
     public static class RedAutoExample1 extends AutoExample1 {
-        // mmmfixme: we need to be able to remember something else about autos.
-        //   - A "strategy" or something similar to record the different start positions and goals
-        //     for the mode. In Freight Frenzy we might have started in top position, and wanted to
-        //     either 1) just park in the loading dock, 2) wait and park late in the warehouse,
-        //     3) do duck then either 1 or 2, 4) score then 3.
-        //   - We need to enable that without a ton of copy-pasta between all those autos.
-        //   - Would a map<String, Boolean> do? To remember "duck yes", "score no", "park warehouse yes",
-        //     etc?
-        public RedAutoExample1() {
-            Alliance.set(Alliance.RED);
-        }
     }
 
     @SuppressWarnings("unused")
     @Autonomous(name = "Blue | Auto Test 2", group = "Blue", preselectTeleOp = "Blue | Tele-Op")
     public static class BlueAutoExample1 extends AutoExample1 {
-        public BlueAutoExample1() {
-            Alliance.set(Alliance.BLUE);
-        }
     }
 }
 

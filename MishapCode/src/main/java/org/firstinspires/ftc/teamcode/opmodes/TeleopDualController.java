@@ -19,7 +19,6 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.QuackSpinnerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 import java.util.function.BooleanSupplier;
@@ -103,16 +102,10 @@ public abstract class TeleopDualController extends StealthOpMode {
     @SuppressWarnings("unused")
     @TeleOp(name = "7760 RED | Dual Tele-Op", group = "Red")
     public static class RedTeleopDualController extends TeleopDualController {
-        public RedTeleopDualController() {
-            Alliance.set(Alliance.RED);
-        }
     }
 
     @SuppressWarnings("unused")
     @TeleOp(name = "7760 BLUE | Dual Tele-Op", group = "Blue")
     public static class BlueTeleopDualController extends TeleopDualController {
-        public BlueTeleopDualController() {
-            Alliance.set(Alliance.BLUE);
-        }
     }
 }

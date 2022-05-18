@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.commands.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.RotateDegreesCommand;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TSEDetectorSubsystem.TSEPosition;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.commands.IfCommand;
 
 @SuppressWarnings("unused")
@@ -22,7 +21,6 @@ public class AutoFathomBlueWarehouse extends AutoBase {
 
     public AutoFathomBlueWarehouse() {
         super(TSEDetectorSubsystem.CAMERA_1_NAME);
-        Alliance.set(Alliance.BLUE);
     }
 
     @Override

@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DuckWheelSubSystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumSubsystem;
-import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -80,16 +79,10 @@ public abstract class Teleop extends StealthOpMode {
     @SuppressWarnings("unused")
     @TeleOp(name = "RED | Tele-Op", group = "Red")
     public static class RedTeleop extends Teleop {
-        public RedTeleop() {
-            Alliance.set(Alliance.RED);
-        }
     }
 
     @SuppressWarnings("unused")
     @TeleOp(name = "BLUE | Tele-Op", group = "Blue")
     public static class BlueTeleop extends Teleop {
-        public BlueTeleop() {
-            Alliance.set(Alliance.BLUE);
-        }
     }
 }
