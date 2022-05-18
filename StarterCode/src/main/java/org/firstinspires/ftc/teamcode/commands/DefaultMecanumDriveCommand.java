@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class DefaultDriveCommand extends CommandBase {
-    final SimpleMecanumSubsystem drive;
+public class DefaultMecanumDriveCommand extends CommandBase {
+    final SimpleMecanumDriveSubsystem drive;
     final DoubleSupplier leftY, leftX, rightX;
 
-    public DefaultDriveCommand(SimpleMecanumSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
+    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;

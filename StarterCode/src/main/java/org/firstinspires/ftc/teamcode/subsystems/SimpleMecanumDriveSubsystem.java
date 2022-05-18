@@ -4,13 +4,13 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class SimpleMecanumSubsystem extends SubsystemBase {
+public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor leftFrontDrive;
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
 
-    public SimpleMecanumSubsystem(HardwareMap hardwareMap) {
+    public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
@@ -21,9 +21,6 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
     }
-
-    // @TODO: could make this even simpler, like just fwd/back, or a two-wheel bot, and let
-    //   them grow it into the full mecanum goodness by learning from gm0.
 
     public void drive(double leftSickY, double leftStickX, double rightStickX) {
         // This code is pulled from Game Manual 0
