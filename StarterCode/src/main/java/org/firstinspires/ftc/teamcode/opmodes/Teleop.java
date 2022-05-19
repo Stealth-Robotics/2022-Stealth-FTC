@@ -47,8 +47,13 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
     }
 
-    // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
-    // them, and take different actions based on the alliance color.
+    /**
+     * Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
+     * them, and take different actions based on the alliance color.
+     *
+     * @see org.stealthrobotics.library.Alliance
+     */
+
     @SuppressWarnings("unused")
     @TeleOp(name = "RED | Tele-Op", group = "Red")
     public static class RedTeleop extends Teleop {

@@ -29,9 +29,9 @@ public abstract class AutoBase extends StealthOpMode {
 
     @Override
     public void initialize() {
-        drive = new SimpleMecanumSubsystem(hardwareMap, telemetry);
+        drive = new SimpleMecanumSubsystem(hardwareMap);
         duckSpinner = new QuackSpinnerSubsystem(hardwareMap);
-        arm = new ArmSubsystem(hardwareMap, telemetry);
+        arm = new ArmSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
         tseDetector = new TSEDetectorSubsystem(hardwareMap);
         register(drive, duckSpinner, arm, intake, tseDetector);

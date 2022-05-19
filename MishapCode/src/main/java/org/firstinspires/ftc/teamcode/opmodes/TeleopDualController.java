@@ -37,9 +37,9 @@ public abstract class TeleopDualController extends StealthOpMode {
 
     @Override
     public void initialize() {
-        drive = new SimpleMecanumSubsystem(hardwareMap, telemetry);
+        drive = new SimpleMecanumSubsystem(hardwareMap);
         duckSpinner = new QuackSpinnerSubsystem(hardwareMap);
-        arm = new ArmSubsystem(hardwareMap, telemetry);
+        arm = new ArmSubsystem(hardwareMap);
         intake = new IntakeSubsystem(hardwareMap);
         register(drive, duckSpinner, arm, intake);
 
@@ -96,8 +96,13 @@ public abstract class TeleopDualController extends StealthOpMode {
         driveRTHeld.and(driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)).whileActiveOnce(new IntakeOutCommand(intake));
     }
 
-    // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
-    // them, and take different actions based on the alliance color.
+    /**
+     * Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
+     * them, and take different actions based on the alliance color.
+     *
+     * @see org.stealthrobotics.library.Alliance
+     */
+
     @SuppressWarnings("unused")
     @TeleOp(name = "7760 RED | Dual Tele-Op", group = "Red")
     public static class RedTeleopDualController extends TeleopDualController {

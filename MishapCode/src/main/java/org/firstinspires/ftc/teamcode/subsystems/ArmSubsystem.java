@@ -6,12 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public class ArmSubsystem extends SubsystemBase {
     final DcMotorEx armDrive;
     final DigitalChannel armLimitSwitch;
-    final Telemetry telemetry;
 
     public final int DRIVING_HEIGHT = 200;
     int targetLocation = DRIVING_HEIGHT;
@@ -20,8 +19,7 @@ public class ArmSubsystem extends SubsystemBase {
     final int MIN_LOCATION = 0;
     final int MAX_LOCATION = 1700;
 
-    public ArmSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+    public ArmSubsystem(HardwareMap hardwareMap) {
         armDrive = hardwareMap.get(DcMotorEx.class, "arm");
         armDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armDrive.setTargetPositionTolerance(10);
@@ -80,8 +78,8 @@ public class ArmSubsystem extends SubsystemBase {
         armDrive.setTargetPosition(targetLocation);
         armDrive.setVelocity(1500);
 
-        telemetry.addData("Arm", "Location %d", targetLocation);
-        telemetry.addData("Arm", "Current position %d", armDrive.getCurrentPosition());
-        telemetry.addData("Arm Limit Switch", "%s", armLimitSwitch.getState());
+        StealthOpMode.telemetry.addData("Arm", "Location %d", targetLocation);
+        StealthOpMode.telemetry.addData("Arm", "Current position %d", armDrive.getCurrentPosition());
+        StealthOpMode.telemetry.addData("Arm Limit Switch", "%s", armLimitSwitch.getState());
     }
 }

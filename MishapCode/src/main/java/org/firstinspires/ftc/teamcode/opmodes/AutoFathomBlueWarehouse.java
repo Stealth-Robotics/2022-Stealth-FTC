@@ -46,7 +46,7 @@ public class AutoFathomBlueWarehouse extends AutoBase {
 
                 // Set arm to right height and turn
                 moveArmForTSE(tseStartingPosition),
-                new ArmWaitCommand(arm, telemetry),
+                new ArmWaitCommand(arm),
                 new RotateDegreesCommand(drive, -87, -movement_speed),
 
                 // Spit out block

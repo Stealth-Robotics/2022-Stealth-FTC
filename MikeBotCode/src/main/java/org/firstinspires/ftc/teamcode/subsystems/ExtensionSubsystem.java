@@ -6,21 +6,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 import java.util.List;
 
 public class ExtensionSubsystem extends SubsystemBase {
     final DcMotorEx extensionMotor;
-    final Telemetry telemetry;
     List<LynxModule> lynxModules;
 
     public static final int MIN_POSITION = 0;
     public static final int MAX_POSITION = 1600;
 
-    public ExtensionSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
-
+    public ExtensionSubsystem(HardwareMap hardwareMap) {
         extensionMotor = hardwareMap.get(DcMotorEx.class, "extMotor");
         extensionMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extensionMotor.setTargetPosition(0);
@@ -36,7 +33,7 @@ public class ExtensionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("Extension", "Position: %d", extensionMotor.getCurrentPosition());
+        StealthOpMode.telemetry.addData("Extension", "Position: %d", extensionMotor.getCurrentPosition());
     }
 
     public void setPosition(int position) {

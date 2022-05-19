@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
@@ -30,12 +28,11 @@ public class AutoExample1 extends StealthOpMode {
 
     @Override
     public void initialize() {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         drive = new MecanumSubsystem(hardwareMap, true);
         intake = new IntakeSubsystem(hardwareMap);
         duckWheel = new DuckWheelSubSystem(hardwareMap);
-        arm = new ArmSubsystem(hardwareMap, telemetry);
-        extension = new ExtensionSubsystem(hardwareMap, telemetry);
+        arm = new ArmSubsystem(hardwareMap);
+        extension = new ExtensionSubsystem(hardwareMap);
         register(drive, intake, duckWheel, arm, extension);
 
         // Camera
@@ -79,8 +76,13 @@ public class AutoExample1 extends StealthOpMode {
         return drive.getPoseEstimate().getHeading();
     }
 
-    // Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
-    // them, and take different actions based on the alliance color.
+    /**
+     * Ideally your red vs. blue opmodes are nothing more than this. Keep code shared between
+     * them, and take different actions based on the alliance color.
+     *
+     * @see org.stealthrobotics.library.Alliance
+     */
+
     @SuppressWarnings("unused")
     @Autonomous(name = "RED | Auto Test 2", group = "Red", preselectTeleOp = "RED | Tele-Op")
     public static class RedAutoExample1 extends AutoExample1 {

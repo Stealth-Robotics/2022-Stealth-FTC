@@ -5,11 +5,10 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public class SimpleMecanumSubsystem extends SubsystemBase {
-    final Telemetry telemetry;
     final DcMotor leftFrontDrive;
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
@@ -22,8 +21,7 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
     // Used to reset the heading
     double headingOffset;
 
-    public SimpleMecanumSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+    public SimpleMecanumSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
@@ -71,13 +69,13 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
         }
 
         if (fieldCentricDriving) {
-            telemetry.addData("Driving mode", "FIELD-CENTRIC");
+            StealthOpMode.telemetry.addData("Driving mode", "FIELD-CENTRIC");
             double angle = getHeading();
-            telemetry.addData("Bot Heading", "%f", angle);
+            StealthOpMode.telemetry.addData("Bot Heading", "%f", angle);
 
             // Adjust our heading based on where we ended in auto
             angle += AutoToTeleStorage.finalAutoHeading;
-            telemetry.addData("Adjusted Heading", "%f", angle);
+            StealthOpMode.telemetry.addData("Adjusted Heading", "%f", angle);
 
             // From https://www.ctrlaltftc.com/practical-examples/drivetrain-control
             double x_rotated = x * Math.cos(angle) - y * Math.sin(angle);
@@ -85,7 +83,7 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
             x = x_rotated;
             y = y_rotated;
         } else {
-            telemetry.addData("Driving mode", "ROBOT");
+            StealthOpMode.telemetry.addData("Driving mode", "ROBOT");
         }
 
         driveRaw(y, x, rx, slowMode);

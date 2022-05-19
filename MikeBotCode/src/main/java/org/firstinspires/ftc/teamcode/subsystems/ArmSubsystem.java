@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 import java.util.List;
 
@@ -16,14 +15,12 @@ public class ArmSubsystem extends SubsystemBase {
     final DcMotorEx armMotor;
     final DigitalChannel armLimitSwitch;
     final DigitalChannel armLimitSwitch2;
-    final Telemetry telemetry;
     List<LynxModule> lynxModules;
 
     public static final int MIN_POSITION = 0;
     public static final int MAX_POSITION = 2000;
 
-    public ArmSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+    public ArmSubsystem(HardwareMap hardwareMap) {
         armLimitSwitch = hardwareMap.get(DigitalChannel.class, "armLimitSwitch");
         armLimitSwitch2 = hardwareMap.get(DigitalChannel.class, "armLimitSwitch2");
 
@@ -43,9 +40,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("Arm", "Position: %d", armMotor.getCurrentPosition());
-        telemetry.addData("Arm", "Limit switch: %s", armLimitSwitch.getState());
-        telemetry.addData("Arm", "Limit switch 2: %s", armLimitSwitch2.getState());
+        StealthOpMode.telemetry.addData("Arm", "Position: %d", armMotor.getCurrentPosition());
+        StealthOpMode.telemetry.addData("Arm", "Limit switch: %s", armLimitSwitch.getState());
+        StealthOpMode.telemetry.addData("Arm", "Limit switch 2: %s", armLimitSwitch2.getState());
     }
 
     public void setPosition(int position, double power) {
