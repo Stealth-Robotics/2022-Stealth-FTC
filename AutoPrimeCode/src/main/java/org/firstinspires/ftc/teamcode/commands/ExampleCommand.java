@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 public class ExampleCommand extends CommandBase {
 
     final String something;
@@ -22,7 +20,7 @@ public class ExampleCommand extends CommandBase {
     @Override
     public void execute() {
         loopCount++;
-        System.out.println("Execute, loopCount=" + loopCount);
+        System.out.println("Execute, loopCount=" + loopCount + ", " + something);
     }
 
     @Override

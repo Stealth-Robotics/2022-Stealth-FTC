@@ -20,7 +20,7 @@ public class ExampleCommand extends CommandBase {
     @Override
     public void execute() {
         loopCount++;
-        System.out.println("Execute, loopCount=" + loopCount);
+        System.out.println("Execute, loopCount=" + loopCount + ", " + something);
     }
 
     @Override
