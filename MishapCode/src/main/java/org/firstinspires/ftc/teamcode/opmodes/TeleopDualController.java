@@ -46,7 +46,7 @@ public abstract class TeleopDualController extends StealthOpMode {
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
 
-        runInitCommands(new ArmResetMinCommand(arm).withTimeout(4000));
+        schedule(new ArmResetMinCommand(arm).withTimeout(4000));
 
         drive.setDefaultCommand(
                 new DefaultDriveCommand(
@@ -82,9 +82,8 @@ public abstract class TeleopDualController extends StealthOpMode {
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ArmPresetCommands.Low(arm));
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new ArmPresetCommands.Safe(arm));
         mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(new ArmResetMinCommand(arm));
-        // mmmfixme: annoying, but should work. Need to test.
-        //   - should add custom Trigger subclasses for left and right trigger "as button"
-        //     - https://docs.ftclib.org/ftclib/command-base/command-system/binding-commands-to-triggers
+
+        // @TOOO: these Trigger objects deserve some better explanation.
         new Trigger(() -> mechGamepad.gamepad.left_trigger > 0.1).whenActive(new ArmPresetCommands.Drive(arm));
         new Trigger(() -> mechGamepad.gamepad.left_trigger > 0.1 && mechGamepad.gamepad.right_trigger > 0.1).whenActive(new ArmPresetCommands.Intake(arm));
 

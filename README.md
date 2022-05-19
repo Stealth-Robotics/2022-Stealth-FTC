@@ -17,8 +17,14 @@ This repo is to help us figure out how we want to do FTC development next season
     - Too hard to make sure operations don't interfere w/ each other
 - Encourage minimal duplicated code
 - Good starter samples that fit into this model
-- Easy migration to RoadRunner and Vision
+- Easy migration to RoadRunner and OpenCV
 - All FTC programmers grow naturally into FRC programmers
+
+## Repo for next season
+
+I imagine we have a repo very much like this one, where each team dir is a copy of `StarterCode`
+with the two-wheeled bot code, and branches with further examples in `StarterCode` for mecanum,
+RoadRunner, OpenCV, more interesting command and subsystem examples, etc.
 
 # Current Approach
 
@@ -42,12 +48,37 @@ This repo is to help us figure out how we want to do FTC development next season
 
 # In-progress work
 
-I am working on getting the `StarterCode` dir into shape to serve as a good baseline example. Next
-I'll port the Mishap code over and see how it fits and what changes it suggests. I already ported
-over my own test bot code (in MikeBotCode) and made some adjustments based on that.
+## StarterCode
 
-I would love to see someone port over the Autonomous Prime code and the Jankbot code. Those
-directories are just stubs right now, with some random in-progress version of StarterCode.
+I have the `StarterCode` project in, I think, reasonable shape. I'd recommend we start them with
+just the
+`SimpleTwoWheelDriveSubsystem` and associated commands. This is the exact code from the normal
+example we start with for the two-wheeled bot we build the first day, just broken up into the
+teleop, command, and subsystem.
+
+I have some basic mecanum code in there, in `SimpleMecanumDriveSubsystem` and it's command, which is
+the gm0 sample. I'd suggest we put this in a separate branch and show them when they build their
+first bot w/ mecanum.
+
+We can have further branches which show more advanced things in `StarterCode`, like RoadRunner and
+OpenCV.
+
+## MishapCode
+
+I have ported over all the Mishap code from https://github.com/TristenYim/FtcRobotController. I
+tried to keep most of the structure, comments, and code just moved around into commands and
+subsystems. I think I did okay, and I'd love to have others review/compare to see what they think!
+
+## StealthLib
+
+I have put a few things in here that were useful in either `MishapCode` or in `MikeBotCode`. I
+expect this to continue to evolve as we do more.
+
+## Other dirs
+
+I would love to see a few people (Samarth? Clem?) port over the Autonomous Prime code and the
+Jankbot code. Those directories are just stubs right now, with some random in-progress version of
+StarterCode.
 
 - Mishap repo: https://github.com/TristenYim/FtcRobotController
 - Auto Prime repo: https://github.com/clemstardust/AutoPrime2021
@@ -58,20 +89,10 @@ directories are just stubs right now, with some random in-progress version of St
 
 These are a bunch of raw notes for in-progress work.
 
-- Need reasonable teamcode dir structure
-    - ss, cmds, opmodes
-        - **mmm: I have suggested one in the code now, let's see how it flies.**
-- Need the base code to bootstrap the bot from the opmodes
-- examples
+- more examples, in branches
 - turn off that annoying code analysis and todo analysis before comitting.
     - It's in the git settings, on commit. Can turn on auto-formatting, too.
     - Can we make that config easy to carry to the team laptops?
-- base classes for tele and auto
-    - need to do work while waiting for start via cmds
-    - simplify autos as much as possible, focus on sequences of actions and commands not boilerplate
-    - **mmm: I have some stuff in-progress on this now.**
-- telemetry from commands
-    - single update in the main loop?
 - dashboard?
     - What's in there now, what should we be using?
     - guidance on where to println or log. API's? Where to see (logcat vs. run output)
@@ -88,6 +109,7 @@ These are a bunch of raw notes for in-progress work.
     - roadrunner, yes
     - but also simple things, like drive fwd for a distance or a few seconds, turn 90 degrees. The
       simple stuff Mishap and AP started with.
+        - We can literally turn some of the ported Mishap commands into good examples here.
 - hardware caching
     - go manual and embed it in our loops?
     - mmm: I saw every team get lucky on this multiple times. Other libs are more explicit about
@@ -96,11 +118,13 @@ These are a bunch of raw notes for in-progress work.
   of these concepts more aggressively with the students, both FTC and FRC.
     - debounce
     - deadbands
+    - what others? (Check the FRC notes and suggestions from Sidd about filters and such.)
 - can we make this work well w/ on-bot?
-    - Probably not. Could make the lib and examples work, but for the monorepo we'd need AS.
+    - Could make the lib and examples work, but for the monorepo we'd need AS I think.
     - mmm: I have a lot of issues w/ on-bot after just one season.
         - lost code many, many times. Two teams, random loss, often multiple per night. Really
           rough.
+            - Jim saw teams at worlds wrecked by this multiple times.
         - Intellisense is woeful. Students learn best with intellisense hints w/ embeded javadocs,
           and having them missing really hurts.
             - Hurts mentors too, ngl

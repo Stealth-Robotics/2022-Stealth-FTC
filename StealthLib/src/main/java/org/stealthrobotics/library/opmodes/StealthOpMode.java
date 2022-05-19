@@ -25,18 +25,18 @@ public abstract class StealthOpMode extends LinearOpMode {
     public static Telemetry telemetry;
 
     /**
-     * Setup your hardware, commands, button bindings, etc. in here.
+     * Override this to setup your hardware, commands, button bindings, etc.
      */
     public abstract void initialize();
 
     /**
-     * Executed continuously after initialization while waiting for the op-mode to start.
+     * Override this to do work while waiting for the op-mode to start.
      */
     public void whileWaitingToStart() {
     }
 
     /**
-     * Create the command to run during autonomous mode.
+     * Override this to create the command you want to run during autonomous mode.
      *
      * @return your auto command
      */
@@ -45,8 +45,8 @@ public abstract class StealthOpMode extends LinearOpMode {
     }
 
     /**
-     * Get the robot's final heading at the end of autonomous mode. This will be automatically
-     * saved and made available to your tele-op mode.
+     * Override this to provide the robot's final heading at the end of autonomous mode.
+     * This will be automatically saved and made available to your tele-op mode.
      *
      * @return heading in radians
      */
@@ -75,18 +75,18 @@ public abstract class StealthOpMode extends LinearOpMode {
      */
     @Override
     public void runOpMode() throws InterruptedException {
-        // Pull the alliance color from the opmode's group name. "red" or "blue" anywhere in the
+        // Pull the alliance color from the opmode's names. "red" or "blue" anywhere in the
         // name, any case. Default to red.
-        String groupName = null;
+        String names = null;
         if (this.getClass().isAnnotationPresent(TeleOp.class)) {
             TeleOp annotation = this.getClass().getAnnotation(TeleOp.class);
-            groupName = annotation.group();
+            names = annotation.name() + annotation.group();
         } else if (this.getClass().isAnnotationPresent(Autonomous.class)) {
             Autonomous annotation = this.getClass().getAnnotation(Autonomous.class);
-            groupName = annotation.group();
+            names = annotation.name() + annotation.group();
             // @TODO: warn them if there's no pre-selected teleop
         }
-        if (groupName != null && groupName.toLowerCase().contains("blue")) {
+        if (names != null && names.toLowerCase().contains("blue")) {
             Alliance.set(Alliance.BLUE);
         } else {
             Alliance.set(Alliance.RED);
@@ -115,21 +115,5 @@ public abstract class StealthOpMode extends LinearOpMode {
         }
         CommandScheduler.getInstance().reset();
         AutoToTeleStorage.finalAutoHeading = getFinalHeading();
-    }
-
-    /**
-     * Invokes the scheduler to run a list of commands immediately, returning when they are complete.
-     * Useful for running commands to reset hardware during initialize(), before any default
-     * commands are registered.
-     *
-     * @param commands a list of commands to run right now
-     */
-    public final void runInitCommands(Command... commands) {
-        CommandScheduler.getInstance().schedule(commands);
-        while (!isStarted() && !isStopRequested() && CommandScheduler.getInstance().isScheduled(commands)) {
-            CommandScheduler.getInstance().run();
-            telemetry.update();
-            // @TODO: if we do manual caching, then flush here.
-        }
     }
 }

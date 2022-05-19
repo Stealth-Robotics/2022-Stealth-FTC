@@ -38,7 +38,7 @@ public abstract class AutoBase extends StealthOpMode {
 
         tseDetector.setupCamera(cameraName);
 
-        runInitCommands(new ArmResetMinCommand(arm).withTimeout(4000));
+        schedule(new ArmResetMinCommand(arm).withTimeout(4000));
     }
 
     @Override

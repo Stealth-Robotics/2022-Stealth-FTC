@@ -43,7 +43,7 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
 
-        runInitCommands(new ArmCommands.ResetPosition(arm).withTimeout(4000));
+        schedule(new ArmCommands.ResetPosition(arm).withTimeout(4000));
 
         // Retrieve our heading from the end of the last Autonomous mode, if any.
         drive.setPoseEstimate(new Pose2d(0, 0, AutoToTeleStorage.finalAutoHeading));
