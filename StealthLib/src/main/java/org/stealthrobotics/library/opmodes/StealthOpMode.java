@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.Subsystem;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,6 +14,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.AutoToTeleStorage;
+
+import java.util.List;
 
 /**
  * Base class for all Stealth op-modes.
@@ -95,13 +98,17 @@ public abstract class StealthOpMode extends LinearOpMode {
         // Make the telemetry object available as a static so we don't have to pass it everywhere.
         telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
 
+        // Switch to manual caching for all control and expansion hubs.
+        List<LynxModule> hubs = hardwareMap.getAll(LynxModule.class);
+        hubs.forEach(h -> h.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL));
+
         initialize();
 
         while (!isStarted() && !isStopRequested()) {
             whileWaitingToStart();
             CommandScheduler.getInstance().run();
             telemetry.update();
-            // @TODO: if we do manual caching, then flush here.
+            hubs.forEach(LynxModule::clearBulkCache);
         }
 
         CommandScheduler.getInstance().cancelAll();
@@ -111,7 +118,7 @@ public abstract class StealthOpMode extends LinearOpMode {
         while (!isStopRequested() && opModeIsActive()) {
             CommandScheduler.getInstance().run();
             telemetry.update();
-            // @TODO: if we do manual caching, then flush here.
+            hubs.forEach(LynxModule::clearBulkCache);
         }
         CommandScheduler.getInstance().reset();
         AutoToTeleStorage.finalAutoHeading = getFinalHeading();
