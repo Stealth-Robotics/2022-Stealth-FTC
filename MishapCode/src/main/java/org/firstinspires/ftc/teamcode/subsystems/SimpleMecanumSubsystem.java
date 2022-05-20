@@ -56,7 +56,10 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
         return leftFrontDrive.getCurrentPosition();
     }
 
-    public void drive(double leftSickY, double leftStickX, double rightStickX, boolean slowMode) {
+    /**
+     * Drive using gamepad inputs, with deadbands and optional field-centric driving.
+     */
+    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, boolean slowMode) {
         double y = -leftSickY; // Remember, this is reversed!
         double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rx = rightStickX;
@@ -86,10 +89,13 @@ public class SimpleMecanumSubsystem extends SubsystemBase {
             StealthOpMode.telemetry.addData("Driving mode", "ROBOT");
         }
 
-        driveRaw(y, x, rx, slowMode);
+        drive(y, x, rx, slowMode);
     }
 
-    public void driveRaw(double y, double x, double rx, boolean slowMode) {
+    /**
+     * Drive using explicit inputs, robot-centric only.
+     */
+    public void drive(double y, double x, double rx, boolean slowMode) {
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 

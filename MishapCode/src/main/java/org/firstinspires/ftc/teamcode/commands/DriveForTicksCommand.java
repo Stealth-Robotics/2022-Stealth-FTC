@@ -33,7 +33,7 @@ public class DriveForTicksCommand extends CommandBase {
     @Override
     public void initialize() {
         endTicks = drive.getCurrentPosition() + ticks;
-        drive.driveRaw(y, x, rx, false);
+        drive.drive(y, x, rx, false);
     }
 
     @Override

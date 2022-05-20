@@ -9,12 +9,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.ArmPresetCommands;
 import org.firstinspires.ftc.teamcode.commands.ArmResetMinCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultArmCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.QuackWheelManualSlow;
 import org.firstinspires.ftc.teamcode.commands.QuackWheelManualSuper;
 import org.firstinspires.ftc.teamcode.commands.QuackWheelSingle;
+import org.firstinspires.ftc.teamcode.commands.TeleopDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.QuackSpinnerSubsystem;
@@ -49,7 +49,7 @@ public abstract class TeleopDualController extends StealthOpMode {
         schedule(new ArmResetMinCommand(arm).withTimeout(4000));
 
         drive.setDefaultCommand(
-                new DefaultDriveCommand(
+                new TeleopDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,

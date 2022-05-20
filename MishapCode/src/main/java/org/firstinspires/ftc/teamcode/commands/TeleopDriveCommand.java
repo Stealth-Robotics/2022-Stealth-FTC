@@ -7,12 +7,12 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-public class DefaultDriveCommand extends CommandBase {
+public class TeleopDriveCommand extends CommandBase {
     final SimpleMecanumSubsystem drive;
     final DoubleSupplier leftY, leftX, rightX;
     final BooleanSupplier slowMode;
 
-    public DefaultDriveCommand(SimpleMecanumSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier slowMode) {
+    public TeleopDriveCommand(SimpleMecanumSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier slowMode) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
@@ -23,6 +23,6 @@ public class DefaultDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        drive.drive(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), slowMode.getAsBoolean());
+        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), slowMode.getAsBoolean());
     }
 }

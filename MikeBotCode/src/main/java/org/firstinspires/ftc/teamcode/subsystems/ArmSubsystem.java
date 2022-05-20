@@ -36,13 +36,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        StealthOpMode.telemetry.addData("Arm", "Position: %d", armMotor.getCurrentPosition());
-        StealthOpMode.telemetry.addData("Arm", "Limit switch: %s", armLimitSwitch.getState());
-        StealthOpMode.telemetry.addData("Arm", "Limit switch 2: %s", armLimitSwitch2.getState());
+        StealthOpMode.telemetry.addData("Arm:Position", armMotor.getCurrentPosition());
+        StealthOpMode.telemetry.addData("Arm:Limit switch", armLimitSwitch.getState());
+        StealthOpMode.telemetry.addData("Arm:Limit switch 2", armLimitSwitch2.getState());
 
-        StealthOpMode.telemetry.addData("Arm", "isOverCurrent: %s", armMotor.isOverCurrent());
-        StealthOpMode.telemetry.addData("Arm", "getCurrent: %f mA", armMotor.getCurrent(CurrentUnit.MILLIAMPS));
-        StealthOpMode.telemetry.addData("Arm", "getCurrentAlert: %f mA", armMotor.getCurrentAlert(CurrentUnit.MILLIAMPS));
+        StealthOpMode.telemetry.addData("Arm:isOverCurrent", armMotor.isOverCurrent());
+        StealthOpMode.telemetry.addData("Arm:getCurrent(mA)", armMotor.getCurrent(CurrentUnit.MILLIAMPS));
+        StealthOpMode.telemetry.addData("Arm:getCurrentAlert(mA)", armMotor.getCurrentAlert(CurrentUnit.MILLIAMPS));
     }
 
     public void setPosition(int position, double power) {

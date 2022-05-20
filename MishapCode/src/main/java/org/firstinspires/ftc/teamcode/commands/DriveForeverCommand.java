@@ -4,12 +4,12 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumSubsystem;
 
-public class DriveCommand extends CommandBase {
+public class DriveForeverCommand extends CommandBase {
     final SimpleMecanumSubsystem drive;
     final double y, x, rx;
     final boolean slow;
 
-    public DriveCommand(SimpleMecanumSubsystem drive, double y, double x, double rx, boolean slow) {
+    public DriveForeverCommand(SimpleMecanumSubsystem drive, double y, double x, double rx, boolean slow) {
         this.drive = drive;
         this.y = y;
         this.x = x;
@@ -19,7 +19,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        drive.driveRaw(y, x, rx, slow);
+        drive.drive(y, x, rx, slow);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class RotateDegreesCommand extends CommandBase {
     @Override
     public void initialize() {
         positiveDir = drive.getHeading() < endAngle;
-        drive.driveRaw(0, 0, rx, false);
+        drive.drive(0, 0, rx, false);
     }
 
     @Override
