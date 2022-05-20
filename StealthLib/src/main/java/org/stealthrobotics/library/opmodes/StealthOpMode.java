@@ -104,6 +104,9 @@ public abstract class StealthOpMode extends LinearOpMode {
 
         initialize();
 
+        // @TODO: it's a mistake to read things like the gamepads or any other HW state during
+        //   initialize(). Could we detect that by looking at the bulk cache state here and warn?
+
         while (!isStarted() && !isStopRequested()) {
             whileWaitingToStart();
             CommandScheduler.getInstance().run();

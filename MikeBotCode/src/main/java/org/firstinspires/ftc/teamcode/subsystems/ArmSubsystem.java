@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor.setVelocityPIDFCoefficients(5.0, 0.01, 0.0, 7.0);
         // armDrive.setPositionPIDFCoefficients(50.0);
 
+        armMotor.setCurrentAlert(2000, CurrentUnit.MILLIAMPS);
+
         // TODO: feels like this ought to be somewhere more general. A overall robot class or subsystem?
         lynxModules = hardwareMap.getAll(LynxModule.class);
     }
@@ -43,6 +46,10 @@ public class ArmSubsystem extends SubsystemBase {
         StealthOpMode.telemetry.addData("Arm", "Position: %d", armMotor.getCurrentPosition());
         StealthOpMode.telemetry.addData("Arm", "Limit switch: %s", armLimitSwitch.getState());
         StealthOpMode.telemetry.addData("Arm", "Limit switch 2: %s", armLimitSwitch2.getState());
+
+        StealthOpMode.telemetry.addData("Arm", "isOverCurrent: %s", armMotor.isOverCurrent());
+        StealthOpMode.telemetry.addData("Arm", "getCurrent: %f mA", armMotor.getCurrent(CurrentUnit.MILLIAMPS));
+        StealthOpMode.telemetry.addData("Arm", "getCurrentAlert: %f mA", armMotor.getCurrentAlert(CurrentUnit.MILLIAMPS));
     }
 
     public void setPosition(int position, double power) {
@@ -79,5 +86,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean isArmAtLowerLimit() {
         return !armLimitSwitch.getState();
+    }
+
+    public boolean isOverCurrent() {
+        return armMotor.isOverCurrent();
     }
 }

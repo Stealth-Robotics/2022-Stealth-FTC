@@ -117,7 +117,9 @@ public class ArmCommands {
 
         @Override
         public boolean isFinished() {
-            return arm.isArmAtLowerLimit();
+            // Experiment w/ using motor current alerts instead of a limit switch.
+            return arm.isOverCurrent();
+//            return arm.isArmAtLowerLimit();
         }
     }
 }
