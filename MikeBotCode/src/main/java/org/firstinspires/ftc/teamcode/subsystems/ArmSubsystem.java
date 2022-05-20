@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -10,13 +9,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
-import java.util.List;
-
 public class ArmSubsystem extends SubsystemBase {
     final DcMotorEx armMotor;
     final DigitalChannel armLimitSwitch;
     final DigitalChannel armLimitSwitch2;
-    List<LynxModule> lynxModules;
 
     public static final int MIN_POSITION = 0;
     public static final int MAX_POSITION = 2000;
@@ -36,9 +32,6 @@ public class ArmSubsystem extends SubsystemBase {
         // armDrive.setPositionPIDFCoefficients(50.0);
 
         armMotor.setCurrentAlert(2000, CurrentUnit.MILLIAMPS);
-
-        // TODO: feels like this ought to be somewhere more general. A overall robot class or subsystem?
-        lynxModules = hardwareMap.getAll(LynxModule.class);
     }
 
     @Override
@@ -63,18 +56,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     public int getCurrentPosition() {
         return armMotor.getCurrentPosition();
-    }
-
-    // Used when concurrent commands may have populated the bulk cache with an old motor position.
-    public int getCurrentPositionNoCache() {
-        resetPositionCache();
-        return armMotor.getCurrentPosition();
-    }
-
-    private void resetPositionCache() {
-        for (LynxModule module : lynxModules) {
-            module.clearBulkCache();
-        }
     }
 
     public void resetLowerPosition() {

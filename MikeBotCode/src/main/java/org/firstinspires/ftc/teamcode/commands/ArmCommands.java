@@ -23,7 +23,7 @@ public class ArmCommands {
 
         @Override
         public void end(boolean isInterrupted) {
-            int p = arm.getCurrentPositionNoCache();
+            int p = arm.getCurrentPosition();
             // Aim a little farther up than we sense to give a softer landing.
             arm.setPosition(Math.min(ArmSubsystem.MAX_POSITION, p + 100));
         }
@@ -44,7 +44,7 @@ public class ArmCommands {
 
         @Override
         public void end(boolean isInterrupted) {
-            int p = arm.getCurrentPositionNoCache();
+            int p = arm.getCurrentPosition();
             // Aim a little farther down than we sense to give a softer landing.
             arm.setPosition(Math.max(ArmSubsystem.MIN_POSITION, p - 100));
         }
@@ -69,7 +69,7 @@ public class ArmCommands {
 
         @Override
         public void initialize() {
-            int pos = arm.getCurrentPositionNoCache();
+            int pos = arm.getCurrentPosition();
 
             if (direction == Direction.UP) {
                 // nb: read the doc for binarySearch to understand the negative coding for the
