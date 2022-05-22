@@ -1,121 +1,134 @@
-## TeamCode Module
+*Change `StarterCode` to a real module name and delete this line.*
+
+## StarterCode Module
 
 Welcome!
 
-This module, TeamCode, is the place where you will write/paste the code for your team's
-robot controller App. This module is currently empty (a clean slate) but the
-process for adding OpModes is straightforward.
+This module, `StarterCode`, is the place where you will write/paste the code for your team's robot
+controller app. This module is currently setup with a basic tele-op mode, and examples of how to
+hook up simple controls for your robot using `Commands` and `Subsystems` from FTCLib.
 
-## Creating your own OpModes
+[FTCLib](https://docs.ftclib.org/ftclib/command-base/command-system) is a library which gives you a
+way to write your code using "Commands" and "
+Subsystems". Doing so takes a little bit of work in the beginning, but will make your life much,
+much easier as you make your robot more interesting!
 
-The easiest way to create your own OpMode is to copy a Sample OpMode and make it your own.
+## Creating your own Subsystems
 
-Sample opmodes exist in the FtcRobotController module.
-To locate these samples, find the FtcRobotController module in the "Project/Android" tab.
+A [Subsystem](https://docs.ftclib.org/ftclib/command-base/command-system/subsystems)
+is the basic unit of robot organization and represents a piece of the hardware like an arm, wheel,
+or drivetrain. You define interfaces to access the hardware from the rest of the code.
+
+Subsystems allow you to “hide” the internal complexity of your actual hardware from the rest of your
+code. This both simplifies the rest of the robot code, and allows changes to the internal details of
+a subsystem without also changing the rest of the code.
+
+All hardware access goes in your subsystems, like finding motors and sensors, setting them up, and
+moving/stopping them. You will usually find and setup your hardware in the subsystem's constructor,
+then add methods to act on the hardware or read its state.
+
+The easiest way to start is by copying an existing subsystem and modifying it:
+
+1) Locate the desired subsystem class in the Project/Android tree.
+
+2) Select it, and hit `ctrl-c` to copy it.
+
+3) Hit `ctrl-v` to paste it. Enter the new name for your subsystem class in the dialog and press
+   enter.
+
+## Creating your own Commands
+
+[Commands](https://docs.ftclib.org/ftclib/command-base/command-system/command)
+represent actions your robot can take, like moving an arm, spinning a wheel, driving, etc. Commands
+use one or more Subsystems to do their work, calling the subsystem's methods to power motors, read
+positions, etc.
+
+Commands are classes which extend `CommandBase` and have five important methods:
+
+1) Constructor: remembers subsystems and other parameters the command will use
+
+2) `initialize`: called once when the command is initially scheduled
+
+3) `execute`: the main body of a command, called repeatedly while the command is scheduled
+
+4) `end`: called when either the command finishes normally, or when it is interrupted/canceled
+
+5) `isFinished`: called right after `execute` to decide if the command should end
+
+Commands are often short, simple classes which allow you to turn ideas like "
+raise arm 10%" or
+"drive forward 4 inches" into actions on a Subsystem. You typically get your work started in
+the `initialize` method, make adjustments as you go in `execute`
+, and finish and cleanup in `end`. Each method is optional and you might have many commands while
+don't use some of them.
+
+Just like with Subsystems, the easiest way to get started is by copying an existinc Command and
+changing it. Do this the same way as for Subsystems.
+
+There are lots of useful commands already written for you, and simple ways to run one command after
+another. Check
+out [this list in the FTCLib docs](https://docs.ftclib.org/ftclib/command-base/command-system/convenience-commands)
+.
+
+## Running commands on gamepad input
+
+You [tie commands to buttons and sticks](https://docs.ftclib.org/ftclib/command-base/command-system/binding-commands-to-triggers)
+on your gamepads to get them to run. You might make it so that when you press A on the driver's
+gamepad an arm raises to a preset height. Or, while holding X an intake spins.
+
+This is done in your tele-op mode by "binding" commands to actions on buttons and triggers.
+
+For example, this gets the X button on the driver's gamepad and says to run `WheelForwardCommand`
+each time you press it:
+
+```
+driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new WheelForwardCommand(wheel));
+```
+
+## Command Groups
+
+Commands are simple and powerful, especially when combined into groups or sequences. You can very
+easily say things like "when I press X, lower the arm and turn on the intake for 10 seconds, then
+raise it again" by combining three simple commands into a `SequentialCommandGroup` which runs them
+one after another. You can also combine commands so they run in parallel with things
+like `ParallelCommandGroup`. There are many kinds of command groups, check out
+the [FTCLib docs on Command Groups](https://docs.ftclib.org/ftclib/command-base/command-system/command-groups)
+for more.
+
+https://docs.ftclib.org/ftclib/command-base/command-system/convenience-commands
+
+## FTC Sample Opmodes
+
+There are a lot of standard FTC example Opmodes provided in the FtcRobotController module. These
+samples don't use Commands and Subsystems, but that's okay. They'll still show you how to do lots of
+useful things, and you can copy-and-paste pieces of the code into your own Subsystems and Commands.
+
+To locate these samples, find the FtcRobotController module in the "
+Project/Android" tab.
 
 Expand the following tree elements:
- FtcRobotController / java / org.firstinspires.ftc.robotcontroller / external / samples
+FtcRobotController / java / org.firstinspires.ftc.robotcontroller / external / samples
 
-A range of different samples classes can be seen in this folder.
-The class names follow a naming convention which indicates the purpose of each class.
-The full description of this convention is found in the samples/sample_convention.md file.
+A range of different samples classes can be seen in this folder. The class names follow a naming
+convention which indicates the purpose of each class. The full description of this convention is
+found in the samples/sample_convention.md file.
 
 A brief synopsis of the naming convention is given here:
 The prefix of the name will be one of the following:
 
-* Basic:    This is a minimally functional OpMode used to illustrate the skeleton/structure
-            of a particular style of OpMode.  These are bare bones examples.
-* Sensor:   This is a Sample OpMode that shows how to use a specific sensor.
-            It is not intended as a functioning robot, it is simply showing the minimal code
-            required to read and display the sensor values.
-* Hardware: This is not an actual OpMode, but a helper class that is used to describe
-            one particular robot's hardware devices: eg: for a Pushbot.  Look at any
-            Pushbot sample to see how this can be used in an OpMode.
-            Teams can copy one of these to create their own robot definition.
+* Basic:    This is a minimally functional OpMode used to illustrate the skeleton/structure of a
+  particular style of OpMode. These are bare bones examples.
+* Sensor:   This is a Sample OpMode that shows how to use a specific sensor. It is not intended as a
+  functioning robot, it is simply showing the minimal code required to read and display the sensor
+  values.
+* Hardware: This is not an actual OpMode, but a helper class that is used to describe one particular
+  robot's hardware devices: eg: for a Pushbot. Look at any Pushbot sample to see how this can be
+  used in an OpMode. Teams can copy one of these to create their own robot definition.
 * Pushbot:  This is a Sample OpMode that uses the Pushbot robot structure as a base.
-* Concept:	This is a sample OpMode that illustrates performing a specific function or concept.
-            These may be complex, but their operation should be explained clearly in the comments,
-            or the header should reference an external doc, guide or tutorial.
-* Library:  This is a class, or set of classes used to implement some strategy.
-            These will typically NOT implement a full OpMode.  Instead they will be included
-            by an OpMode to provide some stand-alone capability.
+* Concept:    This is a sample OpMode that illustrates performing a specific function or concept.
+  These may be complex, but their operation should be explained clearly in the comments, or the
+  header should reference an external doc, guide or tutorial.
+* Library:  This is a class, or set of classes used to implement some strategy. These will typically
+  NOT implement a full OpMode. Instead they will be included by an OpMode to provide some
+  stand-alone capability.
 
-Once you are familiar with the range of samples available, you can choose one to be the
-basis for your own robot.  In all cases, the desired sample(s) needs to be copied into
-your TeamCode module to be used.
-
-This is done inside Android Studio directly, using the following steps:
-
- 1) Locate the desired sample class in the Project/Android tree.
-
- 2) Right click on the sample class and select "Copy"
-
- 3) Expand the  TeamCode / java folder
-
- 4) Right click on the org.firstinspires.ftc.teamcode folder and select "Paste"
-
- 5) You will be prompted for a class name for the copy.
-    Choose something meaningful based on the purpose of this class.
-    Start with a capital letter, and remember that there may be more similar classes later.
-
-Once your copy has been created, you should prepare it for use on your robot.
-This is done by adjusting the OpMode's name, and enabling it to be displayed on the
-Driver Station's OpMode list.
-
-Each OpMode sample class begins with several lines of code like the ones shown below:
-
-```
- @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
- @Disabled
-```
-
-The name that will appear on the driver station's "opmode list" is defined by the code:
- ``name="Template: Linear OpMode"``
-You can change what appears between the quotes to better describe your opmode.
-The "group=" portion of the code can be used to help organize your list of OpModes.
-
-As shown, the current OpMode will NOT appear on the driver station's OpMode list because of the
-  ``@Disabled`` annotation which has been included.
-This line can simply be deleted , or commented out, to make the OpMode visible.
-
-
-
-## ADVANCED Multi-Team App management:  Cloning the TeamCode Module
-
-In some situations, you have multiple teams in your club and you want them to all share
-a common code organization, with each being able to *see* the others code but each having
-their own team module with their own code that they maintain themselves.
-
-In this situation, you might wish to clone the TeamCode module, once for each of these teams.
-Each of the clones would then appear along side each other in the Android Studio module list,
-together with the FtcRobotController module (and the original TeamCode module).
-
-Selective Team phones can then be programmed by selecting the desired Module from the pulldown list
-prior to clicking to the green Run arrow.
-
-Warning:  This is not for the inexperienced Software developer.
-You will need to be comfortable with File manipulations and managing Android Studio Modules.
-These changes are performed OUTSIDE of Android Studios, so close Android Studios before you do this.
- 
-Also.. Make a full project backup before you start this :)
-
-To clone TeamCode, do the following:
-
-Note: Some names start with "Team" and others start with "team".  This is intentional.
-
-1)  Using your operating system file management tools, copy the whole "TeamCode"
-    folder to a sibling folder with a corresponding new name, eg: "Team0417".
-
-2)  In the new Team0417 folder, delete the TeamCode.iml file.
-
-3)  the new Team0417 folder, rename the "src/main/java/org/firstinspires/ftc/teamcode" folder
-    to a matching name with a lowercase 'team' eg:  "team0417".
-
-4)  In the new Team0417/src/main folder, edit the "AndroidManifest.xml" file, change the line that contains
-         package="org.firstinspires.ftc.teamcode"
-    to be
-         package="org.firstinspires.ftc.team0417"
-
-5)  Add:    include ':Team0417' to the "/settings.gradle" file.
-    
-6)  Open up Android Studios and clean out any old files by using the menu to "Build/Clean Project""

@@ -38,8 +38,15 @@ RoadRunner, OpenCV, more interesting command and subsystem examples, etc.
       a good analogy for some.
 - Monorepo
     - All team projects are in the same repo, and under the same Andriod Studio project.
-    - Each team edits it's own code and commits/pulls as usual.
+    - Each team edits its own code and commits/pulls as usual.
     - All laptops are setup the same way; it doesn't matter which laptop a team uses night-to-night.
+    - *NOTE*: after chatting with Kevin Frei about his experience with this, it appears it might be
+      better to give each team their own branch and have a mentor handle merging them into master
+      now and then, as well as merge and resolve conflicts in StealthLib.
+        - It's likely not reasonable to assume every team member will "stay in their lane" and we
+          should expect conflicts in StealthLib.
+        - A branch-per-team will resolve this while still making it easy for us to share code and
+          changes to our library.
 - StealthLib
     - I have a very rough start at a common library for the team where we can place common, useful
       things for all teams to use. Ideally this grows and helps us be more effective each season.
@@ -50,18 +57,19 @@ RoadRunner, OpenCV, more interesting command and subsystem examples, etc.
 
 ## StarterCode
 
-I have the `StarterCode` project in, I think, reasonable shape. I'd recommend we start them with
-just the
-`SimpleTwoWheelDriveSubsystem` and associated commands. This is the exact code from the normal
-example we start with for the two-wheeled bot we build the first day, just broken up into the
-teleop, command, and subsystem.
+I have the `StarterCode` project in, I think, reasonable shape. The idea here is that each team's
+module starts as a copy of this at the beginning of the season.
+
+I'd recommend we start them with just the `SimpleTwoWheelDriveSubsystem` and associated commands.
+This is the exact code from the normal example we start with for the two-wheeled bot we build the
+first day, just broken up into the teleop, command, and subsystem.
 
 I have some basic mecanum code in there, in `SimpleMecanumDriveSubsystem` and it's command, which is
 the gm0 sample. I'd suggest we put this in a separate branch and show them when they build their
 first bot w/ mecanum.
 
 We can have further branches which show more advanced things in `StarterCode`, like RoadRunner and
-OpenCV.
+OpenCV. We could also consider a `SampleCode` module which does the same.
 
 ## MishapCode
 
@@ -89,31 +97,17 @@ StarterCode.
 
 These are a bunch of raw notes for in-progress work.
 
-- more examples, in branches
+- more examples, in branches or a `SampleCode` module
 - turn off that annoying code analysis and todo analysis before comitting.
     - It's in the git settings, on commit. Can turn on auto-formatting, too.
     - Can we make that config easy to carry to the team laptops?
-- dashboard?
-    - What's in there now, what should we be using?
-    - guidance on where to println or log. API's? Where to see (logcat vs. run output)
-    - guidance on prints/logs vs. telemetry/dashboard
-- guidance on subsystems, commands, periodic vs default cmds,
-    - Subsystems: model of the hardware, expose very simple methods to act on the HW, operates in
-      the HW's terms (encoder ticks, power, etc.)
-    - Commands: provide reasonable, composable actions on one or more subsystems in non-HW terms.
-      Move arm between 0% and 100%, not -3000 ticks and +5000 ticks.
-    - If we change the gear ratio on a motor, only a subsystem and at most the commands acting on it
-      need to change. Having to change uses of commands in a case like this is bad; you have to
-      basically look across the whole project and make changes, which is error-prone.
+- dashboard & telemetry
+    - Need a few small examples in the starter project
 - good examples of auto movement
     - roadrunner, yes
     - but also simple things, like drive fwd for a distance or a few seconds, turn 90 degrees. The
       simple stuff Mishap and AP started with.
         - We can literally turn some of the ported Mishap commands into good examples here.
-- hardware caching
-    - go manual and embed it in our loops?
-    - mmm: I saw every team get lucky on this multiple times. Other libs are more explicit about
-      this. Watch for RR: their starter code changes the caching mode unilaterally!!
 - useful utilities either in FTCLib, or that need to be in SealthLib. We need to be promoting some
   of these concepts more aggressively with the students, both FTC and FRC.
     - debounce
