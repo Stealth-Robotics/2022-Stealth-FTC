@@ -6,6 +6,9 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleTwoWheelDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
+/**
+ * Drive based on stick inputs from a gamepad. This is a "default command" and runs forever.
+ */
 public class DefaultTwoWheelDriveCommand extends CommandBase {
     final SimpleTwoWheelDriveSubsystem drive;
     final DoubleSupplier leftY, rightX;

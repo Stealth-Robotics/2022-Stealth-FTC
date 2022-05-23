@@ -6,6 +6,9 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
+/**
+ * Drive a Mecanum drivetrain based on stick inputs from a gamepad. This is a "default command" and runs forever.
+ */
 public class DefaultMecanumDriveCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     final DoubleSupplier leftY, leftX, rightX;
@@ -20,6 +23,6 @@ public class DefaultMecanumDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        drive.drive(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble());
+        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble());
     }
 }

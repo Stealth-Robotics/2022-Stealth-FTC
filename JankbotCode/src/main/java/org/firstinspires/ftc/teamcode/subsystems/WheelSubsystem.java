@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.stealthrobotics.library.Alliance;
 
+/**
+ * A very simple subsystem that has a single wheel that you can turn.
+ */
 public class WheelSubsystem extends SubsystemBase {
     final DcMotorEx wheelieMotor;
 

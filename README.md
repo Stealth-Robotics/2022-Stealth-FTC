@@ -10,7 +10,7 @@ This repo is to help us figure out how we want to do FTC development next season
 - Set them up for success w/ a good library which promotes correctness (FTCLib or similar)
 - Avoid a single, massive opmode loop w/ nested loops that get them into trouble
     - FSM's aren't approachable
-    - Monolothic files make it hard for multiple people to work different parts of the bot in
+    - Monolothic files make it hard for multiple people to work on different parts of the bot in
       parallel
     - Far too easy to confuse controller binding
     - Too easy to break a working part while adding something new
@@ -23,8 +23,11 @@ This repo is to help us figure out how we want to do FTC development next season
 ## Repo for next season
 
 I imagine we have a repo very much like this one, where each team dir is a copy of `StarterCode`
-with the two-wheeled bot code, and branches with further examples in `StarterCode` for mecanum,
-RoadRunner, OpenCV, more interesting command and subsystem examples, etc.
+with the two-wheeled bot code. The `SampleCode` module contains examples for Mecanum, RoadRunner,
+OpenCV, more interesting command and subsystem examples, etc.
+
+Each team dir is also pre-set to be ready for RoadRunner, OpenCV, etc. so there's no annoying
+project/build work we have to do to use those.
 
 # Current Approach
 
@@ -37,7 +40,7 @@ RoadRunner, OpenCV, more interesting command and subsystem examples, etc.
     - The Command model has decent overlap with modern game programming (e.g., Unity) which will be
       a good analogy for some.
 - Monorepo
-    - All team projects are in the same repo, and under the same Andriod Studio project.
+    - All team projects are in the same repo, and under the same Android Studio project.
     - Each team edits its own code and commits/pulls as usual.
     - All laptops are setup the same way; it doesn't matter which laptop a team uses night-to-night.
     - *NOTE*: after chatting with Kevin Frei about his experience with this, it appears it might be
@@ -53,29 +56,35 @@ RoadRunner, OpenCV, more interesting command and subsystem examples, etc.
     - More advanced students can contribute to the library and help each team make the best use of
       it.
 
-# In-progress work
-
 ## StarterCode
 
 I have the `StarterCode` project in, I think, reasonable shape. The idea here is that each team's
 module starts as a copy of this at the beginning of the season.
 
-I'd recommend we start them with just the `SimpleTwoWheelDriveSubsystem` and associated commands.
-This is the exact code from the normal example we start with for the two-wheeled bot we build the
-first day, just broken up into the teleop, command, and subsystem.
+I start them with just the `SimpleTwoWheelDriveSubsystem` and associated commands. This is the exact
+code from the normal example we start with for the two-wheeled bot we build the first day, just
+broken up into the teleop, command, and subsystem.
 
-I have some basic mecanum code in there, in `SimpleMecanumDriveSubsystem` and it's command, which is
-the gm0 sample. I'd suggest we put this in a separate branch and show them when they build their
-first bot w/ mecanum.
+There is also a simple wheel subsystem and command that spins it, and an example command that prints
+all the steps of a command.
 
-We can have further branches which show more advanced things in `StarterCode`, like RoadRunner and
-OpenCV. We could also consider a `SampleCode` module which does the same.
+## SampleCode
+
+The `SampleCode` module has a few small examples of commands and subsystems. We should add more
+here, based on the standard examples, and based on our bots from this season.
+
+I also have some basic mecanum code in there, in `SimpleMecanumDriveSubsystem` and it's command,
+which is the gm0 sample.
 
 ## MishapCode
 
 I have ported over all the Mishap code from https://github.com/TristenYim/FtcRobotController. I
 tried to keep most of the structure, comments, and code just moved around into commands and
 subsystems. I think I did okay, and I'd love to have others review/compare to see what they think!
+
+## MikeBotCode
+
+This is temporary, a port of my own test bot's code to see how it goes.
 
 ## StealthLib
 
@@ -95,9 +104,12 @@ StarterCode.
 
 # TODO
 
-These are a bunch of raw notes for in-progress work.
-
-- more examples, in branches or a `SampleCode` module
+- more examples in the `SampleCode` module!!
+- RoadRunner
+    - The usual way is to have roadrunner sources mixed into your own project. Some people try to
+      organize some and put it all under a roadrunner dir, which I have done here, but it's still a
+      bit messy.
+    - Look at better ways to organize this. Should we end up with a RoadRunner module?
 - turn off that annoying code analysis and todo analysis before comitting.
     - It's in the git settings, on commit. Can turn on auto-formatting, too.
     - Can we make that config easy to carry to the team laptops?

@@ -4,6 +4,9 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
 
+/**
+ * Spin a wheel forward forever, until the command is cancelled.
+ */
 public class WheelForwardCommand extends CommandBase {
     final WheelSubsystem wheel;
 
