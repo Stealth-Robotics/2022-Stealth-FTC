@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -13,6 +14,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
+    final BNO055IMU imu;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -24,8 +26,19 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
     }
 
+    // Return our robot's IMU heading, in radians.
+    public double getHeading() {
+        return -imu.getAngularOrientation().firstAngle;
+    }
+
+    // We'll just use the position of one wheel
     public int getCurrentPosition() {
         return leftFrontDrive.getCurrentPosition();
     }
