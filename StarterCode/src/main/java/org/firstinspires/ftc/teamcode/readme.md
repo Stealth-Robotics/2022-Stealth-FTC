@@ -95,7 +95,11 @@ like `ParallelCommandGroup`. There are many kinds of command groups, check out
 the [FTCLib docs on Command Groups](https://docs.ftclib.org/ftclib/command-base/command-system/command-groups)
 for more.
 
-https://docs.ftclib.org/ftclib/command-base/command-system/convenience-commands
+## Convenience Commands
+
+FTCLib provides lots of little "convenience" Commands which are pretty useful, as well as ways to
+string commands together. Check out the docs
+on [Convenience Features](https://docs.ftclib.org/ftclib/command-base/command-system/convenience-commands)
 
 ## FTC Sample Opmodes
 
