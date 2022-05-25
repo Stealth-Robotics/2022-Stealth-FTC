@@ -4,6 +4,8 @@ This repo is to help us figure out how we want to do FTC development next season
 
 **THIS REPO IS TEMPORARY.**
 
+The `starter-idea` branch shows what this repo would look like at the start of the season.
+
 # Goals
 
 - Provide an easy start w/ minimal big concepts
