@@ -1,10 +1,8 @@
-*Change `StarterCode` to a real module name and delete this line.*
-
-## StarterCode Module
+## MishapCode Module
 
 Welcome!
 
-This module, `StarterCode`, is the place where you will write/paste the code for your team's robot
+This module, `MishapCode`, is the place where you will write/paste the code for your team's robot
 controller app. This module is currently setup with a basic tele-op mode, and examples of how to
 hook up simple controls for your robot using `Commands` and `Subsystems` from FTCLib.
 
