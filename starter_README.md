@@ -14,9 +14,9 @@ outreaching and demonstrating what we do to our local community.
 
 Each team has a separate module for their code:
 
-* [AutoPrimeCode](AutoPrimeCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md)
-* [JankbotCode](JankbotCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md)
-* [MishapCode](MishapCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md)
+* [AutoPrimeCode](AutoPrimeCode/src/main/java/org/firstinspires/ftc/teamcode)
+* [JankbotCode](JankbotCode/src/main/java/org/firstinspires/ftc/teamcode)
+* [MishapCode](MishapCode/src/main/java/org/firstinspires/ftc/teamcode)
 
 These are setup with FTCLib to help make coding easier, and Road Runner & OpenCV for autonomous
 modes later.
@@ -26,10 +26,11 @@ Check out the README.md in each module for details about getting started!
 ## Sample code and StealthLib
 
 There are bits of sample code in
-the [SampleCode](SampleCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md) module which
-might be helpful as you get started. Be sure to also check the standard FTC samples.
+the [SampleCode](SampleCode/src/main/java/org/firstinspires/ftc/teamcode) module which might be
+helpful as you get started. Be sure to also check the standard FTC samples.
 
-`StealthLib` is a library of code which is shared between all the teams.
+[StealthLib](StealthLib/src/main/java/org/stealthrobotics/library) is a library of code which is
+shared between all the teams.
 
 ## Resources
 
