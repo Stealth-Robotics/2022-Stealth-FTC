@@ -2,9 +2,9 @@
 
 This repo is to help us figure out how we want to do FTC development next season.
 
-**THIS REPO IS TEMPORARY.**
+The `main` branch shows what this repo would look like at the start of the season.
 
-The `starter-idea` branch shows what this repo would look like at the start of the season.
+The `ported-code` branch has examples of code from 2021 ported to FTCLib and other notes/examples.
 
 # Goals
 
