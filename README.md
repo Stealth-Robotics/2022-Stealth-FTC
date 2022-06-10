@@ -1,5 +1,3 @@
-**README.md for the actual repo**
-
 # Stealth Robotics FTC POWERPLAY 2022-2023
 
 This is the repo for all [Stealth Robotics](https://stealthrobotics.org/) FTC code for POWERPLAY.
@@ -14,9 +12,9 @@ outreaching and demonstrating what we do to our local community.
 
 Each team has a separate module for their code:
 
-* [AutoPrimeCode](AutoPrimeCode/src/main/java/org/firstinspires/ftc/teamcode)
-* [JankbotCode](JankbotCode/src/main/java/org/firstinspires/ftc/teamcode)
-* [MishapCode](MishapCode/src/main/java/org/firstinspires/ftc/teamcode)
+* 7759 [AutoPrimeCode](AutoPrimeCode/src/main/java/org/firstinspires/ftc/teamcode)
+* 7760 [MishapCode](MishapCode/src/main/java/org/firstinspires/ftc/teamcode)
+* 13648 [JankbotCode](JankbotCode/src/main/java/org/firstinspires/ftc/teamcode)
 
 These are setup with FTCLib to help make coding easier, and Road Runner & OpenCV for autonomous
 modes later.
