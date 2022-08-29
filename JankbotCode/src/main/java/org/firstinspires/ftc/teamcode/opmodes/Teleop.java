@@ -15,7 +15,6 @@ public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleTwoWheelDriveSubsystem drive;
-    WheelSubsystem wheel;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -24,8 +23,7 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         drive = new SimpleTwoWheelDriveSubsystem(hardwareMap);
-        wheel = new WheelSubsystem(hardwareMap);
-        register(drive, wheel);
+        register(drive);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -37,8 +35,6 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-
-        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whileHeld(new WheelForwardCommand(wheel));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
 
