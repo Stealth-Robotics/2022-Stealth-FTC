@@ -14,6 +14,7 @@ Each team has a separate module for their code:
 
 * 7759 [AutoPrimeCode](AutoPrimeCode/src/main/java/org/firstinspires/ftc/teamcode)
 * 7760 [MishapCode](MishapCode/src/main/java/org/firstinspires/ftc/teamcode)
+* 12028 [SmeltCode](SmeltCode/src/main/java/org/firstinspires/ftc/teamcode)
 * 13648 [JankbotCode](JankbotCode/src/main/java/org/firstinspires/ftc/teamcode)
 
 These are setup with FTCLib to help make coding easier, and Road Runner & OpenCV for autonomous
