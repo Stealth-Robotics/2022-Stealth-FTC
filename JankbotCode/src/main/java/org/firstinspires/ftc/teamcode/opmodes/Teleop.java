@@ -4,9 +4,11 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultTwoWheelDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.commands.WheelForwardCommand;
+import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleTwoWheelDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -14,7 +16,8 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
-    SimpleTwoWheelDriveSubsystem drive;
+    SimpleMecanumDriveSubsystem drive;
+    WheelSubsystem wheel;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -22,20 +25,21 @@ public abstract class Teleop extends StealthOpMode {
 
     @Override
     public void initialize() {
-        drive = new SimpleTwoWheelDriveSubsystem(hardwareMap);
-        register(drive);
+        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        wheel = new WheelSubsystem(hardwareMap);
+        register(drive, wheel);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
 
         drive.setDefaultCommand(
-                new DefaultTwoWheelDriveCommand(
+                new DefaultMecanumDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
+                        () -> driveGamepad.gamepad.left_stick_x,
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz now?"));
