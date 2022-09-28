@@ -13,6 +13,8 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
 
+    boolean snapDrivingMode = false;
+
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
@@ -30,7 +32,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
      * inputs based on stick directions. Better versions would include field-centric driving,
      * deadbands, and more.
      */
-    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX) {
+    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, boolean xButton) {
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
@@ -38,6 +40,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
 
+        if (snapDrivingMode){
+            y = Math.round(y);
+            x = Math.round(x);
+        }
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
         // at least one is out of the range [-1, 1]
@@ -47,9 +53,16 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double rightFrontDrivePower = (y - x - rotation) / denominator;
         double rightRearDrivePower = (y + x - rotation) / denominator;
 
+
+
         leftFrontDrive.setPower(leftFrontDrivePower);
         leftRearDrive.setPower(leftRearDrivePower);
         rightFrontDrive.setPower(rightFrontDrivePower);
         rightRearDrive.setPower(rightRearDrivePower);
     }
+
+    public void ToggleSnapDriving() {
+        snapDrivingMode = !snapDrivingMode;
+    }
 }
+

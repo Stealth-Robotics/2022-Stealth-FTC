@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
+import org.firstinspires.ftc.teamcode.commands.ToggleSnapDrivingCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -33,7 +34,8 @@ public abstract class Teleop extends StealthOpMode {
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
-                        () -> driveGamepad.gamepad.right_stick_x
+                        () -> driveGamepad.gamepad.right_stick_x,
+                        () -> driveGamepad.gamepad.x
                 )
         );
 
@@ -43,6 +45,8 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz now?"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(new ExampleCommand("I can haz while?"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
+
+        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenReleased(new ToggleSnapDrivingCommand(drive));
     }
 
     /**
