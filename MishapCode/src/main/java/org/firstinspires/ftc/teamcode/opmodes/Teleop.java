@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.commands.ToggleSnapDrivingCommand;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -14,6 +15,7 @@ public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
+    ElevatorSubsystem elevator;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -23,7 +25,9 @@ public abstract class Teleop extends StealthOpMode {
     public void initialize() {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        register(drive);
+        elevator = new ElevatorSubsystem(hardwareMap);
+        register(drive, elevator);
+
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
