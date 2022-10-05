@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorUpCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.commands.ToggleSnapDrivingCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
@@ -51,6 +52,8 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenReleased(new ToggleSnapDrivingCommand(drive));
+
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenReleased(new ElevatorUpCommand(elevator));
     }
 
     /**

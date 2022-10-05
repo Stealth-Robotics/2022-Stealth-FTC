@@ -4,15 +4,15 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-/**
- * Spin a wheel slowly at first, then much faster until we've gone a certain distance.
- */
+
 public class ElevatorUpCommand extends CommandBase {
     final ElevatorSubsystem elevator;
 
     // Positions where the wheel starts spinning quickly, and stops spinning
-    public int FASTER_SPEED_TICKS = 400;
-    public int STOPPING_POINT_TICKS = 50; // TODO: we need to figure this out!
+
+    public int STOPPING_POINT_TICKS = 1575;
+    public int FASTER_SPEED_TICKS = 100;
+    public int SLOWER_SPEED_TICKS = STOPPING_POINT_TICKS - 500;
 
     /**
      * Remember our wheel subsystem for later.
@@ -28,18 +28,16 @@ public class ElevatorUpCommand extends CommandBase {
      */
     @Override
     public void initialize() {
-        elevator.spinForwardSlow();
+        elevator.upSlow();
     }
 
-    /**
-     * Called continuously while the command is running. Once it's gone far enough, start spinning
-     * it much faster.
-     */
     @Override
     public void execute() {
-//        if (Math.abs(elevator.getEncoderValue()) >= FASTER_SPEED_TICKS) {
-//            elevator.spinForwardFast();
-//        }
+        if (elevator.getEncoderValue() >= SLOWER_SPEED_TICKS) {
+            elevator.upSlow();
+        } else if (elevator.getEncoderValue() >= FASTER_SPEED_TICKS) {
+            elevator.upFast();
+        }
     }
 
     /**

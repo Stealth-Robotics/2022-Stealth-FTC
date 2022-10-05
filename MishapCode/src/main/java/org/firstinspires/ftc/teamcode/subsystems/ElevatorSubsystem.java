@@ -18,7 +18,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     final int AUTO_SPEED = 250;
 
     public ElevatorSubsystem(HardwareMap hardwareMap) {
-        elevatorMotor = hardwareMap.get(DcMotorEx.class, "Elevator");
+        elevatorMotor = hardwareMap.get(DcMotorEx.class, "elevator");
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         elevatorMotor.setDirection(DcMotor.Direction.FORWARD);
         elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -30,23 +30,17 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        elevatorMotor.setVelocity(0);
+        elevatorMotor.setPower(0);
     }
 
-    public void spinForwardSlow() {
-        if (Alliance.isBlue()) {
-            elevatorMotor.setVelocity(-SLOW_SPEED);
-        } else {
-            elevatorMotor.setVelocity(SLOW_SPEED);
-        }
+    public void upFast() {
+        elevatorMotor.setPower(1);
+    }
+    public void upSlow() {
+        elevatorMotor.setPower(.25);
     }
 
-    public void spinBackwardsSlow() {
-        if (Alliance.isBlue()) {
-            elevatorMotor.setVelocity(SLOW_SPEED);
-        } else {
-            elevatorMotor.setVelocity(-SLOW_SPEED);
-        }
-    }
 
 }
+
+
