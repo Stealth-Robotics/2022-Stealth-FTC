@@ -40,7 +40,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.setPower(.25);
     }
 
-
+    public void downFast() {
+        elevatorMotor.setPower(-1);
+    }
+    public void downSlow() {
+        elevatorMotor.setPower(-.25);
+    }
 }
 
 
