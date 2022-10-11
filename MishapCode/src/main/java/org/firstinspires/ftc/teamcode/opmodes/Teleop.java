@@ -27,7 +27,7 @@ public abstract class Teleop extends StealthOpMode {
     public void initialize() {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        elevator = new ElevatorSubsystem(hardwareMap);
+        elevator = new ElevatorSubsystem(hardwareMap, telemetry);
         register(drive, elevator);
 
 
