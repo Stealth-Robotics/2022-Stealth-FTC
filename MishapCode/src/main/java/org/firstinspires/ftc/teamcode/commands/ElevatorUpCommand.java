@@ -1,18 +1,19 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-
+@Config
 public class ElevatorUpCommand extends CommandBase {
     final ElevatorSubsystem elevator;
 
     // Positions where the wheel starts spinning quickly, and stops spinning
 
-    public int STOPPING_POINT_TICKS = 1575;
-    public int FASTER_SPEED_TICKS = 100;
-    public int SLOWER_SPEED_TICKS = STOPPING_POINT_TICKS - 500;
+    public static int STOPPING_POINT_TICKS = 1575;
+    public static int FASTER_SPEED_TICKS = 100;
+    public static int SLOWER_SPEED_TICKS = STOPPING_POINT_TICKS - 500;
 //
     /**
      * Remember our wheel subsystem for later.
