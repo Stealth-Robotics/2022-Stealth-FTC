@@ -4,20 +4,18 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.ArmExtenderCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultTwoWheelDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
-import org.firstinspires.ftc.teamcode.commands.WheelForwardCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleTwoWheelDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
-    WheelSubsystem wheel;
+    ArmMotorSubsystem armMotors;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -26,8 +24,8 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        wheel = new WheelSubsystem(hardwareMap);
-        register(drive, wheel);
+        armMotors = new ArmMotorSubsystem(hardwareMap);
+        register(drive, armMotors);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -40,9 +38,9 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
-
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz now?"));
+        //driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whileHeld(new ArmExtenderCommand(armMotors));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("OwO"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(new ExampleCommand("I can haz while?"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
     }

@@ -2,22 +2,22 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
 
 /**
  * Spin a wheel forward forever, until the command is cancelled.
  */
 public class WheelForwardCommand extends CommandBase {
-    final WheelSubsystem wheel;
+    final ArmMotorSubsystem wheel;
 
-    public WheelForwardCommand(WheelSubsystem wheel) {
+    public WheelForwardCommand(ArmMotorSubsystem wheel) {
         this.wheel = wheel;
         addRequirements(wheel);
     }
 
     @Override
     public void initialize() {
-        wheel.spinForwardSlow();
+        wheel.spinForward();
     }
 
     @Override
