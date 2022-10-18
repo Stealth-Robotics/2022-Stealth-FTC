@@ -21,20 +21,28 @@
 
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
+import static java.lang.Thread.sleep;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.AprilTagDetectionPipeline;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
+
+import java.util.ArrayList;
 
 // This was taken from the EasyOpenCV SkystoneDeterminationExample
 // https://github.com/OpenFTC/EasyOpenCV/blob/526c42cefb13f2a36fe8bae350ef9c80f656dc3a/examples/src/main/java/org/firstinspires/ftc/teamcode/SkystoneDeterminationExample.java
@@ -48,37 +56,58 @@ import org.openftc.easyopencv.OpenCvPipeline;
 // Within the subsystem is a "pipeline", which actually does the work on each frame from the camera.
 
 public class CameraSubsystem extends SubsystemBase {
-    private final OpenCvCamera webcam;
-    private final ExamplePipeline pipeline;
+    private static OpenCvCamera camera = null;
+    private static AprilTagDetectionPipeline aprilTagDetectionPipeline = null;
 
     private static final int CAMERA_WIDTH = 320;
     private static final int CAMERA_HEIGHT = 240;
+    static final double FEET_PER_METER = 3.28084;
 
+    // Lens intrinsics
+    // UNITS ARE PIXELS
+    // NOTE: this calibration is for the C920 webcam at 800x448.
+    // You will need to do your own calibration for other configurations!
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    // UNITS ARE METERS
+    double tagsize = 0.166;
+
+    static int numFramesWithoutDetection = 0;
+
+    static final float DECIMATION_HIGH = 3;
+    static final float DECIMATION_LOW = 2;
+    static final float THRESHOLD_HIGH_DECIMATION_RANGE_METERS = 1.0f;
+    static final int THRESHOLD_NUM_FRAMES_NO_DETECTION_BEFORE_LOW_DECIMATION = 4;
     public CameraSubsystem(HardwareMap hardwareMap) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        pipeline = new ExamplePipeline();
-        webcam.setPipeline(pipeline);
-
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+        camera.setPipeline(aprilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
             @Override
-            public void onOpened() {
-                webcam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened()
+            {
+                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode) {
-                /*
-                 * This will be called if the camera could not be opened
-                 */
+            public void onError(int errorCode)
+            {
+
             }
         });
-    }
 
-    public int getPosition() {
-        return pipeline.getAnalysis();
+        telemetry.setMsTransmissionInterval(50);
     }
+/*
+    public int getPosition() {
+        return aprilTagDetectionPipeline.getAnalysis();
+    }*/
 
     public static class ExamplePipeline extends OpenCvPipeline {
         /*
@@ -166,140 +195,57 @@ public class CameraSubsystem extends SubsystemBase {
 
         @Override
         public Mat processFrame(Mat input) {
-            /*
-             * Overview of what we're doing:
-             *
-             * We first convert to YCrCb color space, from RGB color space.
-             * Why do we do this? Well, in the RGB color space, chroma and
-             * luma are intertwined. In YCrCb, chroma and luma are separated.
-             * YCrCb is a 3-channel color space, just like RGB. YCrCb's 3 channels
-             * are Y, the luma channel (which essentially just a B&W image), the
-             * Cr channel, which records the difference from red, and the Cb channel,
-             * which records the difference from blue. Because chroma and luma are
-             * not related in YCrCb, vision code written to look for certain values
-             * in the Cr/Cb channels will not be severely affected by differing
-             * light intensity, since that difference would most likely just be
-             * reflected in the Y channel.
-             *
-             * After we've converted to YCrCb, we extract just the 2nd channel, the
-             * Cr channel. We do this because our target is bright red and contrast
-             * STRONGLY on the Cr channel against everything else.
-             *
-             * We then take the average pixel value of 3 different regions on that Cr
-             * channel, one positioned over each barcode mark on thefield. The brightest of the
-             * 3 regions is where we assume the target to be.
-             *
-             * We also draw blue rectangles on the screen showing where the sample regions
-             * are, as well as drawing a green rectangle around the sample region
-             * we believe is on top of the target.
-             *
-             * In order for this whole process to work correctly, each sample region
-             * should be positioned in the center of each of each barcode.
-             */
+            // Calling getDetectionsUpdate() will only return an object if there was a new frame
+            // processed since the last time we called it. Otherwise, it will return null. This
+            // enables us to only run logic when there has been a new frame, as opposed to the
+            // getLatestDetections() method which will always return an object.
+            ArrayList<AprilTagDetection> detections = aprilTagDetectionPipeline.getDetectionsUpdate();
 
-            /*
-             * Get the Cr channel of the input frame after conversion to YCrCb
-             */
-            inputToCr(input);
-
-            /*
-             * Compute the average pixel value of each submat region. We're
-             * taking the average of a single channel buffer, so the value
-             * we need is at index 0. We could have also taken the average
-             * pixel value of the 3-channel image, and referenced the value
-             * at index 2 here.
-             */
-            avg1 = (int) Core.mean(region1_Cr).val[0];
-            avg2 = (int) Core.mean(region2_Cr).val[0];
-            avg3 = (int) Core.mean(region3_Cr).val[0];
-
-            /*
-             * Draw a rectangle showing sample region 1 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(input, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            /*
-             * Draw a rectangle showing sample region 2 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(input, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            /*
-             * Draw a rectangle showing sample region 3 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(input, // Buffer to draw on
-                    region3_pointA, // First point which defines the rectangle
-                    region3_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-
-            /*
-             * Find the max of the 3 averages
-             */
-            int maxOneTwo = Math.max(avg1, avg2);
-            int max = Math.max(maxOneTwo, avg3);
-
-            /*
-             * Now that we found the max, we actually need to go and
-             * figure out which sample region that value was from
-             */
-            if (max == avg1) // Was it from region 1?
+            // If there's been a new frame...
+            if(detections != null)
             {
-                position = 1; // Record our analysis
+                telemetry.addData("FPS", camera.getFps());
+                telemetry.addData("Overhead ms", camera.getOverheadTimeMs());
+                telemetry.addData("Pipeline ms", camera.getPipelineTimeMs());
 
-                /*
-                 * Draw a green rectangle around the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(input, // Buffer to draw on
-                        region1_pointA, // First point which defines the rectangle
-                        region1_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        3); // Thickness of the rectangle lines
-            } else if (max == avg2) // Was it from region 2?
-            {
-                position = 2; // Record our analysis
+                // If we don't see any tags
+                if(detections.size() == 0)
+                {
+                    numFramesWithoutDetection++;
 
-                /*
-                 * Draw a green rectangle around the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(input, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        3); // Thickness of the rectangle lines
-            } else if (max == avg3) // Was it from region 3?
-            {
-                position = 3; // Record our analysis
+                    // If we haven't seen a tag for a few frames, lower the decimation
+                    // so we can hopefully pick one up if we're e.g. far back
+                    if(numFramesWithoutDetection >= THRESHOLD_NUM_FRAMES_NO_DETECTION_BEFORE_LOW_DECIMATION)
+                    {
+                        aprilTagDetectionPipeline.setDecimation(DECIMATION_LOW);
+                    }
+                }
+                // We do see tags!
+                else
+                {
+                    numFramesWithoutDetection = 0;
 
-                /*
-                 * Draw a green rectangle around the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(input, // Buffer to draw on
-                        region3_pointA, // First point which defines the rectangle
-                        region3_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        3); // Thickness of the rectangle lines
+                    // If the target is within 1 meter, turn on high decimation to
+                    // increase the frame rate
+                    if(detections.get(0).pose.z < THRESHOLD_HIGH_DECIMATION_RANGE_METERS)
+                    {
+                        aprilTagDetectionPipeline.setDecimation(DECIMATION_HIGH);
+                    }
+
+                    for(AprilTagDetection detection : detections)
+                    {
+                        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+                        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+                        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+                        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+                        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+                        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+                        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+                    }
+                }
+
+                telemetry.update();
             }
-
-            /*
-             * Render the 'input' buffer to the viewport. But note this is not
-             * simply rendering the raw camera feed, because we called functions
-             * to add some annotations to this buffer earlier up.
-             */
             return input;
         }
 
