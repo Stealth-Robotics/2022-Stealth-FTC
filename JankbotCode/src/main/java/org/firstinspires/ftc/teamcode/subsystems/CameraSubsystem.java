@@ -21,15 +21,19 @@
 
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 import static java.lang.Thread.sleep;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import java.util.ArrayList;
 
 // This was taken from the EasyOpenCV SkystoneDeterminationExample
 // https://github.com/OpenFTC/EasyOpenCV/blob/526c42cefb13f2a36fe8bae350ef9c80f656dc3a/examples/src/main/java/org/firstinspires/ftc/teamcode/SkystoneDeterminationExample.java
@@ -86,8 +90,67 @@ public class CameraSubsystem extends SubsystemBase {
         });
     }
 
+    public int tagID = 0;
+    @Override
+    public void periodic() {
+        // Calling getDetectionsUpdate() will only return an object if there was a new frame
+        // processed since the last time we called it. Otherwise, it will return null. This
+        // enables us to only run logic when there has been a new frame, as opposed to the
+        // getLatestDetections() method which will always return an object.
+        ArrayList<AprilTagDetection> detections = aprilTagDetectionPipeline.getDetectionsUpdate();
+
+        // If there's been a new frame...
+        if(detections != null)
+        {
+            telemetry.addData("FPS", camera.getFps());
+            telemetry.addData("Overhead ms", camera.getOverheadTimeMs());
+            telemetry.addData("Pipeline ms", camera.getPipelineTimeMs());
+
+            // If we don't see any tags
+            if(detections.size() == 0)
+            {
+                numFramesWithoutDetection++;
+
+                // If we haven't seen a tag for a few frames, lower the decimation
+                // so we can hopefully pick one up if we're e.g. far back
+                if(numFramesWithoutDetection >= THRESHOLD_NUM_FRAMES_NO_DETECTION_BEFORE_LOW_DECIMATION)
+                {
+                    aprilTagDetectionPipeline.setDecimation(DECIMATION_LOW);
+                }
+            }
+            // We do see tags!
+            else
+            {
+                numFramesWithoutDetection = 0;
+
+                // If the target is within 1 meter, turn on high decimation to
+                // increase the frame rate
+                if(detections.get(0).pose.z < THRESHOLD_HIGH_DECIMATION_RANGE_METERS)
+                {
+                    aprilTagDetectionPipeline.setDecimation(DECIMATION_HIGH);
+                }
+
+                for(AprilTagDetection detection : detections)
+                {
+                    telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+                    tagID = detection.id;
+                    /*
+                    telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+                    telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+                    telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+                    telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+                    telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+                    telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));*/
+
+                }
+            }
+
+            telemetry.update();
+        }
+    }
+
     public int getID() {
-        return 0;
+        return tagID;
     }
 }
 
