@@ -44,15 +44,16 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         imu.initialize(parameters);
 
 
-
     }
 
     public void toggleRobotCentric() {
         robotCentric = !robotCentric;
     }
-    public double getHeading(){
+
+    public double getHeading() {
         return -imu.getAngularOrientation().firstAngle - headingOffset;
     }
+
     public void resetHeading() {
         headingOffset = getHeading();
     }
@@ -70,25 +71,27 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double y = -leftSickY; // Remember, this is reversed!
         double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
-
+        double rotx = x;
+        double roty = y;
+        double botHeading = getHeading();
         //gets heading from imu every loop, reversed as imu heading is CW positive
         if (!robotCentric) {
-            double botHeading = getHeading();
+
 
             //rotates translation inputs by bot heading for field centric drive
-            x = x * Math.cos(botHeading) - y * Math.sin(botHeading);
-            y = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+            rotx = x * Math.cos(botHeading) - y * Math.sin(botHeading);
+            roty = x * Math.sin(botHeading) + y * Math.cos(botHeading);
         }
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
         // at least one is out of the range [-1, 1]
         //sets power of motors based on field-centric rotated values
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rotation), 1);
-        double leftFrontDrivePower = (y + x + rotation) / denominator;
-        double leftRearDrivePower = (y - x + rotation) / denominator;
-        double rightFrontDrivePower = (y - x - rotation) / denominator;
-        double rightRearDrivePower = (y + x - rotation) / denominator;
+        double denominator = Math.max(Math.abs(roty) + Math.abs(rotx) + Math.abs(rotation), 1);
+        double leftFrontDrivePower = (roty + rotx + rotation) / denominator;
+        double leftRearDrivePower = (roty - rotx + rotation) / denominator;
+        double rightFrontDrivePower = (roty - rotx - rotation) / denominator;
+        double rightRearDrivePower = (roty + rotx - rotation) / denominator;
 
         leftFrontDrive.setPower(leftFrontDrivePower);
         leftRearDrive.setPower(leftRearDrivePower);
