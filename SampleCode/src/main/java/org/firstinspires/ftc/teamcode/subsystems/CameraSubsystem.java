@@ -21,6 +21,7 @@
 
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -74,6 +75,7 @@ public class CameraSubsystem extends SubsystemBase {
                  */
             }
         });
+        FtcDashboard.getInstance().startCameraStream(webcam,25);
     }
 
     public int getPosition() {
