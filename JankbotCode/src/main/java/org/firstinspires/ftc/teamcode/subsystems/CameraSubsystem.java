@@ -24,9 +24,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 import static java.lang.Thread.sleep;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+import com.acmerobotics.dashboard.FtcDashboard;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -45,9 +46,9 @@ import java.util.ArrayList;
 
 // The CameraSubsystem sets up the webcam so we can process each frame and decide what to do.
 // Within the subsystem is a "pipeline", which actually does the work on each frame from the camera.
-
+@Config
 public class CameraSubsystem extends SubsystemBase {
-    private static OpenCvCamera camera = null;
+    public OpenCvCamera camera = null;
     private static AprilTagDetectionPipeline aprilTagDetectionPipeline = null;
 
     private static final int CAMERA_WIDTH = 320;
@@ -88,6 +89,7 @@ public class CameraSubsystem extends SubsystemBase {
             public void onError(int errorCode) {
             }
         });
+        FtcDashboard.getInstance().startCameraStream(camera,25);
     }
 
     public int tagID = 0;
@@ -97,7 +99,7 @@ public class CameraSubsystem extends SubsystemBase {
         // processed since the last time we called it. Otherwise, it will return null. This
         // enables us to only run logic when there has been a new frame, as opposed to the
         // getLatestDetections() method which will always return an object.
-        ArrayList<AprilTagDetection> detections = aprilTagDetectionPipeline.getDetectionsUpdate();
+        ArrayList<AprilTagDetection> detections = aprilTagDetectionPipeline.getLatestDetections();
 
         // If there's been a new frame...
         if(detections != null)
@@ -145,7 +147,7 @@ public class CameraSubsystem extends SubsystemBase {
                 }
             }
 
-            telemetry.update();
+            //telemetry.update();
         }
     }
 
