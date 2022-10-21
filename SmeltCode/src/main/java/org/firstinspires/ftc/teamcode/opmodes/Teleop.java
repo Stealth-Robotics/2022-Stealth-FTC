@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -34,13 +33,15 @@ public abstract class Teleop extends StealthOpMode {
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
-                        () -> driveGamepad.gamepad.right_stick_x
+                        () -> driveGamepad.gamepad.right_stick_x,
+                        () -> driveGamepad.gamepad.right_bumper
                 )
         );
 
         // Setup all of your controllers' buttons and triggers here
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> drive.resetHeading()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
+
     }
 
     /**

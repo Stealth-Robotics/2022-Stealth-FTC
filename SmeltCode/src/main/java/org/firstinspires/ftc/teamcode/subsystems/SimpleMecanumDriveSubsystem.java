@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,6 +13,7 @@ import org.stealthrobotics.library.Alliance;
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
  */
+@Config
 public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor leftFrontDrive;
     final DcMotor leftRearDrive;
@@ -21,7 +23,8 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     boolean robotCentric = false;
 
     BNO055IMU imu;
-
+    public static double FAST_SPEED_MULTIPLYER = 1;
+    public static double SLOW_SPEED_MULTIPLYER = 0.5;
     double headingOffset = 0;
 
 
@@ -58,12 +61,13 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         headingOffset = getHeading();
     }
 
+
     /**
      * Drive using gamepad inputs. This includes compensating for imperfect strafing, and adjusting
      * inputs based on stick directions. Better versions would include field-centric driving,
      * deadbands, and more.
      */
-    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX) {
+    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, boolean halfSpeed) {
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
@@ -82,6 +86,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             rotx = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             roty = x * Math.sin(botHeading) + y * Math.cos(botHeading);
         }
+        double speedMultiplier = FAST_SPEED_MULTIPLYER;
+        if (halfSpeed) {
+            speedMultiplier = SLOW_SPEED_MULTIPLYER;
+        }
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
@@ -93,10 +101,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double rightFrontDrivePower = (roty - rotx - rotation) / denominator;
         double rightRearDrivePower = (roty + rotx - rotation) / denominator;
 
-        leftFrontDrive.setPower(leftFrontDrivePower);
-        leftRearDrive.setPower(leftRearDrivePower);
-        rightFrontDrive.setPower(rightFrontDrivePower);
-        rightRearDrive.setPower(rightRearDrivePower);
+        leftFrontDrive.setPower(leftFrontDrivePower * speedMultiplier);
+        leftRearDrive.setPower(leftRearDrivePower * speedMultiplier);
+        rightFrontDrive.setPower(rightFrontDrivePower * speedMultiplier);
+        rightRearDrive.setPower(rightRearDrivePower * speedMultiplier);
     }
 
     @Override
