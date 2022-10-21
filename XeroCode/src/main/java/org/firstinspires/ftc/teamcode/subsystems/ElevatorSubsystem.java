@@ -30,7 +30,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "elevator");
         elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // @TODO: test
+        elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         elevatorMotor.setTargetPositionTolerance(10);
         elevatorMotor.setTargetPosition(0);
