@@ -33,8 +33,7 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad = new GamepadEx(gamepad2);
 
         // Automatically reset the elevator all the way down when we init
-        // @TODO: enable once the elevator is tuned!
-        // schedule(new ResetElevatorCommand(elevator));
+        schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
         drive.setDefaultCommand(
