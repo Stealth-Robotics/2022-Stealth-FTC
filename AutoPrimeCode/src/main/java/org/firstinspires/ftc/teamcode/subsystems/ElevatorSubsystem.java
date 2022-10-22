@@ -20,8 +20,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx elevatorMotor;
     final DigitalChannel lowerLimitSwitch;
 
-    public static int UPPER_LIMIT_TICKS = 500; // @TODO: tune
-    public static int MAX_VELOCITY_TICKS_PER_SEC = 500; // @TODO: tune
+    public static int UPPER_LIMIT_TICKS = 4500;
+    public static int MAX_VELOCITY_TICKS_PER_SEC = 4000;
     public static double RESET_VELOCITY_TICKS_PER_SEC = 250; // @TODO: tune
     public static int RESET_TICKS = -100; // @TODO: tune
 
@@ -29,10 +29,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "elevator");
-        elevatorMotor.setDirection(DcMotor.Direction.REVERSE); // @TODO: verify
-        elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // @TODO: test
+        elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevatorMotor.setTargetPositionTolerance(10); // @TODO: tune
+        elevatorMotor.setTargetPositionTolerance(10);
         elevatorMotor.setTargetPosition(0);
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
