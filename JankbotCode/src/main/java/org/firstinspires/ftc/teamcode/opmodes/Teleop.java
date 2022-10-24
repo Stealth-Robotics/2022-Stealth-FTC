@@ -44,7 +44,7 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_stick_x
                 )
         );
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> System.out.println("UwU"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> drive.resetHeading()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenHeld(new ArmExtenderCommand(armMotors));

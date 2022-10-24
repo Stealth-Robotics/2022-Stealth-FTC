@@ -26,10 +26,25 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
-        leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
-        rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
+        leftRearDrive = hardwareMap.get(DcMotor.class, "leftRear");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
+        rightRearDrive = hardwareMap.get(DcMotor.class, "rightRear");
+
+        /*
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        */
+
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftRearDrive.setDirection(DcMotor.Direction.REVERSE);

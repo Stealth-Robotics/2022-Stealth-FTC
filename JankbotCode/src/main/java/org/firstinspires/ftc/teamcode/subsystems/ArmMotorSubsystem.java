@@ -25,7 +25,8 @@ public class ArmMotorSubsystem extends SubsystemBase {
         //armMotorA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotorA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armMotorB = hardwareMap.get(DcMotorEx.class, "armMotorB");
+        //i hate my life
+        armMotorB = hardwareMap.get(DcMotorEx.class, "frontEncoder");
         //armMotorB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotorB.setDirection(DcMotor.Direction.FORWARD);
         //armMotorB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
