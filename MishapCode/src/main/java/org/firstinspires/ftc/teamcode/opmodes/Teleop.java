@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorDownCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorUpCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorResetCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.commands.ToggleSnapDrivingCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
@@ -47,9 +47,11 @@ public abstract class Teleop extends StealthOpMode {
 
         // Setup all of your controllers' buttons and triggers here
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenReleased(new ToggleSnapDrivingCommand(drive));
-
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenReleased(new ElevatorUpCommand(elevator));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenReleased(new ElevatorDownCommand(elevator));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.39)));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.67)));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenReleased(new ElevatorResetCommand(elevator));
     }
 
     /**

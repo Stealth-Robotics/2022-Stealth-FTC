@@ -1,23 +1,24 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 
-
-public class ElevatorDownCommand extends CommandBase {
+@Config
+public class ElevatorResetCommand extends CommandBase {
     final ElevatorSubsystem elevator;
 
     // Positions where the wheel starts spinning quickly, and stops spinning
 
-    public int STOPPING_POINT_TICKS = 10;
-    public int FASTER_SPEED_TICKS = 1575 - 100;
-    public int SLOWER_SPEED_TICKS = STOPPING_POINT_TICKS + 500;
+    public static int STOPPING_POINT_TICKS = 1575;
+    public static int FASTER_SPEED_TICKS = 100;
+    public static int SLOWER_SPEED_TICKS = STOPPING_POINT_TICKS - 500;
 //
     /**
      * Remember our wheel subsystem for later.
      */
-    public ElevatorDownCommand(ElevatorSubsystem elevator) {
+    public ElevatorResetCommand(ElevatorSubsystem elevator) {
         this.elevator = elevator;
         addRequirements(elevator);
     }
@@ -28,24 +29,16 @@ public class ElevatorDownCommand extends CommandBase {
      */
     @Override
     public void initialize() {
-        elevator.downSlow();
+        elevator.startLimitSwitchReset();
     }
 
-    @Override
-    public void execute() {
-        if (elevator.getEncoderValue() <= SLOWER_SPEED_TICKS) {
-            elevator.downSlow();
-        } else if (elevator.getEncoderValue() <= FASTER_SPEED_TICKS) {
-            elevator.downFast();
-        }
-    }
 
     /**
      * Just stop the wheel when we're done.
      */
     @Override
     public void end(boolean interrupted) {
-        elevator.stop();
+        elevator.limitSwitchReset();
     }
 
     /**
@@ -53,6 +46,6 @@ public class ElevatorDownCommand extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return elevator.getEncoderValue() <= STOPPING_POINT_TICKS;
+        return elevator.isAtLimitSwitch();
     }
 }
