@@ -40,6 +40,7 @@ public class StrafeTest extends LinearOpMode {
         telemetry.addData("finalX", poseEstimate.getX());
         telemetry.addData("finalY", poseEstimate.getY());
         telemetry.addData("finalHeading", poseEstimate.getHeading());
+        telemetry.addData("hello", 5);
         telemetry.update();
 
         while (!isStopRequested() && opModeIsActive()) ;
