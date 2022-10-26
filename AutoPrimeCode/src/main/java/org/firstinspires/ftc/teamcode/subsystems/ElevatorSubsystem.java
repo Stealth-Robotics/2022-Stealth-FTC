@@ -22,8 +22,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public static int UPPER_LIMIT_TICKS = 4500;
     public static int MAX_VELOCITY_TICKS_PER_SEC = 4000;
-    public static double RESET_VELOCITY_TICKS_PER_SEC = 250; // @TODO: tune
-    public static int RESET_TICKS = -100; // @TODO: tune
+    public static double RESET_VELOCITY_TICKS_PER_SEC = 1000;
+    public static int RESET_TICKS = -6000;
 
     int targetTicks = 0;
 
