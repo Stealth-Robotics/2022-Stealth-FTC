@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
@@ -23,11 +22,12 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
  */
-public class SimpleMecanumDriveSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
+    /*
     final DcMotor leftFrontDrive;
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
-    final DcMotor rightRearDrive;
+    final DcMotor rightRearDrive;*/
 
     boolean robotCentric = false;
 
@@ -37,8 +37,8 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     private final SampleMecanumDrive mecanumDrive;
 
-    public SimpleMecanumDriveSubsystem(SampleMecanumDrive mecanumDrive, HardwareMap hardwareMap) {
-
+    public DriveSubsystem(SampleMecanumDrive mecanumDrive, HardwareMap hardwareMap) {
+        /*
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
         leftRearDrive = hardwareMap.get(DcMotor.class, "leftRear");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
@@ -55,7 +55,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         //sets units to radians for transparency
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
-
+        */
 
         this.mecanumDrive = mecanumDrive;
     }
@@ -89,8 +89,8 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
         mecanumDrive.setWeightedDrivePower(
                 new Pose2d(
-                        leftStickX,
-                        leftSickY,
+                        input.getX(),
+                        input.getY(),
                         -rightStickX
                 )
         );

@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
 /**
  * Drive a Mecanum drivetrain based on stick inputs from a gamepad. This is a "default command" and runs forever.
  */
-public class DefaultMecanumDriveCommand extends CommandBase {
-    final SimpleMecanumDriveSubsystem drive;
+public class DefaultDriveCommand extends CommandBase {
+    final DriveSubsystem drive;
     final DoubleSupplier leftY, leftX, rightX;
 
     /**
@@ -21,7 +21,7 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      * @param leftX a supplier of the left stick's X value (left/right)
      * @param rightX a supplier of the right stick's X value (left/right)
      */
-    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
+    public DefaultDriveCommand(DriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;

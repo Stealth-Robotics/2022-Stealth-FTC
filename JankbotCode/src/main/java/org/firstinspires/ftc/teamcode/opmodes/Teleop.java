@@ -6,18 +6,17 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.ArmExtenderCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
+import org.firstinspires.ftc.teamcode.commands.DefaultDriveCommand;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
-    SimpleMecanumDriveSubsystem drive;
+    DriveSubsystem drive;
     ArmMotorSubsystem armMotors;
 
     // Game controllers
@@ -28,7 +27,7 @@ public abstract class Teleop extends StealthOpMode {
 
     @Override
     public void initialize() {
-        drive = new SimpleMecanumDriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
+        drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
 
         armMotors = new ArmMotorSubsystem(hardwareMap);
@@ -38,7 +37,7 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad = new GamepadEx(gamepad2);
 
         drive.setDefaultCommand(
-                new DefaultMecanumDriveCommand(
+                new DefaultDriveCommand(
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
