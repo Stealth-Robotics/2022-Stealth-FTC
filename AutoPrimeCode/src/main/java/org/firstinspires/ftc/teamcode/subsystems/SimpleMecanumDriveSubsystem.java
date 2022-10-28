@@ -35,7 +35,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         // https://gm0.org/en/latest/docs/softwareREVERSE/mecanum-drive.html
 
         double y = -leftSickY; // Remember, this is reversed!
-        double x = leftStickX * 1.1; // Counteract imperfect strafingj
+        double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
 
         // Denominator is the largest motor power (absolute value) or 1
