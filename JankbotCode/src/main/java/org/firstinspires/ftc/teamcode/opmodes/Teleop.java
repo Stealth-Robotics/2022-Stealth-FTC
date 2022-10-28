@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.ArmExtenderCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
@@ -27,7 +28,7 @@ public abstract class Teleop extends StealthOpMode {
 
     @Override
     public void initialize() {
-        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
+        drive = new SimpleMecanumDriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
 
         armMotors = new ArmMotorSubsystem(hardwareMap);

@@ -2,12 +2,23 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 import org.stealthrobotics.library.Alliance;
+
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+
+
 
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
@@ -24,27 +35,14 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     double headingOffset = 0;
 
+    private final SampleMecanumDrive mecanumDrive;
 
-    public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
+    public SimpleMecanumDriveSubsystem(SampleMecanumDrive mecanumDrive, HardwareMap hardwareMap) {
+
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
         leftRearDrive = hardwareMap.get(DcMotor.class, "leftRear");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
         rightRearDrive = hardwareMap.get(DcMotor.class, "rightRear");
-
-        /*
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRearDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRearDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        */
-
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -59,7 +57,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         imu.initialize(parameters);
 
 
-
+        this.mecanumDrive = mecanumDrive;
     }
 
     public void toggleRobotCentric() {
@@ -78,9 +76,27 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
      * deadbands, and more.
      */
     public void driveTeleop(double leftSickY, double leftStickX, double rightStickX) {
+
+        // Read pose
+        Pose2d poseEstimate = mecanumDrive.getPoseEstimate();
+
+        // Create a vector from the gamepad x/y inputs
+        // Then, rotate that vector by the inverse of that heading
+        Vector2d input = new Vector2d(
+                -leftSickY,
+                -leftStickX
+        ).rotated(-poseEstimate.getHeading());
+
+        mecanumDrive.setWeightedDrivePower(
+                new Pose2d(
+                        leftStickX,
+                        leftSickY,
+                        -rightStickX
+                )
+        );
+        /*
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
-
 
         double y = -leftSickY; // Remember, this is reversed!
         double x = leftStickX * 1.1; // Counteract imperfect strafing
@@ -90,8 +106,6 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double botHeading = getHeading();
         //gets heading from imu every loop, reversed as imu heading is CW positive
         if (!robotCentric) {
-
-
             //rotates translation inputs by bot heading for field centric drive
             rotx = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             roty = x * Math.sin(botHeading) + y * Math.cos(botHeading);
@@ -111,6 +125,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         leftRearDrive.setPower(leftRearDrivePower);
         rightFrontDrive.setPower(rightFrontDrivePower);
         rightRearDrive.setPower(rightRearDrivePower);
+        */
     }
 
     @Override
@@ -118,5 +133,63 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         telemetry.addData("Robot Heading: ", getHeading());
         telemetry.addData("Field Centric: ", !robotCentric);
         telemetry.addData("Alliance: ", Alliance.get());
+    }
+
+    public Pose2d getPoseEstimate() {
+        return mecanumDrive.getPoseEstimate();
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
+        return mecanumDrive.trajectoryBuilder(startPose);
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, boolean reversed) {
+        return mecanumDrive.trajectoryBuilder(startPose, reversed);
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, double startHeading) {
+        return mecanumDrive.trajectoryBuilder(startPose, startHeading);
+    }
+
+    public TrajectorySequenceBuilder trajectorySequenceBuilder(Pose2d startPose) {
+        return mecanumDrive.trajectorySequenceBuilder(startPose);
+    }
+
+    public void turnAsync(double angle){
+        mecanumDrive.turnAsync(angle);
+    }
+
+    public void turn(double angle){
+        mecanumDrive.turn(angle);
+    }
+
+    public void followTrajecttoryAsync(Trajectory trajectory){
+        mecanumDrive.followTrajectoryAsync(trajectory);
+    }
+
+    public void followTrajectory(Trajectory trajectory) {
+        mecanumDrive.followTrajectoryAsync(trajectory);
+    }
+
+    public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence){
+        mecanumDrive.followTrajectorySequenceAsync(trajectorySequence);
+    }
+
+    public void followTrajectorySequence(TrajectorySequence trajectorySequence) {
+        mecanumDrive.followTrajectorySequence(trajectorySequence);
+    }
+
+    public Pose2d getLastError() { return mecanumDrive.getLastError(); }
+
+    public void update(){
+        mecanumDrive.update();
+    }
+
+    public void waitForIdle(){
+        mecanumDrive.waitForIdle();
+    }
+
+    public boolean isBusy() {
+        return mecanumDrive.isBusy();
     }
 }
