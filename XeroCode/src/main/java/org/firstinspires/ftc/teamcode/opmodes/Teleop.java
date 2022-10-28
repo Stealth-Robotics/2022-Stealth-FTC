@@ -30,13 +30,13 @@ public abstract class Teleop extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator,gripper);
+        register(drive, elevator, gripper);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
 
         // Automatically reset the elevator all the way down when we init
-       // schedule(new ResetElevatorCommand(elevator));
+        // schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
         drive.setDefaultCommand(
