@@ -159,10 +159,10 @@ public class DriveSubsystem extends SubsystemBase {
     public void turnAsync(double angle) {
         mecanumDrive.turnAsync(angle);
     }
-
+    /*
     public void turn(double angle) {
         mecanumDrive.turn(angle);
-    }
+    }*/
 
     public void followTrajecttoryAsync(Trajectory trajectory) {
         mecanumDrive.followTrajectoryAsync(trajectory);
@@ -177,9 +177,10 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.followTrajectorySequenceAsync(trajectorySequence);
     }
 
+    /*
     public void followTrajectorySequence(TrajectorySequence trajectorySequence) {
         mecanumDrive.followTrajectorySequence(trajectorySequence);
-    }
+    }*/
 
     public void stop() {
         driveTeleop(0, 0, 0);
