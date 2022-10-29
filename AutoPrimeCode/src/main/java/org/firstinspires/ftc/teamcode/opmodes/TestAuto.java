@@ -68,7 +68,8 @@ public class TestAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, 12.0),
                 new DriveForwardInchesCommand(drive, -12),
                 new InstantCommand(() -> gripper.open()),
-                new InstantCommand(() -> gripper.close())
+                new InstantCommand(() -> gripper.close()),
+                new InstantCommand(() -> elevator.setTargetLocation(0.75))
 
         );
     }
