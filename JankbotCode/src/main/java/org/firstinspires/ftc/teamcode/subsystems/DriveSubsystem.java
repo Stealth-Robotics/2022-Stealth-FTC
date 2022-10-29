@@ -168,9 +168,10 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.followTrajectoryAsync(trajectory);
     }
 
+    /*
     public void followTrajectory(Trajectory trajectory) {
         mecanumDrive.followTrajectory(trajectory);
-    }
+    }*/
 
     public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {
         mecanumDrive.followTrajectorySequenceAsync(trajectorySequence);

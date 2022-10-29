@@ -31,7 +31,7 @@ public class FollowTrajectory extends CommandBase {
      */
     @Override
     public void initialize() {
-       driveSubsystem.followTrajectory(trajectory);
+       driveSubsystem.followTrajecttoryAsync(trajectory);
     }
 
     /**
