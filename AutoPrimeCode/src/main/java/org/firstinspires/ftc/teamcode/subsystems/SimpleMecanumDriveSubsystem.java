@@ -37,7 +37,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double y = -leftSickY; // Remember, this is reversed!
         double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
+        drive(y, x, rotation);
+    }
 
+    public void drive(double y, double x, double rotation) {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
         // at least one is out of the range [-1, 1]
@@ -51,5 +54,16 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         leftRearDrive.setPower(leftRearDrivePower);
         rightFrontDrive.setPower(rightFrontDrivePower);
         rightRearDrive.setPower(rightRearDrivePower);
+    }
+
+    public void stop(){
+        leftFrontDrive.setPower(0);
+        leftRearDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightRearDrive.setPower(0);
+    }
+
+    public int getTicks(){
+        return leftFrontDrive.getCurrentPosition();
     }
 }
