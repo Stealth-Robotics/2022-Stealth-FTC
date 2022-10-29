@@ -92,7 +92,7 @@ public class CameraSubsystem extends SubsystemBase {
         FtcDashboard.getInstance().startCameraStream(camera,25);
     }
 
-    public int tagID = 0;
+    public int tagID = -1;
     @Override
     public void periodic() {
         // Calling getDetectionsUpdate() will only return an object if there was a new frame

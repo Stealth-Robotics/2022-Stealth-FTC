@@ -14,7 +14,7 @@ public class ArmMotorSubsystem extends SubsystemBase {
     final DcMotorEx armMotorA;
     final DcMotorEx armMotorB;
 
-    public static int SPEED = 1;
+    public static double SPEED = 0.5;
     //final int SUPER_SPEED = 10000;
     //final int AUTO_SPEED = 250;
 
@@ -55,7 +55,7 @@ public class ArmMotorSubsystem extends SubsystemBase {
         armMotorB.setPower(SPEED);
     }
 
-    public void spinBackwardsSlow() {
+    public void spinBackwards() {
         armMotorA.setPower(-SPEED);
         armMotorB.setPower(-SPEED);
     }

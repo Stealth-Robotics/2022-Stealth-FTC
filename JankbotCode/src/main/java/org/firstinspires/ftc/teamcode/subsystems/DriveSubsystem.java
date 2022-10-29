@@ -2,21 +2,17 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 import org.stealthrobotics.library.Alliance;
-
-
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-
 
 
 /**
@@ -31,7 +27,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     boolean robotCentric = false;
 
-    BNO055IMU imu;
+    //BNO055IMU imu;
 
     double headingOffset = 0;
 
@@ -63,11 +59,15 @@ public class DriveSubsystem extends SubsystemBase {
     public void toggleRobotCentric() {
         robotCentric = !robotCentric;
     }
-    public double getHeading(){
-        return -imu.getAngularOrientation().firstAngle - headingOffset;
+
+    public double getHeading() {
+        return mecanumDrive.getPoseEstimate().getHeading() - headingOffset;
+        //return -imu.getAngularOrientation().firstAngle - headingOffset;
     }
+
     public void resetHeading() {
-        headingOffset = getHeading();
+        Pose2d poseEstimate = mecanumDrive.getPoseEstimate();
+        headingOffset = poseEstimate.getHeading();
     }
 
     /**
@@ -77,6 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void driveTeleop(double leftSickY, double leftStickX, double rightStickX) {
 
+        mecanumDrive.getLocalizer().update();
         // Read pose
         Pose2d poseEstimate = mecanumDrive.getPoseEstimate();
 
@@ -155,23 +156,23 @@ public class DriveSubsystem extends SubsystemBase {
         return mecanumDrive.trajectorySequenceBuilder(startPose);
     }
 
-    public void turnAsync(double angle){
+    public void turnAsync(double angle) {
         mecanumDrive.turnAsync(angle);
     }
 
-    public void turn(double angle){
+    public void turn(double angle) {
         mecanumDrive.turn(angle);
     }
 
-    public void followTrajecttoryAsync(Trajectory trajectory){
+    public void followTrajecttoryAsync(Trajectory trajectory) {
         mecanumDrive.followTrajectoryAsync(trajectory);
     }
 
     public void followTrajectory(Trajectory trajectory) {
-        mecanumDrive.followTrajectoryAsync(trajectory);
+        mecanumDrive.followTrajectory(trajectory);
     }
 
-    public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence){
+    public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {
         mecanumDrive.followTrajectorySequenceAsync(trajectorySequence);
     }
 
@@ -179,17 +180,32 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.followTrajectorySequence(trajectorySequence);
     }
 
-    public Pose2d getLastError() { return mecanumDrive.getLastError(); }
+    public void stop() {
+        driveTeleop(0, 0, 0);
+    }
 
-    public void update(){
+    public Pose2d getLastError() {
+        return mecanumDrive.getLastError();
+    }
+
+    public void update() {
         mecanumDrive.update();
     }
 
-    public void waitForIdle(){
+    public void waitForIdle() {
         mecanumDrive.waitForIdle();
     }
 
     public boolean isBusy() {
         return mecanumDrive.isBusy();
+    }
+
+    public void setPoseEstimate(double x, double y, double heading) {
+
+        mecanumDrive.setPoseEstimate(new Pose2d(
+                x,
+                y,
+                heading
+        ));
     }
 }
