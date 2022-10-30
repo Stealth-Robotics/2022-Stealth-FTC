@@ -7,17 +7,16 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
-
+import org.firstinspires.ftc.teamcode.trajectories.BlueRightAutoTrajectories;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "BLUE | Sleeve Movement Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class SleeveMovementAuto extends StealthOpMode {
+@Autonomous(name = "BLUE Right | Sleeve Movement Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class BlueRightSleeveMovementAuto extends StealthOpMode {
 
     // Subsystems
     DriveSubsystem drive;
@@ -40,34 +39,23 @@ public class SleeveMovementAuto extends StealthOpMode {
 
     @Override
     public Command getAutoCommand() {
-        Pose2d startingPose = new Pose2d(42,-64.5,Math.toRadians(90));
-        Trajectory trajectory1 = drive.trajectoryBuilder(startingPose)
-            .lineToSplineHeading(new Pose2d(38,-30, Math.toRadians(180)))
-            .build();
-        Trajectory trajectory2A = drive.trajectoryBuilder(trajectory1.end())
-                .forward(25)
-                .build();
-        Trajectory trajectory2B = drive.trajectoryBuilder(trajectory1.end())
-                .back(25)
-                .build();
-
         switch (camera.getID()) {
             case 0:
                 return new SequentialCommandGroup(
-                    new InstantCommand(() -> drive.setPoseEstimate(startingPose.getX(),startingPose.getY(),startingPose.getHeading())),
-                    new FollowTrajectory(drive, trajectory1),
-                    new FollowTrajectory(drive, trajectory2A)
+                    new InstantCommand(() -> drive.setPoseEstimate(BlueRightAutoTrajectories.startingPose.getX(),BlueRightAutoTrajectories.startingPose.getY(),BlueRightAutoTrajectories.startingPose.getHeading())),
+                    new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory1),
+                    new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory2A)
                     );
             case 2:
                 return new SequentialCommandGroup(
-                        new InstantCommand(() -> drive.setPoseEstimate(startingPose.getX(),startingPose.getY(),startingPose.getHeading())),
-                        new FollowTrajectory(drive, trajectory1),
-                        new FollowTrajectory(drive, trajectory2B)
+                        new InstantCommand(() -> drive.setPoseEstimate(BlueRightAutoTrajectories.startingPose.getX(),BlueRightAutoTrajectories.startingPose.getY(),BlueRightAutoTrajectories.startingPose.getHeading())),
+                        new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory1),
+                        new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory2B)
                 );
             default:
                 return new SequentialCommandGroup(
-                        new InstantCommand(() -> drive.setPoseEstimate(startingPose.getX(),startingPose.getY(),startingPose.getHeading())),
-                        new FollowTrajectory(drive, trajectory1)
+                        new InstantCommand(() -> drive.setPoseEstimate(BlueRightAutoTrajectories.startingPose.getX(),BlueRightAutoTrajectories.startingPose.getY(),BlueRightAutoTrajectories.startingPose.getHeading())),
+                        new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory1)
                 );
         }
     }

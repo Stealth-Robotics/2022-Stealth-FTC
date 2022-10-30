@@ -19,40 +19,14 @@ import org.stealthrobotics.library.Alliance;
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
  */
 public class DriveSubsystem extends SubsystemBase {
-    /*
-    final DcMotor leftFrontDrive;
-    final DcMotor leftRearDrive;
-    final DcMotor rightFrontDrive;
-    final DcMotor rightRearDrive;*/
 
     boolean robotCentric = false;
-
-    //BNO055IMU imu;
 
     double headingOffset = 0;
 
     private final SampleMecanumDrive mecanumDrive;
 
     public DriveSubsystem(SampleMecanumDrive mecanumDrive, HardwareMap hardwareMap) {
-        /*
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
-        leftRearDrive = hardwareMap.get(DcMotor.class, "leftRear");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
-        rightRearDrive = hardwareMap.get(DcMotor.class, "rightRear");
-
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
-
-        //gets imu from hardware map for field centric
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        //sets units to radians for transparency
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(parameters);
-        */
-
         this.mecanumDrive = mecanumDrive;
     }
 
@@ -86,7 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
         Vector2d input = new Vector2d(
                 -leftSickY,
                 -leftStickX
-        ).rotated(-poseEstimate.getHeading());
+        ).rotated(-(getHeading()-headingOffset));
 
         mecanumDrive.setWeightedDrivePower(
                 new Pose2d(
@@ -95,38 +69,6 @@ public class DriveSubsystem extends SubsystemBase {
                         -rightStickX
                 )
         );
-        /*
-        // This code is pulled from Game Manual 0
-        // https://gm0.org/en/latest/docs/software/mecanum-drive.html
-
-        double y = -leftSickY; // Remember, this is reversed!
-        double x = leftStickX * 1.1; // Counteract imperfect strafing
-        double rotation = rightStickX;
-        double rotx = x;
-        double roty = y;
-        double botHeading = getHeading();
-        //gets heading from imu every loop, reversed as imu heading is CW positive
-        if (!robotCentric) {
-            //rotates translation inputs by bot heading for field centric drive
-            rotx = x * Math.cos(botHeading) - y * Math.sin(botHeading);
-            roty = x * Math.sin(botHeading) + y * Math.cos(botHeading);
-        }
-
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio, but only when
-        // at least one is out of the range [-1, 1]
-        //sets power of motors based on field-centric rotated values
-        double denominator = Math.max(Math.abs(roty) + Math.abs(rotx) + Math.abs(rotation), 1);
-        double leftFrontDrivePower = (roty + rotx + rotation) / denominator;
-        double leftRearDrivePower = (roty - rotx + rotation) / denominator;
-        double rightFrontDrivePower = (roty - rotx - rotation) / denominator;
-        double rightRearDrivePower = (roty + rotx - rotation) / denominator;
-
-        leftFrontDrive.setPower(leftFrontDrivePower);
-        leftRearDrive.setPower(leftRearDrivePower);
-        rightFrontDrive.setPower(rightFrontDrivePower);
-        rightRearDrive.setPower(rightRearDrivePower);
-        */
     }
 
     @Override
@@ -181,6 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void followTrajectorySequence(TrajectorySequence trajectorySequence) {
         mecanumDrive.followTrajectorySequence(trajectorySequence);
     }*/
+
 
     public void stop() {
         driveTeleop(0, 0, 0);
