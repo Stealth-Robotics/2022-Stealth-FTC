@@ -21,7 +21,6 @@ public class GripperSubsystem extends SubsystemBase {
 
     public void open() {
         gripperServo.setPosition(OPEN_POSITION);
-
     }
 
     public void close() {
@@ -31,6 +30,5 @@ public class GripperSubsystem extends SubsystemBase {
 
     public void periodic() {
         telemetry.addData("Gripper position", gripperServo.getPosition());
-
     }
 }

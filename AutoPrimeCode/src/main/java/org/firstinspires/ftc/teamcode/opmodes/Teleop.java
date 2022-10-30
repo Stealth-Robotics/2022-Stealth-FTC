@@ -19,10 +19,10 @@ public abstract class Teleop extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
-
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
+
 
     @Override
     public void initialize() {
@@ -53,14 +53,14 @@ public abstract class Teleop extends StealthOpMode {
 
         // Setup all of your controllers' buttons and triggers here
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.25)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.75)));
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.75)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.25)));
         mechGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new ResetElevatorCommand(elevator));
-
 
         mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.open()));
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> gripper.close()));
+
     }
 
     /**

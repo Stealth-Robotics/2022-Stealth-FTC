@@ -125,6 +125,20 @@ public class ElevatorSubsystem extends SubsystemBase {
         telemetry.addData("Elevator current location", getCurrentLocation());
         telemetry.addData("Elevator target location", getTargetLocation());
     }
+    //test code for ElevatorMoveInInches
+    public int getTicks(){
+        return elevatorMotor.getCurrentPosition();
+    }
+
+    public void stop(){
+        elevatorMotor.setPower(0);
+    }
+
+    public void drive(double speed) {
+        elevatorMotor.setPower(speed);
+
+    }
+
 }
 
 

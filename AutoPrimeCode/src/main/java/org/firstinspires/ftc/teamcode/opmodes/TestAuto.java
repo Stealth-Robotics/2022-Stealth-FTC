@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
+import org.firstinspires.ftc.teamcode.commands.MoveElevatorInInches;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -67,9 +68,10 @@ public class TestAuto extends StealthOpMode {
                 // Drive forward at half speed for 1000 ticks
                 new DriveForwardInchesCommand(drive, 12.0),
                 new DriveForwardInchesCommand(drive, -12),
-                new InstantCommand(() -> gripper.open()),
-                new InstantCommand(() -> gripper.close()),
-                new InstantCommand(() -> elevator.setTargetLocation(0.75))
+                //new InstantCommand(() -> gripper.open()),
+                //new InstantCommand(() -> gripper.close()),
+                new MoveElevatorInInches(elevator, 500)
+
 
         );
     }
