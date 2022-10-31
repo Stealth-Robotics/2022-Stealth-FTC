@@ -39,6 +39,11 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //gets imu from hardware map for field centric
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
