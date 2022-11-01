@@ -20,9 +20,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx elevatorMotor;
     final DigitalChannel lowerLimitSwitch;
 
-    public static int UPPER_LIMIT_TICKS = 4500;
+    public static int UPPER_LIMIT_TICKS = 4200;
+    public static int LOWER_LIMIT_TICKS = 20;
     public static int MAX_VELOCITY_TICKS_PER_SEC = 3000;
-    public static double RESET_VELOCITY_TICKS_PER_SEC = 1000;
+    public static double RESET_VELOCITY_TICKS_PER_SEC = 750;
     public static int RESET_TICKS = -6000;
 
     int targetTicks = 0;
@@ -58,7 +59,7 @@ public class ElevatorSubsystem extends SubsystemBase {
      */
     public void limitSwitchReset() {
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        targetTicks = 0;
+        targetTicks = LOWER_LIMIT_TICKS;
         elevatorMotor.setTargetPosition(targetTicks);
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
@@ -76,14 +77,14 @@ public class ElevatorSubsystem extends SubsystemBase {
      * Current location as a percentage of the max height
      */
     public double getCurrentLocation() {
-        return elevatorMotor.getCurrentPosition() / (float) UPPER_LIMIT_TICKS;
+        return elevatorMotor.getCurrentPosition() / (float) (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS);
     }
 
     /**
      * Target location as a percentage of the max height
      */
     public double getTargetLocation() {
-        return targetTicks / (float) UPPER_LIMIT_TICKS;
+        return targetTicks / (float) (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS);
     }
 
     /**
@@ -96,7 +97,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             percent = 0.0;
         }
 
-        targetTicks = (int) (percent * UPPER_LIMIT_TICKS);
+        targetTicks = (int) (percent * (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS) + LOWER_LIMIT_TICKS);
     }
 
     /**
