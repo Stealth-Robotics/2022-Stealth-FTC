@@ -6,8 +6,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.GrabberDown;
 import org.firstinspires.ftc.teamcode.commands.GrabberRotateLeft;
 import org.firstinspires.ftc.teamcode.commands.GrabberRotateRight;
+import org.firstinspires.ftc.teamcode.commands.GrabberUp;
 import org.firstinspires.ftc.teamcode.commands.LiftDown;
 import org.firstinspires.ftc.teamcode.commands.LiftUp;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
@@ -53,8 +55,8 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> grabber.down()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> grabber.up()));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(new GrabberDown(grabber));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(new GrabberUp(grabber));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenHeld(new LiftUp(lift));

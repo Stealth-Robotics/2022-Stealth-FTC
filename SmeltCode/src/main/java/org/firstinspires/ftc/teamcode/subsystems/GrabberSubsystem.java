@@ -58,6 +58,8 @@ public class GrabberSubsystem extends SubsystemBase {
     }
     public double getPos(){return rotateServo.getPosition();}
     public void setPos(double pos){rotateServo.setPosition(pos);}
+    public double getLiftPos(){return liftServo.getPosition();}
+    public void setLiftPos(double pos){liftServo.setPosition(pos);}
 
 
 
