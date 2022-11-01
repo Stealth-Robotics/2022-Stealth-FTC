@@ -102,6 +102,7 @@ public abstract class StealthOpMode extends LinearOpMode {
         List<LynxModule> hubs = hardwareMap.getAll(LynxModule.class);
         hubs.forEach(h -> h.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL));
 
+
         initialize();
 
         // @TODO: it's a mistake to read things like the gamepads or any other HW state during

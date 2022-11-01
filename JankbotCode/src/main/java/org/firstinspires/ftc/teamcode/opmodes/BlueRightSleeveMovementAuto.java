@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.trajectories.BlueRightAutoTrajectories;
+import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
@@ -25,6 +26,7 @@ public class BlueRightSleeveMovementAuto extends StealthOpMode {
 
     @Override
     public void initialize() {
+        AutoToTeleStorage.finalAutoHeading = 0;
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
         camera = new CameraSubsystem(hardwareMap);

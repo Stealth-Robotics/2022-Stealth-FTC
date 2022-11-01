@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 import org.stealthrobotics.library.Alliance;
+import org.stealthrobotics.library.AutoToTeleStorage;
 
 
 /**
@@ -22,7 +23,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     boolean robotCentric = false;
 
-    double headingOffset = 0;
+    public double headingOffset = AutoToTeleStorage.finalAutoHeading;
 
     private final SampleMecanumDrive mecanumDrive;
 
@@ -35,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return mecanumDrive.getPoseEstimate().getHeading() - headingOffset;
+        return -mecanumDrive.getPoseEstimate().getHeading() + headingOffset;
         //return -imu.getAngularOrientation().firstAngle - headingOffset;
     }
 
@@ -60,7 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
         Vector2d input = new Vector2d(
                 -leftSickY,
                 -leftStickX
-        ).rotated(-(getHeading()-headingOffset));
+        ).rotated(getHeading());
 
         mecanumDrive.setWeightedDrivePower(
                 new Pose2d(
