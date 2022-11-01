@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
-import org.firstinspires.ftc.teamcode.commands.MoveElevatorInInches;
+import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
+import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
+import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
+import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -66,12 +69,19 @@ public class TestAuto extends StealthOpMode {
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
                 // Drive forward at half speed for 1000 ticks
-                new DriveForwardInchesCommand(drive, 12.0),
+                new GripperCloseCommand(gripper),
+                new MoveElevatorPercentage(elevator, 0.5),
                 new DriveForwardInchesCommand(drive, -12),
-                //new InstantCommand(() -> gripper.open()),
-                //new InstantCommand(() -> gripper.close()),
-                new MoveElevatorInInches(elevator, 500)
+                new MoveElevatorPercentage(elevator, 0.0),
+                new GripperOpenCommand(gripper),
+                new DriveForwardInchesCommand(drive, 12),
 
+
+
+
+                new ParallelCommandGroup(
+
+                )
 
         );
     }
