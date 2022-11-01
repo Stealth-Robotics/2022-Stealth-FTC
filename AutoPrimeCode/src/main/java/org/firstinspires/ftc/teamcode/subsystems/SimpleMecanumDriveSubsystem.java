@@ -57,7 +57,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double rotation = rightStickX;
         if (fieldcentric) {
             // Read inverse IMU heading, as the IMU heading is CW positive
-            double botHeading = -imu.getAngularOrientation().firstAngle;
+            double botHeading = getHeading();
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
             x = rotX;
@@ -69,6 +69,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     public void togglefieldcentric() {
         fieldcentric = !fieldcentric;
+    }
+
+    public double getHeading() {
+        return -imu.getAngularOrientation().firstAngle;
     }
 
     public void drive(double y, double x, double rotation) {
@@ -101,6 +105,6 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("Field centric driving", fieldcentric);
-        telemetry.addData("Bot Heading", -imu.getAngularOrientation().firstAngle);
+        telemetry.addData("Bot Heading", getHeading());
     }
 }
