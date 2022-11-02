@@ -69,11 +69,15 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
 
 
-        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.armToPosition(0.7)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.armToPosition(0.1)));
+        //mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.armToPosition(0.5)));
+        //mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.armToPosition(0)));
+        //mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.armToPosition(1)));
 
-        mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(0.4)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(0.3)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
+
+        //mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(0)));
+        //mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(0.5)));
+        //mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(1)));
 
         //driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> System.out.println("UwU"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> drive.resetHeading()));
