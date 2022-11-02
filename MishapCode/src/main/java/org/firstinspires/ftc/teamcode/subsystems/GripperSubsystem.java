@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class GripperSubsystem extends SubsystemBase {
     final Servo gripper;
 
-    public double OPEN_POSITION = 0.6;
-    public double CLOSED_POSITION = 0.4;
+    public static double OPEN_POSITION = 0.5;
+    public static double CLOSED_POSITION = 0.42;
 
     public GripperSubsystem(HardwareMap hardwareMap) {
         gripper = hardwareMap.get(Servo.class, "gripper");
