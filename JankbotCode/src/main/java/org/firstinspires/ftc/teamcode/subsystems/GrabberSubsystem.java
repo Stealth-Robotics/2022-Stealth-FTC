@@ -7,9 +7,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-/**
- * This subsystem represents the gripper on our robots. We have a single servo.
- */
+
 @Config
 public class GrabberSubsystem extends SubsystemBase {
     final Servo gripperServo;
