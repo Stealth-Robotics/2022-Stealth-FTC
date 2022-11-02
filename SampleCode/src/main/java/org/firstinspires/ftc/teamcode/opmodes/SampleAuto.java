@@ -8,6 +8,9 @@ import org.firstinspires.ftc.teamcode.commands.DriveForTicksCommand;
 import org.firstinspires.ftc.teamcode.commands.TwoSpeedWheelCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
+import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -36,17 +39,6 @@ public abstract class SampleAuto extends StealthOpMode {
     }
 
     /**
-     * This will be called when your opmode is over so we can remember which way the robot is facing.
-     * This helps us with things like field-centric driving in teleop afterwards.
-     *
-     * @return heading in radians
-     */
-    @Override
-    public double getFinalHeading() {
-        return drive.getHeading();
-    }
-
-    /**
      * This is where we create the one command we want to run in our autonomous opmode.
      * <p>
      * You create a SequentialCommandGroup, which is a list of commands that will run one after
@@ -59,6 +51,8 @@ public abstract class SampleAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
+        AutoToTeleStorage.clear();
+
         return new SequentialCommandGroup(
                 // Drive forward at half speed for 1000 ticks
                 new DriveForTicksCommand(drive, 0.5, 0.0, 0.0, 1000),
@@ -67,7 +61,14 @@ public abstract class SampleAuto extends StealthOpMode {
                 new TwoSpeedWheelCommand(wheel),
 
                 // Strafe right at half speed for 1000 ticks, or until 2 seconds have passed
-                new DriveForTicksCommand(drive, 0.0, 0.5, 0.0, 1000).withTimeout(2000)
+                new DriveForTicksCommand(drive, 0.0, 0.5, 0.0, 1000).withTimeout(2000),
+
+                // Save our final heading, so field-centric driving will work in teleop
+                new SaveAutoHeadingCommand(() -> drive.getHeading()),
+
+                // End the opmode now, so we don't have to wait the rest of the 30s
+                new EndOpModeCommand(this)
+
         );
     }
 }

@@ -48,16 +48,6 @@ public abstract class StealthOpMode extends LinearOpMode {
     }
 
     /**
-     * Override this to provide the robot's final heading at the end of autonomous mode.
-     * This will be automatically saved and made available to your tele-op mode.
-     *
-     * @return heading in radians
-     */
-    public double getFinalHeading() {
-        return 0.0;
-    }
-
-    /**
      * Schedules {@link com.arcrobotics.ftclib.command.Command} objects to the scheduler
      */
     public void schedule(Command... commands) {
@@ -122,6 +112,5 @@ public abstract class StealthOpMode extends LinearOpMode {
             hubs.forEach(LynxModule::clearBulkCache);
         }
         CommandScheduler.getInstance().reset();
-        AutoToTeleStorage.finalAutoHeading = getFinalHeading();
     }
 }
