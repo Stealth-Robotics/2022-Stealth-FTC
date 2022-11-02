@@ -5,9 +5,13 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
+import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
@@ -32,18 +36,6 @@ public class TestAuto extends StealthOpMode {
     }
 
     /**
-     * This will be called when your opmode is over so we can remember which way the robot is facing.
-     * This helps us with things like field-centric driving in teleop afterwards.
-     *
-     * @return heading in radians
-     */
-    @Override
-    public double getFinalHeading() {
-//        return drive.getHeading();
-        return 0.0;
-    }
-
-    /**
      * This is where we create the one command we want to run in our autonomous opmode.
      * <p>
      * You create a SequentialCommandGroup, which is a list of commands that will run one after
@@ -56,10 +48,16 @@ public class TestAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
+        AutoToTeleStorage.clear();
+
         return new SequentialCommandGroup(
                 // Just a little test for now!!
                 new DriveForwardInchesCommand(drive, 12.0),
-                new DriveForwardInchesCommand(drive, -12.0)
+                new DriveForwardInchesCommand(drive, -12.0),
+                new TurnToDegreesCommand(drive, 90),
+                new TurnToDegreesCommand(drive, -90),
+                new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                new EndOpModeCommand(this)
         );
     }
 }

@@ -17,20 +17,20 @@ public class DriveForwardInchesCommand extends CommandBase {
     public static double TICS_PER_INCHES = TICS_PER_MM * 25.4;
 
     int endTicks; // How far are we going?
-    boolean positiveDir; // Forward or backwards?
+    boolean forwardDir; // Forward or backwards?
 
     public DriveForwardInchesCommand(SimpleMecanumDriveSubsystem drive, double forward) {
         this.drive = drive;
-        this.forward = -forward; // Remember, the stick is backwards!
+        this.forward = forward;
         addRequirements(drive);
     }
 
     @Override
     public void initialize() {
-        positiveDir = forward > 0;
+        forwardDir = forward > 0;
         endTicks = drive.getTicks() + (int) (forward * TICS_PER_INCHES);
-        double driveSpeed = 0.25;
-        if (!positiveDir) {
+        double driveSpeed = 0.25;  // Remember, the stick is backwards!
+        if (!forwardDir) {
             driveSpeed *= -1.0;
         }
         drive.drive(driveSpeed, 0, 0);
@@ -44,12 +44,12 @@ public class DriveForwardInchesCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         int t = drive.getTicks();
-        if (positiveDir) {
-            if (t > endTicks) {
+        if (forwardDir) {
+            if (t >= endTicks) {
                 return true;
             }
         } else {
-            if (t < endTicks) {
+            if (t <= endTicks) {
                 return true;
             }
         }

@@ -3,8 +3,11 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.stealthrobotics.library.AutoToTeleStorage;
 
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
@@ -14,6 +17,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
+    final BNO055IMU imu;
+
+    boolean fieldCentric = true;
+    double headingOffset = 0;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -21,10 +28,23 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Retrieve the IMU from the hardware map
+        imu = hardwareMap.get(BNO055IMU.class, "imu-exp");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        // Technically this is the default, however specifying it is clearer
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        // Without this, data retrieving from the IMU throws an exception
+        boolean r = imu.initialize(parameters);
+        System.out.println("IMU Init result: " + r);
     }
 
     /**
@@ -40,7 +60,37 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
 
+        if (fieldCentric) {
+            // Read inverse IMU heading, as the IMU heading is CW positive
+            double botHeading = getHeading();
+            double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
+            double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+            x = rotX;
+            y = rotY;
+        }
+
         drive(y, x, rotation);
+    }
+
+    public void toggleFieldCentric() {
+        fieldCentric = !fieldCentric;
+    }
+
+    // The actual heading from the IMU, only adjusted so that positive is clockwise
+    public double getRawHeading() {
+        return -imu.getAngularOrientation().firstAngle;
+    }
+
+    // The heading we'll use to drive the bot, adjusted for an offset which we can set any time
+    // we want to correct for gyro drift as we drive.
+    public double getHeading() {
+        return getRawHeading() - headingOffset + AutoToTeleStorage.finalAutoHeading;
+    }
+
+    // Adjust our heading so the front of the bot is forward, no matter how we've drifted over time.
+    public void resetHeading() {
+        headingOffset = getRawHeading();
+        AutoToTeleStorage.finalAutoHeading = 0;
     }
 
     public void drive(double y, double x, double rotation) {
@@ -76,5 +126,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("Drive current ticks", getTicks());
+        telemetry.addData("Field centric", fieldCentric);
+        telemetry.addData("Bot Heading", getHeading());
     }
 }
