@@ -44,13 +44,6 @@ public class GrabberSubsystem extends SubsystemBase {
         }
     }
 
-    public void rotaterToPosition(double position) {
-        rotationServo.setPosition(position);
-    }
-    public void armToPosition(double position) {
-        armServo.setPosition(position);
-    }
-
     public void toggleArm(){
         isUp = !isUp;
         if(isUp){
@@ -61,12 +54,5 @@ public class GrabberSubsystem extends SubsystemBase {
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
         }
-    }
-    /**
-     * This is called all the time while the opmode is running.
-     */
-    @Override
-    public void periodic() {
-        telemetry.addData("Gripper position", gripperServo.getPosition());
     }
 }
