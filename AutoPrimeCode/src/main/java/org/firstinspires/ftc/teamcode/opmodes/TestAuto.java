@@ -70,18 +70,15 @@ public class TestAuto extends StealthOpMode {
         return new SequentialCommandGroup(
                 // Drive forward at half speed for 1000 ticks
                 new GripperCloseCommand(gripper),
-                new MoveElevatorPercentage(elevator, 0.5),
-                new DriveForwardInchesCommand(drive, -12),
+                new ParallelCommandGroup(
+                        new MoveElevatorPercentage(elevator, 0.5),
+                        new DriveForwardInchesCommand(drive, -12)
+                ),
+
                 new MoveElevatorPercentage(elevator, 0.0),
                 new GripperOpenCommand(gripper),
-                new DriveForwardInchesCommand(drive, 12),
+                new DriveForwardInchesCommand(drive, 12)
 
-
-
-
-                new ParallelCommandGroup(
-
-                )
 
         );
     }

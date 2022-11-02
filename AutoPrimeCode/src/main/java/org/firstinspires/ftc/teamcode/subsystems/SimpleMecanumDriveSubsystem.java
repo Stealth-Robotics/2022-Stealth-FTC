@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -12,6 +15,8 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
+    final BNO055IMU imu;
+    boolean fieldcentric = true;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -23,6 +28,19 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Retrieve the IMU from the hardware map
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        // Technically this is the default, however specifying it is clearer
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        // Without this, data retrieving from the IMU throws an exception
+        imu.initialize(parameters);
+
     }
 
     /**
@@ -32,12 +50,29 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
      */
     public void driveTeleop(double leftSickY, double leftStickX, double rightStickX) {
         // This code is pulled from Game Manual 0
-        // https://gm0.org/en/latest/docs/softwareREVERSE/mecanum-drive.html
+        // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
         double y = -leftSickY; // Remember, this is reversed!
         double x = leftStickX * 1.1; // Counteract imperfect strafing
         double rotation = rightStickX;
+        if (fieldcentric) {
+            // Read inverse IMU heading, as the IMU heading is CW positive
+            double botHeading = getHeading();
+            double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
+            double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+            x = rotX;
+            y = rotY;
+        }
+
         drive(y, x, rotation);
+    }
+
+    public void togglefieldcentric() {
+        fieldcentric = !fieldcentric;
+    }
+
+    public double getHeading() {
+        return -imu.getAngularOrientation().firstAngle;
     }
 
     public void drive(double y, double x, double rotation) {
@@ -65,5 +100,11 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     public int getTicks(){
         return leftFrontDrive.getCurrentPosition();
+    }
+
+    @Override
+    public void periodic() {
+        telemetry.addData("Field centric driving", fieldcentric);
+        telemetry.addData("Bot Heading", getHeading());
     }
 }
