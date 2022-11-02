@@ -59,11 +59,11 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return -imu.getAngularOrientation().firstAngle - headingOffset;
+        return -imu.getAngularOrientation().firstAngle + headingOffset;
     }
 
     public void resetHeading() {
-        headingOffset = getHeading();
+        headingOffset = 0 - (-imu.getAngularOrientation().firstAngle);
     }
 
 
