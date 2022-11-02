@@ -4,10 +4,10 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
 
-public class ArmExtenderBackwardManualCommand extends CommandBase {
+public class ElevatorForwardManualCommand extends CommandBase {
     final ArmMotorSubsystem armMotors;
 
-    public ArmExtenderBackwardManualCommand(ArmMotorSubsystem wheel) {
+    public ElevatorForwardManualCommand(ArmMotorSubsystem wheel) {
         this.armMotors = wheel;
         addRequirements(wheel);
     }
@@ -19,7 +19,7 @@ public class ArmExtenderBackwardManualCommand extends CommandBase {
 
     @Override
     public void execute() {
-        armMotors.spinBackwards();
+        armMotors.spinForward();
     }
 
     @Override

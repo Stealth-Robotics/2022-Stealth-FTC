@@ -14,7 +14,7 @@ public class ArmMotorSubsystem extends SubsystemBase {
     final DcMotorEx armMotorA;
     final DcMotorEx armMotorB;
 
-    public static double SPEED = 0.5;
+    public static double SPEED = 1;
     //final int SUPER_SPEED = 10000;
     //final int AUTO_SPEED = 250;
 

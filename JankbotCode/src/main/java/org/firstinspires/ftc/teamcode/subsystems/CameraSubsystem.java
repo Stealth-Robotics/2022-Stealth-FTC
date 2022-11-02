@@ -46,7 +46,6 @@ import java.util.ArrayList;
 
 // The CameraSubsystem sets up the webcam so we can process each frame and decide what to do.
 // Within the subsystem is a "pipeline", which actually does the work on each frame from the camera.
-@Config
 public class CameraSubsystem extends SubsystemBase {
     public OpenCvCamera camera = null;
     private static AprilTagDetectionPipeline aprilTagDetectionPipeline = null;
