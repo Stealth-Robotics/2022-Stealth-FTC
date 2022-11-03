@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.commands.GrabberUp;
 import org.firstinspires.ftc.teamcode.commands.LiftDown;
 import org.firstinspires.ftc.teamcode.commands.LiftUp;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -36,7 +37,8 @@ public abstract class Teleop extends StealthOpMode {
         drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap));
         grabber = new GrabberSubsystem(hardwareMap);
         lift = new LiftSubsystem(hardwareMap);
-        register(drive, grabber, lift);
+        CameraSubsystem camera = new CameraSubsystem(hardwareMap);
+        register(drive, grabber, lift, camera);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
