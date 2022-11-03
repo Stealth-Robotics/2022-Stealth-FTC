@@ -54,6 +54,7 @@ public abstract class Teleop extends StealthOpMode {
 
         // Setup all of your controllers' buttons and triggers here
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenReleased(new ToggleSnapDrivingCommand(drive));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenReleased(new InstantCommand(() -> drive.resetHeading()));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.39)));

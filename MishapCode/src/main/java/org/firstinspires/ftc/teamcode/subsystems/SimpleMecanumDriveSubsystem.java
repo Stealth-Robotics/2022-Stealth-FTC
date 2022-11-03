@@ -18,6 +18,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final BNO055IMU imu;
 
     boolean fieldCentricDriving = true;
+    double headingOffset = 0;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -39,8 +40,16 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         imu.initialize(parameters);
     }
 
-    public double getHeading() {
+    public double getRawHeading() {
         return -imu.getAngularOrientation().firstAngle;
+    }
+
+    public double getHeading() {
+        return getRawHeading() + headingOffset;
+    }
+
+    public void resetHeading() {
+        headingOffset = getRawHeading();
     }
 
     /**
@@ -65,6 +74,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             y = rotY;
         }
 
+        drive(y, x, rotation);
+    }
+
+    public void drive(double y, double x, double rotation) {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
         // at least one is out of the range [-1, 1]
@@ -80,13 +93,26 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         rightRearDrive.setPower(rightRearDrivePower);
     }
 
+    public void stop() {
+        leftFrontDrive.setPower(0);
+        leftRearDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightRearDrive.setPower(0);
+    }
+
+    public int getTicks() {
+        return leftFrontDrive.getCurrentPosition();
+    }
+
     public void ToggleFieldCentricDriving() {
         fieldCentricDriving = !fieldCentricDriving;
     }
 
     @Override
     public void periodic() {
-        telemetry.addData("Bot heading", getHeading());
+        telemetry.addData("Drive current ticks", getTicks());
+        telemetry.addData("Field centric", fieldCentricDriving);
+        telemetry.addData("Bot Heading", getHeading());
     }
 }
 
