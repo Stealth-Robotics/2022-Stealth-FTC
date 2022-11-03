@@ -17,14 +17,14 @@ public class GrabberSubsystem extends SubsystemBase {
     boolean open = true;
     boolean isUp = false;
 
-    public double GRIPPER_CLOSED_POSITION = 0.15;
-    public double GRIPPER_OPEN_POSITION = 0.6;
+    public double GRIPPER_CLOSED_POSITION = 0.4;
+    public double GRIPPER_OPEN_POSITION = 0.7;
 
-    public double ARM_UP_POSITION = 0.5;
-    public double ARM_DOWN_POSITION = 0;
+    public double ARM_UP_POSITION = 0.85;
+    public double ARM_DOWN_POSITION = 0.3;
 
-    public double ROTATOR_UP_POSITION = 0.5;
-    public double ROTATOR_DOWN_POSITION = 1;
+    public double ROTATOR_UP_POSITION = 0.4;
+    public double ROTATOR_DOWN_POSITION = 0.7;
 
     public GrabberSubsystem(HardwareMap hardwareMap) {
         gripperServo = hardwareMap.get(Servo.class, "gripper");
@@ -51,6 +51,18 @@ public class GrabberSubsystem extends SubsystemBase {
         else{
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
+        }
+    }
+
+    public void toggleArmDownCone(){
+        isUp = !isUp;
+        if(isUp){
+            armServo.setPosition(ARM_DOWN_POSITION);
+            //rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+        }
+        else{
+            armServo.setPosition(ARM_UP_POSITION);
+            //rotationServo.setPosition(ROTATOR_UP_POSITION);
         }
     }
 }

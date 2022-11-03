@@ -15,7 +15,7 @@ public class BlueRightAutoTrajectories {
             .forward(25)
             .build();
     public static Trajectory trajectory2B = TrajectoryBuilder.buildTrajectory(trajectory1.end())
-            .back(25)
+            .back(22.5)
             .build();
 
 

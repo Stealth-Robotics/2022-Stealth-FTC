@@ -6,7 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 public class RedRightAutoTrajectories {
     public static Pose2d startingPose = new Pose2d(42,-64.5,Math.toRadians(90));
     public static Trajectory trajectory1 = TrajectoryBuilder.buildTrajectory(startingPose)
-            .lineToSplineHeading(new Pose2d(36,-32, Math.toRadians(0)))
+            .lineToSplineHeading(new Pose2d(36,-34, Math.toRadians(0)))
             .build();
     public static Trajectory trajectory2A = TrajectoryBuilder.buildTrajectory(trajectory1.end())
             .forward(25)
