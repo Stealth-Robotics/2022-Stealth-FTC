@@ -1,37 +1,28 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
-import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
-import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
-import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
-import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
-import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
-import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
-import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.stealthrobotics.library.commands.IfCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
- * This is a sample auto command that drives forward a bit, spins a wheel, then drives right a bit.
+ * This is a sample auto command that uses a webcam to decide where to drive.
  * <p>
  * The @Autonomous annotation says that this is an autonomous opmode. The name and group show up
  * on the driver station so you can select the right mode. If you have "blue" or "red" in either
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "BLUE | Test-Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class TestAuto extends StealthOpMode {
+@Autonomous(name = "BLUE | Sample Camera Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class SampleCameraAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
-    ElevatorSubsystem elevator;
-    GripperSubsystem gripper;
+    CameraSubsystem camera;
 
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
@@ -39,9 +30,8 @@ public class TestAuto extends StealthOpMode {
     @Override
     public void initialize() {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        elevator = new ElevatorSubsystem(hardwareMap);
-        gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        camera = new CameraSubsystem(hardwareMap);
+        register(drive, camera);
     }
 
     /**
@@ -52,8 +42,7 @@ public class TestAuto extends StealthOpMode {
      */
     @Override
     public double getFinalHeading() {
-        //return drive.getHeading();
-        return 0;
+        return drive.getHeading();
     }
 
     /**
@@ -69,20 +58,20 @@ public class TestAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
+        // This is called when we press "Play" on the driver station. The camera has been working
+        // since we pressed "Init" and it's had enough time to give us a solid answer. So we ask
+        // the camera for the position now and use that to decide how to build the rest of our
+        // autonomous command.
+        int positionFromCamera = camera.getPosition();
+
         return new SequentialCommandGroup(
-                new GripperCloseCommand(gripper),
-                new ParallelCommandGroup(
-                    new DriveForwardInchesCommand(drive, -13),
-                    new MoveElevatorPercentage(elevator, 0.6)
+                // Drive forward at half speed some distance based on what the camera saw.
+                //new DriveForTicksCommand(drive, 0.5, 0.0, 0.0, 1000 * positionFromCamera).withTimeout(2000),
 
-                ),
-                new ParallelCommandGroup(
-                    new DriveForwardInchesCommand(drive, -2),
-                    new MoveElevatorPercentage(elevator, 0.0),
-                    new GripperOpenCommand(gripper)
-                ),
-                new DriveForwardInchesCommand(drive, 5)
-
+                // Strafe right at half speed for 1000 ticks, or until 2 seconds have passed, but
+                // only if the camera saw our target in position #2.
+                //new IfCommand(() -> positionFromCamera == 2,
+                        //new DriveForTicksCommand(drive, 0.0, 0.5, 0.0, 1000).withTimeout(2000))
         );
     }
 }

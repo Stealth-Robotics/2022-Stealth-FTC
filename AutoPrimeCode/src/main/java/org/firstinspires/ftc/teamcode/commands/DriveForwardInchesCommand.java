@@ -24,6 +24,7 @@ public class DriveForwardInchesCommand extends CommandBase {
 
     @Override
     public void initialize() {
+
         end_ticks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
         double drive_power = -0.5;
         if (distance < 0) {

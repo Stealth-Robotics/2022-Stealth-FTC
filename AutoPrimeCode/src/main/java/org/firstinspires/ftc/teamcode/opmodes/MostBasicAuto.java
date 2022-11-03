@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
-import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
-import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
-import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
-import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
 import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
@@ -25,8 +20,8 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "BLUE | Test-Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class TestAuto extends StealthOpMode {
+@Autonomous(name = "BLUE |  MostBasicAuto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class MostBasicAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -70,19 +65,7 @@ public class TestAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new GripperCloseCommand(gripper),
-                new ParallelCommandGroup(
-                    new DriveForwardInchesCommand(drive, -13),
-                    new MoveElevatorPercentage(elevator, 0.6)
-
-                ),
-                new ParallelCommandGroup(
-                    new DriveForwardInchesCommand(drive, -2),
-                    new MoveElevatorPercentage(elevator, 0.0),
-                    new GripperOpenCommand(gripper)
-                ),
-                new DriveForwardInchesCommand(drive, 5)
-
+                new DriveForwardInchesCommand(drive, -24)
         );
     }
 }
