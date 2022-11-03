@@ -20,10 +20,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx elevatorMotor;
     final DigitalChannel lowerLimitSwitch;
 
-    public static int UPPER_LIMIT_TICKS = 3900; // TODO: tune
-    public static int MAX_VELOCITY_TICKS_PER_SEC = 2000; // TODO: tune
-    public static double RESET_VELOCITY_TICKS_PER_SEC = 250;  // TODO: tune
-    public static int RESET_TICKS = -1000; // TODO: tune
+    public static int UPPER_LIMIT_TICKS = 3900;
+    public static int MAX_VELOCITY_TICKS_PER_SEC = 2000;
+    public static double RESET_VELOCITY_TICKS_PER_SEC = 500;
+    public static int RESET_TICKS = -4000;
 
     int targetTicks = 0;
 
@@ -69,7 +69,7 @@ public class ElevatorSubsystem extends SubsystemBase {
      * Note: the actual switch appears false when open, and true when closed.
      */
     public boolean isAtLimitSwitch() {
-        return lowerLimitSwitch.getState();
+        return !lowerLimitSwitch.getState();
     }
 
     /**
