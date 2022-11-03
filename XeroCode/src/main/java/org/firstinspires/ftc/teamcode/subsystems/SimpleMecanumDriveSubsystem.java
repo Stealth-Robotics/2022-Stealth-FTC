@@ -20,6 +20,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final BNO055IMU imu;
 
     boolean fieldCentric = true;
+    boolean turbo = false;
     double headingOffset = 0;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
@@ -68,12 +69,15 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             x = rotX;
             y = rotY;
         }
-
         drive(y, x, rotation);
     }
 
     public void toggleFieldCentric() {
         fieldCentric = !fieldCentric;
+    }
+
+    public void toggleturbomode() {
+        turbo = !turbo;
     }
 
     // The actual heading from the IMU, only adjusted so that positive is clockwise
@@ -102,6 +106,13 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double leftRearDrivePower = (y - x + rotation) / denominator;
         double rightFrontDrivePower = (y - x - rotation) / denominator;
         double rightRearDrivePower = (y + x - rotation) / denominator;
+
+        if (!turbo) {
+            leftFrontDrivePower /= 2;
+            leftRearDrivePower /= 2;
+            rightFrontDrivePower /= 2;
+            rightRearDrivePower /= 2;
+        }
 
         leftFrontDrive.setPower(leftFrontDrivePower);
         leftRearDrive.setPower(leftRearDrivePower);
