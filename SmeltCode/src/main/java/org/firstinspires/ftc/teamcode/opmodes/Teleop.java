@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.DefaultGrabberCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.GrabberDown;
 import org.firstinspires.ftc.teamcode.commands.GrabberRotateLeft;
@@ -32,7 +33,7 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
-        drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), hardwareMap);
+        drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap));
         grabber = new GrabberSubsystem(hardwareMap);
         lift = new LiftSubsystem(hardwareMap);
         register(drive, grabber, lift);
@@ -50,16 +51,21 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.right_bumper
                 )
         );
+        grabber.setDefaultCommand(new DefaultGrabberCommand(
+                grabber,
+                () -> mechGamepad.gamepad.left_stick_y,
+                () -> mechGamepad.gamepad.left_stick_x
+        ));
 
         // Setup all of your controllers' buttons and triggers here
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> drive.resetHeading()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
 
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(new GrabberDown(grabber));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(new GrabberUp(grabber));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(new GrabberDown(grabber));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(new GrabberUp(grabber));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
         mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenHeld(new LiftUp(lift));
         mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenHeld(new LiftDown(lift));
 
