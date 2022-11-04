@@ -80,6 +80,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         turbo = !turbo;
     }
 
+    public void turbomodeon() {
+        turbo = true;
+    }
+
     // The actual heading from the IMU, only adjusted so that positive is clockwise
     public double getRawHeading() {
         return -imu.getAngularOrientation().firstAngle;

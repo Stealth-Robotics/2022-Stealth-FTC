@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
@@ -16,9 +16,8 @@ import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Disabled
-@Autonomous(name = "BLUE | Test Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class TestAuto extends StealthOpMode {
+@Autonomous(name = "BLUE | Wallace Is #1", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class BasicAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -53,11 +52,8 @@ public class TestAuto extends StealthOpMode {
         AutoToTeleStorage.clear();
 
         return new SequentialCommandGroup(
-                // Just a little test for now!!
-                new DriveForwardInchesCommand(drive, 12.0),
-                new DriveForwardInchesCommand(drive, -12.0),
-                new TurnToDegreesCommand(drive, 90),
-                new TurnToDegreesCommand(drive, -90),
+                new InstantCommand(() -> drive.turbomodeon()),
+                new DriveForwardInchesCommand(drive, 26.0),
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new EndOpModeCommand(this)
         );

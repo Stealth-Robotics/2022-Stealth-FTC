@@ -77,14 +77,14 @@ public class ElevatorSubsystem extends SubsystemBase {
      * Current location as a percentage of the max height
      */
     public double getCurrentLocation() {
-        return elevatorMotor.getCurrentPosition() / (float) (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS);
+        return (elevatorMotor.getCurrentPosition() - LOWER_LIMIT_TICKS) / (float) (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS);
     }
 
     /**
      * Target location as a percentage of the max height
      */
     public double getTargetLocation() {
-        return targetTicks / (float) (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS);
+        return (targetTicks - LOWER_LIMIT_TICKS) / (float) (UPPER_LIMIT_TICKS - LOWER_LIMIT_TICKS);
     }
 
     /**
