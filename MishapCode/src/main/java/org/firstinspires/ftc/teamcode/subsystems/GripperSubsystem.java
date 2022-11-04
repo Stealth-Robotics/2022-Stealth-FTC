@@ -12,7 +12,7 @@ public class GripperSubsystem extends SubsystemBase {
     final Servo gripper;
 
     public static double OPEN_POSITION = 0.555;
-    public static double CLOSED_POSITION = 0.40;
+    public static double CLOSED_POSITION = 0.38;
 
     public GripperSubsystem(HardwareMap hardwareMap) {
         gripper = hardwareMap.get(Servo.class, "gripper");
