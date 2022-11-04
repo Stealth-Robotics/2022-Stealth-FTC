@@ -99,7 +99,13 @@ public abstract class StealthOpMode extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested()) {
             whileWaitingToStart();
-            CommandScheduler.getInstance().run();
+
+            // TODO: this allows default commands to run while waiting to start, which is nice, but
+            // allows the robot to respond to, say, stick inputs on the default drive commands. We
+            // don't want that, so don't run commands here and rely on whileWaitingToStart() for the
+            // few modes that need something going at this time.
+            // CommandScheduler.getInstance().run();
+
             telemetry.update();
             hubs.forEach(LynxModule::clearBulkCache);
         }
