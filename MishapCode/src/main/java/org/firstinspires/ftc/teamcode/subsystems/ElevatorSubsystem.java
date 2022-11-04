@@ -115,8 +115,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.setVelocity(MAX_VELOCITY_TICKS_PER_SEC);
     }
 
-    public void upALittle(){
-        setTargetLocation(getTargetLocation() + LITTLE_DOWN);
+    public double upALittle(){
+        return(getTargetLocation() + LITTLE_DOWN);
     }
     /**
      * This is called all the time while the opmode is running.
