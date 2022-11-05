@@ -79,11 +79,6 @@ public class SpinAuto extends StealthOpMode {
                 new TurnToDegreesCommand(drive,87),
                 new DriveForwardInchesCommand(drive,-24.0),
 
-                new TurnToDegreesCommand(drive,-170),
-                new TurnToDegreesCommand(drive,170),
-                new TurnToDegreesCommand(drive,-170),
-                new TurnToDegreesCommand(drive,170),
-
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new EndOpModeCommand(this)
         );

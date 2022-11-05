@@ -73,11 +73,6 @@ public class AwesomeAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, -5.0),
                 new ElevatorToPosition(elevator, 0),
 
-                new TurnToDegreesCommand(drive,-170),
-                new TurnToDegreesCommand(drive,170),
-                new TurnToDegreesCommand(drive,-170),
-                new TurnToDegreesCommand(drive,170),
-
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new EndOpModeCommand(this)
         );

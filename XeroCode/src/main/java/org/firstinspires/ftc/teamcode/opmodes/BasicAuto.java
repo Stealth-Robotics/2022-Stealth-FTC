@@ -55,10 +55,6 @@ public class BasicAuto extends StealthOpMode {
                 new InstantCommand(() -> drive.turbomodeon()),
                 new DriveForwardInchesCommand(drive, 26.0),
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
-                new TurnToDegreesCommand(drive, -170),
-                new TurnToDegreesCommand(drive, 170),
-                new TurnToDegreesCommand(drive, -170),
-                new TurnToDegreesCommand(drive, 170),
                 new EndOpModeCommand(this)
 
         );

@@ -22,7 +22,7 @@ public class TurnToDegreesCommand extends CommandBase {
     public void initialize() {
         endAngle = Math.toRadians(degrees);
         positiveDirection = drive.getHeading() < endAngle;
-        double drive_power = 0.25;
+        double drive_power = 0.33;
         if (!positiveDirection) {
             drive_power *= -1;
         }
