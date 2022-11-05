@@ -18,8 +18,8 @@ import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "LEFT | Wallace Our Boi", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class CoolAuto extends StealthOpMode {
+@Autonomous(name = "RIGHT | Wallace Our Best Boi", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class AwesomeAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -62,7 +62,7 @@ public class CoolAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, 36.0),
                 new DriveForwardInchesCommand(drive, -0.0),
 
-                new TurnToDegreesCommand(drive,45),
+                new TurnToDegreesCommand(drive,-45),
                 new ElevatorToPosition(elevator, 0.67),
                 new DriveForwardInchesCommand(drive, 8.0),
 
