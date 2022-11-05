@@ -21,10 +21,10 @@ public class ResetElevator extends CommandBase {
     }
 
 
-    @Override
-    public boolean isFinished(){
-        return lift.atLimitSwitch();
-    }
+    //@Override
+//    public boolean isFinished(){
+//        return lift.atLimitSwitch();
+//    }
     @Override
     public void end(boolean interrupted){
         lift.limitSwitchReset();

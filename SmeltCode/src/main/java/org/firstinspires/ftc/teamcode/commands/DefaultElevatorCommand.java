@@ -24,14 +24,8 @@ public class DefaultElevatorCommand extends CommandBase {
     public void execute(){
         lift.runToPosition();
     }
-    @Override
-    public boolean isFinished(){
-        return !lift.isBusy();
-    }
-    @Override
-    public void end(boolean interrupted){
-        lift.stop();
-    }
+
+
 
 
 }

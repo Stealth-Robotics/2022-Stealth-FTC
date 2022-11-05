@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,7 +17,7 @@ import org.stealthrobotics.library.Alliance;
 public class LiftSubsystem extends SubsystemBase {
     final DcMotorEx liftMotor;
 
-    public static int SLOW_SPEED = 100;
+    public static int SLOW_SPEED = 2000;
 
 
     public LiftSubsystem(HardwareMap hardwareMap) {
@@ -38,5 +40,8 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
 
-
+    @Override
+    public void periodic(){
+        telemetry.addData("ticks", liftMotor.getCurrentPosition());
+    }
 }

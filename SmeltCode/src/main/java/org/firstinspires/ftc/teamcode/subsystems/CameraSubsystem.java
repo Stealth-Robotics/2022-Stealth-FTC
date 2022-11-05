@@ -139,6 +139,8 @@ public class CameraSubsystem extends SubsystemBase {
             }
             for(AprilTagDetection detection : detections)
             {
+                tagID = detection.id;
+                telemetry.addData("tag", tagID);
                 telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
                 telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
                 telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));

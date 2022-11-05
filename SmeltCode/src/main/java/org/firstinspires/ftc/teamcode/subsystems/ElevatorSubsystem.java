@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,7 +17,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx liftMotor;
 
-    final DigitalChannel limitSwitch;
+//    final DigitalChannel limitSwitch;
 
     public static int SLOW_SPEED = 100;
     public static int UPPER_LIMIT = 2500;
@@ -28,7 +30,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         liftMotor = hardwareMap.get(DcMotorEx.class, "lift");
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         liftMotor.setTargetPosition(0);
@@ -36,7 +38,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        limitSwitch = hardwareMap.get(DigitalChannel.class, "limitSwitch");
+        //limitSwitch = hardwareMap.get(DigitalChannel.class, "limitSwitch");
 
         // elevatorMotor.setVelocityPIDFCoefficients(1, 0.001, 0.1, 1.0);
         // elevatorMotor.setPositionPIDFCoefficients(1.0);
@@ -59,11 +61,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void setTarget(int ticks){
         target = ticks;
     }
-    public boolean atLimitSwitch(){
-        return limitSwitch.getState();
-
-        //false if not hit, true if is
-    }
+//    public boolean atLimitSwitch(){
+//        return limitSwitch.getState();
+//
+//        //false if not hit, true if is
+//    }
     public boolean isBusy(){
         return liftMotor.isBusy();
     }
@@ -79,7 +81,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void spinBackwardSlow(){
         liftMotor.setVelocity(-SLOW_SPEED);
     }
+    public int getPos(){
+        return liftMotor.getCurrentPosition();
+    }
 
-
+    @Override
+    public void periodic(){
+        telemetry.addData("pos", getPos());
+        telemetry.addData("target", target);
+    }
 
 }

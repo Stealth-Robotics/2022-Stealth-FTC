@@ -19,20 +19,20 @@ public class FollowTrajectory extends CommandBase {
         addRequirements(drive);
     }
 
-    @Override
-    public void initialize() {
-        drive.followTrajectory(trajectory);
-    }
-    @Override
-    public void execute(){
-        drive.update();
-    }
-    @Override
-    public boolean isFinished(){
-        return !drive.isBusy();
-    }
-    @Override
-    public void end(boolean interrupted) {
-        drive.stop();
-    }
+//    @Override
+//    public void initialize() {
+//        drive.followTrajectory(trajectory);
+//    }
+//    @Override
+//    public void execute(){
+//        drive.update();
+//    }
+//    @Override
+//    public boolean isFinished(){
+//        return !drive.isBusy();
+//    }
+//    @Override
+//    public void end(boolean interrupted) {
+//        drive.stop();
+//    }
 }
