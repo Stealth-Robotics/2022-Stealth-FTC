@@ -18,7 +18,7 @@ import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "TallRIGHT| Wallace The Dancer", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+@Autonomous(name = "TallLEFT| Wallace The Dancer", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
 public class SpinAuto extends StealthOpMode {
 
     // Subsystems
@@ -64,10 +64,10 @@ public class SpinAuto extends StealthOpMode {
 
                 new TurnToDegreesCommand(drive,90),
                 new DriveForwardInchesCommand(drive,23.0),
-                new TurnToDegreesCommand(drive,40),
+                new TurnToDegreesCommand(drive,37),
 
                 new ElevatorToPosition(elevator, 1.0),
-                new DriveForwardInchesCommand(drive, 8.0),
+                new DriveForwardInchesCommand(drive, 8.75),
 
                 new WaitCommand(1000),
                 new InstantCommand(() -> gripper.open()),
@@ -76,8 +76,8 @@ public class SpinAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, -5.0),
                 new ElevatorToPosition(elevator, 0),
 
-                new TurnToDegreesCommand(drive,87),
-                new DriveForwardInchesCommand(drive,-24.0),
+                new TurnToDegreesCommand(drive,90),
+                new DriveForwardInchesCommand(drive,-23.0),
 
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new EndOpModeCommand(this)

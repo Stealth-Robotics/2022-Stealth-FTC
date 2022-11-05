@@ -62,7 +62,7 @@ public class AwesomeAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, 35.0),
                 new DriveForwardInchesCommand(drive, -0.0),
 
-                new TurnToDegreesCommand(drive,-48),
+                new TurnToDegreesCommand(drive,-45),
                 new ElevatorToPosition(elevator, 0.67),
                 new DriveForwardInchesCommand(drive, 8.0),
 

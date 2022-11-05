@@ -29,7 +29,7 @@ public class DriveForwardInchesCommand extends CommandBase {
     public void initialize() {
         forwardDir = forward > 0;
         endTicks = drive.getTicks() + (int) (forward * TICS_PER_INCHES);
-        double driveSpeed = .33;  // Remember, the stick is backwards!
+        double driveSpeed = .5;  // Remember, the stick is backwards!
         if (!forwardDir) {
             driveSpeed *= -1.0;
         }
