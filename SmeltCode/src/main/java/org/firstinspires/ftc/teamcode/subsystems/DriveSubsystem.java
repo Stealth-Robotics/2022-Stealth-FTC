@@ -3,11 +3,15 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.stealthrobotics.library.Alliance;
 
 /**
@@ -19,18 +23,21 @@ public class DriveSubsystem extends SubsystemBase {
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
+    SampleMecanumDrive mecanumDrive;
 
     boolean robotCentric = false;
 
     BNO055IMU imu;
-    public static double FAST_SPEED_MULTIPLYER = 1;
-    public static double SLOW_SPEED_MULTIPLYER = 0.3;
+    public static double FAST_SPEED_MULTIPLYER = .7;
+    public static double SLOW_SPEED_MULTIPLYER = 0.2;
     double headingOffset = 0;
 
 
-    public DriveSubsystem(HardwareMap hardwareMap) {
+    public DriveSubsystem(SampleMecanumDrive mecanumDrive, HardwareMap hardwareMap) {
+        this.mecanumDrive = mecanumDrive;
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
-        leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
+        leftRearDrive = hardwareMap.
+                get(DcMotor.class, "leftRearDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
 
@@ -110,6 +117,27 @@ public class DriveSubsystem extends SubsystemBase {
         leftRearDrive.setPower(leftRearDrivePower * speedMultiplier);
         rightFrontDrive.setPower(rightFrontDrivePower * speedMultiplier);
         rightRearDrive.setPower(rightRearDrivePower * speedMultiplier);
+    }
+    public void followTrajectory(Trajectory trajectory){
+        mecanumDrive.followTrajectoryAsync(trajectory);
+    }
+    public void turnAsync(double degrees){
+        mecanumDrive.turnAsync(degrees);
+    }
+    public void update(){
+        mecanumDrive.update();
+    }
+    public void stop(){
+        driveTeleop(0, 0, 0, false);
+    }
+    public boolean isBusy(){
+        return mecanumDrive.isBusy();
+    }
+    public void setPoseEstimate(Pose2d pose){
+        mecanumDrive.setPoseEstimate(pose);
+    }
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
+        return new TrajectoryBuilder(startPose, SampleMecanumDrive.VEL_CONSTRAINT, SampleMecanumDrive.ACCEL_CONSTRAINT);
     }
 
     @Override

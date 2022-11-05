@@ -33,10 +33,13 @@ public abstract class Teleop extends StealthOpMode {
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
 
+    SampleMecanumDrive mecanumDrive;
+
     @Override
     public void initialize() {
+        mecanumDrive = new SampleMecanumDrive(hardwareMap);
         // Setup and register all of your subsystems here
-        drive = new DriveSubsystem(hardwareMap);
+        drive = new DriveSubsystem(mecanumDrive, hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
         lift = new ElevatorSubsystem(hardwareMap);
         CameraSubsystem camera = new CameraSubsystem(hardwareMap);
@@ -75,10 +78,12 @@ public abstract class Teleop extends StealthOpMode {
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
         mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> lift.setTarget(0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> lift.setTarget(1850)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> lift.setTarget(2500)));
         mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> lift.limitSwitchReset()));
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new LiftDown(lift));
         mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenHeld(new LiftUp(lift));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> grabber.right()));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> grabber.left()));
 
     }
 
@@ -88,6 +93,7 @@ public abstract class Teleop extends StealthOpMode {
      *
      * @see org.stealthrobotics.library.Alliance
      */
+
 
     @SuppressWarnings("unused")
     @TeleOp(name = "RED | Tele-Op", group = "Red")
