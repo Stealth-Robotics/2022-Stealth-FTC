@@ -99,21 +99,16 @@ public class ScoringAuto extends StealthOpMode {
 
         Trajectory traj4 = mecanumDrive.trajectoryBuilder(traj2.end()).forward(8).build();
         Trajectory traj3 = mecanumDrive.trajectoryBuilder(traj4.end()).forward(5).build();
+        Trajectory back = mecanumDrive.trajectoryBuilder(traj4.end()).lineToSplineHeading(new Pose2d(-36, 36, Math.toRadians(270))).build();
         switch (camera.getID()) {
             case 0:
-                traj3 = mecanumDrive.trajectoryBuilder(traj4.end()).lineToSplineHeading(
-                        new Pose2d(-12.5, 37, Math.toRadians(270))
-                ).build();
+                traj3 = mecanumDrive.trajectoryBuilder(back.end()).lineToSplineHeading(new Pose2d(-12.5, 37, Math.toRadians(270))).build();
                 break;
             case 1:
-                traj3 = mecanumDrive.trajectoryBuilder(traj4.end()).lineToSplineHeading(
-                        new Pose2d(-36, 36.5, 270)
-                ).build();
+                traj3 = mecanumDrive.trajectoryBuilder(back.end()).lineToSplineHeading(new Pose2d(-36, 36.5, Math.toRadians(270))).build();
                 break;
             case 2:
-                traj3 = mecanumDrive.trajectoryBuilder(traj4.end()).lineToSplineHeading(
-                        new Pose2d(-59, 37, Math.toRadians(270))
-                ).build();
+                traj3 = mecanumDrive.trajectoryBuilder(back.end()).lineToSplineHeading(new Pose2d(-59, 37, Math.toRadians(270))).build();
 
         }
         return new SequentialCommandGroup(
@@ -134,7 +129,7 @@ public class ScoringAuto extends StealthOpMode {
                         new WaitCommand(500),
                         new InstantCommand(() -> grabber.grabberOpen())
                 ),
-
+                new FollowTrajectory(drive, back),
                 new FollowTrajectory(drive, traj3)
 
         );
