@@ -18,8 +18,8 @@ import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "TallLEFT| Wallace The Dancer", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class SpinAuto extends StealthOpMode {
+@Autonomous(name = "TallRIGHT| Wallace The Plump", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class PlumpAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -62,9 +62,9 @@ public class SpinAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, 36.0),
                 new DriveForwardInchesCommand(drive, -0.6),
 
-                new TurnToDegreesCommand(drive,90),
+                new TurnToDegreesCommand(drive,-90),
                 new DriveForwardInchesCommand(drive,23.0),
-                new TurnToDegreesCommand(drive,37),
+                new TurnToDegreesCommand(drive,-37),
 
                 new ElevatorToPosition(elevator, 1.0),
                 new DriveForwardInchesCommand(drive, 8.75),
@@ -76,7 +76,7 @@ public class SpinAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, -5.0),
                 new ElevatorToPosition(elevator, 0),
 
-                new TurnToDegreesCommand(drive,87),
+                new TurnToDegreesCommand(drive,-87),
                 new DriveForwardInchesCommand(drive,-23.0),
 
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),

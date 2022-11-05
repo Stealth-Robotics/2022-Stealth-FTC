@@ -64,7 +64,7 @@ public class CoolAuto extends StealthOpMode {
 
                 new TurnToDegreesCommand(drive,45),
                 new ElevatorToPosition(elevator, 0.67),
-                new DriveForwardInchesCommand(drive, 8.0),
+                new DriveForwardInchesCommand(drive, 9.0),
 
                 new WaitCommand(1000),
                 new InstantCommand(() -> gripper.open()),
