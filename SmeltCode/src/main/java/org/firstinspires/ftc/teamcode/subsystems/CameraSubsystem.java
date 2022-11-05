@@ -152,6 +152,9 @@ public class CameraSubsystem extends SubsystemBase {
         }
 
     }
+    public int getID(){
+        return tagID;
+    }
 
     public int getPosition() {
         return pipeline.getAnalysis();
