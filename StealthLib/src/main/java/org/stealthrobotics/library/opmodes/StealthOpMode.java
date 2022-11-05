@@ -110,7 +110,7 @@ public abstract class StealthOpMode extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested()) {
             whileWaitingToStart();
-            CommandScheduler.getInstance().run();
+            //CommandScheduler.getInstance().run();
             telemetry.update();
             hubs.forEach(LynxModule::clearBulkCache);
         }

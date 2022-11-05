@@ -15,6 +15,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.stealthrobotics.library.Alliance;
 import org.stealthrobotics.library.AutoToTeleStorage;
 
+import java.util.function.BooleanSupplier;
+
 
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
@@ -50,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase {
      * inputs based on stick directions. Better versions would include field-centric driving,
      * deadbands, and more.
      */
-    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX) {
+    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, boolean isSlow) {
 
         mecanumDrive.getLocalizer().update();
         // Read pose
@@ -62,12 +64,15 @@ public class DriveSubsystem extends SubsystemBase {
                 -leftSickY,
                 -leftStickX
         ).rotated(getHeading());
-
+        double multiplier = 1;
+        if (isSlow){
+            multiplier = 0.25;
+        }
         mecanumDrive.setWeightedDrivePower(
                 new Pose2d(
-                        input.getX(),
-                        input.getY(),
-                        -rightStickX
+                        input.getX() * multiplier,
+                        input.getY() * multiplier,
+                        -rightStickX * multiplier
                 )
         );
     }
@@ -127,7 +132,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     public void stop() {
-        driveTeleop(0, 0, 0);
+        driveTeleop(0, 0, 0, false);
     }
 
     public Pose2d getLastError() {

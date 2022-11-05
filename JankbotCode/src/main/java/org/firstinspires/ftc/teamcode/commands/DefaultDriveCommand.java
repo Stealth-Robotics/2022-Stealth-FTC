@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 /**
@@ -12,7 +13,7 @@ import java.util.function.DoubleSupplier;
 public class DefaultDriveCommand extends CommandBase {
     final DriveSubsystem drive;
     final DoubleSupplier leftY, leftX, rightX;
-
+    final BooleanSupplier isSlow;
     /**
      * Remember our drive subsystem and inputs for later.
      *
@@ -21,11 +22,12 @@ public class DefaultDriveCommand extends CommandBase {
      * @param leftX a supplier of the left stick's X value (left/right)
      * @param rightX a supplier of the right stick's X value (left/right)
      */
-    public DefaultDriveCommand(DriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
+    public DefaultDriveCommand(DriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier isSlow) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
         this.rightX = rightX;
+        this.isSlow = isSlow;
         addRequirements(drive);
     }
 
@@ -36,6 +38,6 @@ public class DefaultDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble());
+        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), isSlow.getAsBoolean());
     }
 }
