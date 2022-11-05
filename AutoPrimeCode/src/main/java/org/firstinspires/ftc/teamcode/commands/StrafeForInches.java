@@ -24,7 +24,7 @@ public class StrafeForInches extends CommandBase {
     @Override
     public void initialize() {
         end_ticks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
-        double drive_power = -0.5; //Todo positive or negative?
+        double drive_power = -0.5;
         if (distance < 0) {
             drive_power *= -1;
         }

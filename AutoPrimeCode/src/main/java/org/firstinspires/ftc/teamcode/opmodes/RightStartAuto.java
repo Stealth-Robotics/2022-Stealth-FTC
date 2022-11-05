@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
+import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
+import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
+import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
-import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -20,8 +23,8 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "BLUE |  MostBasicAuto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class MostBasicAuto extends StealthOpMode {
+@Autonomous(name = "RightSideStart", preselectTeleOp = "BLUE | Tele-Op")
+public class RightStartAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -65,7 +68,22 @@ public class MostBasicAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveForwardInchesCommand(drive, -24)
+                new GripperCloseCommand(gripper),
+                new MoveElevatorPercentage(elevator, 0.05),
+                new DriveForwardInchesCommand(drive, -24),
+                new StrafeForInches(drive, 13.5),
+                new MoveElevatorPercentage(elevator, 0.65),
+                new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                new GripperOpenCommand(gripper),
+                new DriveForwardInchesCommand(drive, 3.5),
+                new ParallelCommandGroup(
+                        new MoveElevatorPercentage(elevator, 0.0),
+                        new DriveForwardInchesCommand(drive, 2)
+                ),
+                new ParallelCommandGroup(
+                        new GripperCloseCommand(gripper),
+                        new StrafeForInches(drive, -13.5)
+                )
         );
     }
 }

@@ -28,7 +28,7 @@ public class TurnInDegrees extends CommandBase {
     public void initialize() {
         end_angle = Math.toRadians(degrees);
         positive_direction = drive.getHeading() < end_angle;
-        double drive_power = -0.5; //Todo positive or negative?
+        double drive_power = -0.5;
         if (!positive_direction) {
             drive_power *= -1;
         }
