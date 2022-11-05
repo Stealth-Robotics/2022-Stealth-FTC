@@ -13,7 +13,7 @@ import java.util.function.DoubleSupplier;
  */
 public class DefaultMecanumDriveCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
-    final DoubleSupplier leftY, leftX, rightX;
+    final DoubleSupplier leftY, leftX, rightX, throttle;
     final BooleanSupplier xButton;
 
     /**
@@ -24,12 +24,14 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      * @param leftX  a supplier of the left stick's X value (left/right)
      * @param rightX a supplier of the right stick's X value (left/right)
      */
-    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier xButton) {
+    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier xButton,
+                                      DoubleSupplier throttle) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
         this.rightX = rightX;
         this.xButton = xButton;
+        this.throttle = throttle;
         addRequirements(drive);
     }
 
@@ -40,6 +42,6 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), xButton.getAsBoolean());
+        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), xButton.getAsBoolean(), throttle.getAsDouble());
     }
 }

@@ -46,7 +46,8 @@ public abstract class Teleop extends StealthOpMode {
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
                         () -> driveGamepad.gamepad.right_stick_x,
-                        () -> driveGamepad.gamepad.x
+                        () -> driveGamepad.gamepad.x,
+                        () -> driveGamepad.gamepad.right_trigger
                 )
         );
 

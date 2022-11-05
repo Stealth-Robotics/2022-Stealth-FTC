@@ -33,7 +33,7 @@ public class DriveForwardInchesCommand extends CommandBase {
         if (!forwardDir) {
             driveSpeed *= -1.0;
         }
-        drive.drive(driveSpeed, 0, 0);
+        drive.drive(driveSpeed, 0, 0, 1.0);
     }
 
     @Override

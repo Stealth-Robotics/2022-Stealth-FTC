@@ -57,7 +57,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
      * inputs based on stick directions. Better versions would include field-centric driving,
      * deadbands, and more.
      */
-    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, boolean xButton) {
+    public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, boolean xButton, double throttle) {
         // This code is pulled from Game Manual 0
         // https://gm0.org/en/latest/docs/software/mecanum-drive.html
 
@@ -74,10 +74,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             y = rotY;
         }
 
-        drive(y, x, rotation);
+        drive(y, x, rotation, throttle);
     }
 
-    public void drive(double y, double x, double rotation) {
+    public void drive(double y, double x, double rotation, double throttle) {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
         // at least one is out of the range [-1, 1]
@@ -87,10 +87,13 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         double rightFrontDrivePower = (y - x - rotation) / denominator;
         double rightRearDrivePower = (y + x - rotation) / denominator;
 
-        leftFrontDrive.setPower(leftFrontDrivePower);
-        leftRearDrive.setPower(leftRearDrivePower);
-        rightFrontDrive.setPower(rightFrontDrivePower);
-        rightRearDrive.setPower(rightRearDrivePower);
+        // Base speed of half, then add the other half based on the throttle.
+        double speed = (0.5 * throttle) + 0.5;
+
+        leftFrontDrive.setPower(leftFrontDrivePower * speed);
+        leftRearDrive.setPower(leftRearDrivePower * speed);
+        rightFrontDrive.setPower(rightFrontDrivePower * speed);
+        rightRearDrive.setPower(rightRearDrivePower * speed);
     }
 
     public void stop() {
