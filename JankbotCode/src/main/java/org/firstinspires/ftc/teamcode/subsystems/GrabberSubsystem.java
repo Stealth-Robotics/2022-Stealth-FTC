@@ -20,13 +20,13 @@ public class GrabberSubsystem extends SubsystemBase {
     public double GRIPPER_CLOSED_POSITION = 0.4;
     public double GRIPPER_OPEN_POSITION = 0.7;
 
-    public double ARM_UP_POSITION = 0.8   ;
+    public double ARM_UP_POSITION = 0.85;
     public double ARM_DOWN_POSITION = 0.3;
     public double ARM_DOWN_POSITION_LOWEST = 0.2;
     public double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public double ROTATOR_UP_POSITION = 0.4;
+    public double ROTATOR_UP_POSITION = 0.45;
     public double ROTATOR_DOWN_POSITION = 0.8;
     public double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
     public double ROTATOR_DOWN_POSITION_HIGHER = 0.7;
