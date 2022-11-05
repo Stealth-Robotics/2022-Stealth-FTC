@@ -62,7 +62,7 @@ public class SampleCameraAuto extends StealthOpMode {
         // since we pressed "Init" and it's had enough time to give us a solid answer. So we ask
         // the camera for the position now and use that to decide how to build the rest of our
         // autonomous command.
-        int positionFromCamera = camera.getPosition();
+//        int positionFromCamera = camera.getPosition();
 
         return new SequentialCommandGroup(
                 // Drive forward at half speed some distance based on what the camera saw.

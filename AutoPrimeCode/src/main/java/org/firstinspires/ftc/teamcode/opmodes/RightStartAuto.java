@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -10,9 +11,12 @@ import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
+import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -30,6 +34,7 @@ public class RightStartAuto extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
+    CameraSubsystem camera;
 
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
@@ -39,7 +44,13 @@ public class RightStartAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        camera = new CameraSubsystem(hardwareMap);
+        register(drive, elevator, gripper, camera);
+    }
+
+    @Override
+    public void whileWaitingToStart() {
+        CommandScheduler.getInstance().run();
     }
 
     /**
@@ -67,23 +78,65 @@ public class RightStartAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
-        return new SequentialCommandGroup(
-                new GripperCloseCommand(gripper),
-                new MoveElevatorPercentage(elevator, 0.05),
-                new DriveForwardInchesCommand(drive, -24),
-                new StrafeForInches(drive, 13.5),
-                new MoveElevatorPercentage(elevator, 0.65),
-                new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
-                new GripperOpenCommand(gripper),
-                new DriveForwardInchesCommand(drive, 3.5),
-                new ParallelCommandGroup(
-                        new MoveElevatorPercentage(elevator, 0.0),
-                        new DriveForwardInchesCommand(drive, 2)
-                ),
-                new ParallelCommandGroup(
-                        new GripperCloseCommand(gripper),
-                        new StrafeForInches(drive, -13.5)
-                )
-        );
+        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.RIGHT;//camera.getPosition();
+
+        if (position == SleeveDetection.ParkingPosition.LEFT) {
+            return new SequentialCommandGroup(
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.05),
+                    new DriveForwardInchesCommand(drive, -24),
+                    new StrafeForInches(drive, 13.5),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                    new GripperOpenCommand(gripper),
+                    new DriveForwardInchesCommand(drive, 3),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.0),
+                            new DriveForwardInchesCommand(drive, -2)
+                    ),
+                    new ParallelCommandGroup(
+                            new GripperCloseCommand(gripper),
+                            new StrafeForInches(drive, 13.5) // postive numbers are left
+                    )
+            );
+        } else if (position == SleeveDetection.ParkingPosition.CENTER) {
+            return new SequentialCommandGroup(
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.05),
+                    new DriveForwardInchesCommand(drive, -24),
+                    new StrafeForInches(drive, 13.5),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                    new GripperOpenCommand(gripper),
+                    new DriveForwardInchesCommand(drive, 3.5),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.0),
+                            new DriveForwardInchesCommand(drive, -2)
+                    ),
+                    new ParallelCommandGroup(
+                            new GripperCloseCommand(gripper),
+                            new StrafeForInches(drive, -13.5)
+                    )
+            );
+        } else { // RIGHT
+            return new SequentialCommandGroup(
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.05),
+                    new DriveForwardInchesCommand(drive, -24),
+                    new StrafeForInches(drive, 13.5),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                    new GripperOpenCommand(gripper),
+                    new DriveForwardInchesCommand(drive, 3.5),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.0),
+                            new DriveForwardInchesCommand(drive, -1)
+                    ),
+                    new ParallelCommandGroup(
+                            new GripperCloseCommand(gripper),
+                            new StrafeForInches(drive, -40)
+                    )
+            );
+        }
     }
 }
