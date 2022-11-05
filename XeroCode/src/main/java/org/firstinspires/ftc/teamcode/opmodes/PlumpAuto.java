@@ -64,10 +64,10 @@ public class PlumpAuto extends StealthOpMode {
 
                 new TurnToDegreesCommand(drive,-90),
                 new DriveForwardInchesCommand(drive,23.0),
-                new TurnToDegreesCommand(drive,-37),
+                new TurnToDegreesCommand(drive,-45),
 
                 new ElevatorToPosition(elevator, 1.0),
-                new DriveForwardInchesCommand(drive, 8.75),
+                new DriveForwardInchesCommand(drive, 7.3),
 
                 new WaitCommand(1000),
                 new InstantCommand(() -> gripper.open()),
