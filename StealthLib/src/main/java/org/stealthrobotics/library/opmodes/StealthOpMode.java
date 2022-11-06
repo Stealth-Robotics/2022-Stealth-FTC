@@ -1,7 +1,5 @@
 package org.stealthrobotics.library.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -96,7 +94,7 @@ public abstract class StealthOpMode extends LinearOpMode {
         }
 
         // Make the telemetry object available as a static so we don't have to pass it everywhere.
-        telemetry = new MultipleTelemetry(super.telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = super.telemetry;
 
         // Switch to manual caching for all control and expansion hubs.
         List<LynxModule> hubs = hardwareMap.getAll(LynxModule.class);
