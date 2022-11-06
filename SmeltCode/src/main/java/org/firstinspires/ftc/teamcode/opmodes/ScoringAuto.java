@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.GrabberDown;
+import org.firstinspires.ftc.teamcode.commands.WaitBefore;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -101,24 +102,22 @@ public class ScoringAuto extends StealthOpMode {
 
         }
         return new SequentialCommandGroup(
-                // Drive forward at half speed for 1000 ticks
+                // drives forward about 1 tile, rotating to not get signal stuck
                 new FollowTrajectory(drive, BlueRightTrajectories.forward1),
+                //drives closer to mid junction while rotating and lifting elevator
                 new ParallelCommandGroup(
                         new FollowTrajectory(drive, BlueRightTrajectories.forward2),
                         new InstantCommand(() -> lift.setTarget(2730))
 
                 ),
-                new SequentialCommandGroup(
-                        new WaitCommand(500),
-                        new InstantCommand(() -> grabber.setLiftPos(.75))
-                ),
+                //drops grabber to be level and drives to position cone over junction
+                new WaitBefore(new InstantCommand(() -> grabber.setLiftPos(.75)), 500).run(),
                 new FollowTrajectory(drive, BlueRightTrajectories.forward3),
-
-                new SequentialCommandGroup(
-                        new WaitCommand(500),
-                        new InstantCommand(() -> grabber.grabberOpen())
-                ),
+                //opens grabber
+                new WaitBefore(new InstantCommand(() -> grabber.grabberOpen()), 500).run(),
+                //drives back and re-aligns with tile
                 new FollowTrajectory(drive, BlueRightTrajectories.back1),
+                //parks based on signal
                 new FollowTrajectory(drive, traj3)
 
         );
