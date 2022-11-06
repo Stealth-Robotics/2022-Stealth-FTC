@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
+import org.firstinspires.ftc.teamcode.trajectories.BlueRightTrajectories;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -90,32 +91,20 @@ public class ScoringAuto extends StealthOpMode {
         telemetry.addData("tag", camera.getID());
         telemetry.addData("tag id", camera.getID());
         drive.setPoseEstimate(new Pose2d(-35, 62, Math.toRadians(270)));
-        Trajectory trajectory1 = mecanumDrive.trajectoryBuilder(new Pose2d(-35, 62, Math.toRadians(270)))
-                .lineToSplineHeading(new Pose2d(-36, 27.5, 0))
-                .build();
-        Trajectory traj2 = mecanumDrive.trajectoryBuilder(trajectory1.end())
-                .lineToSplineHeading(new Pose2d(-32, 31, Math.toRadians(303)))
-                .build();
-
-        Trajectory traj4 = mecanumDrive.trajectoryBuilder(traj2.end()).forward(8).build();
-        Trajectory traj3 = mecanumDrive.trajectoryBuilder(traj4.end()).forward(5).build();
-        Trajectory back = mecanumDrive.trajectoryBuilder(traj4.end()).lineToSplineHeading(new Pose2d(-36, 36, Math.toRadians(270))).build();
+        Trajectory traj3 = BlueRightTrajectories.park2;
         switch (camera.getID()) {
             case 0:
-                traj3 = mecanumDrive.trajectoryBuilder(back.end()).lineToSplineHeading(new Pose2d(-12.5, 37, Math.toRadians(270))).build();
-                break;
-            case 1:
-                traj3 = mecanumDrive.trajectoryBuilder(back.end()).lineToSplineHeading(new Pose2d(-36, 36.5, Math.toRadians(270))).build();
+                traj3 = BlueRightTrajectories.park1;
                 break;
             case 2:
-                traj3 = mecanumDrive.trajectoryBuilder(back.end()).lineToSplineHeading(new Pose2d(-59, 37, Math.toRadians(270))).build();
+                traj3 = BlueRightTrajectories.park3;
 
         }
         return new SequentialCommandGroup(
                 // Drive forward at half speed for 1000 ticks
-                new FollowTrajectory(drive, trajectory1),
+                new FollowTrajectory(drive, BlueRightTrajectories.forward1),
                 new ParallelCommandGroup(
-                        new FollowTrajectory(drive, traj2),
+                        new FollowTrajectory(drive, BlueRightTrajectories.forward2),
                         new InstantCommand(() -> lift.setTarget(2730))
 
                 ),
@@ -123,13 +112,13 @@ public class ScoringAuto extends StealthOpMode {
                         new WaitCommand(500),
                         new InstantCommand(() -> grabber.setLiftPos(.75))
                 ),
-                new FollowTrajectory(drive, traj4),
+                new FollowTrajectory(drive, BlueRightTrajectories.forward3),
 
                 new SequentialCommandGroup(
                         new WaitCommand(500),
                         new InstantCommand(() -> grabber.grabberOpen())
                 ),
-                new FollowTrajectory(drive, back),
+                new FollowTrajectory(drive, BlueRightTrajectories.back1),
                 new FollowTrajectory(drive, traj3)
 
         );
