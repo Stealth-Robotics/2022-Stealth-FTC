@@ -7,12 +7,11 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
-import org.firstinspires.ftc.teamcode.commands.GrabberDown;
+import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
 import org.firstinspires.ftc.teamcode.commands.WaitBefore;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
@@ -110,11 +109,11 @@ public class ScoringAuto extends StealthOpMode {
                         new InstantCommand(() -> lift.setTarget(2730))
 
                 ),
-                //drops grabber to be level and drives to position cone over junction
-                new WaitBefore(new InstantCommand(() -> grabber.setLiftPos(.75)), 500).run(),
+
+
                 new FollowTrajectory(drive, BlueRightTrajectories.forward3),
-                //opens grabber
-                new WaitBefore(new InstantCommand(() -> grabber.grabberOpen()), 500).run(),
+                //drops cone
+                new WaitBefore(new GrabberDropRelease(grabber), 500).run(),
                 //drives back and re-aligns with tile
                 new FollowTrajectory(drive, BlueRightTrajectories.back1),
                 //parks based on signal
