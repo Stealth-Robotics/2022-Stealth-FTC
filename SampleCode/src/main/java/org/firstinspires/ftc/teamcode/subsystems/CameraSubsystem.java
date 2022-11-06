@@ -74,6 +74,9 @@ public class CameraSubsystem extends SubsystemBase {
                  */
             }
         });
+
+        // DEBUGGING ONLY: uncomment this line if you want your camera shown on FTCDashboard.
+        //FtcDashboard.getInstance().startCameraStream(webcam,25);
     }
 
     public int getPosition() {
