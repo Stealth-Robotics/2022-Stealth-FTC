@@ -24,7 +24,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public static int MAX_VELOCITY_TICKS_PER_SEC = 2000;
     public static double RESET_VELOCITY_TICKS_PER_SEC = 500;
     public static int RESET_TICKS = -4000;
-    public static double LITTLE_DOWN;
+    public static double LITTLE_UP = 0.04;
+    public static double LITTLE_DOWN = -0.04;
 
     int targetTicks = 0;
 
@@ -116,6 +117,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double upALittle(){
+        return(getTargetLocation() + LITTLE_UP);
+    }
+
+    public double downALittle(){
         return(getTargetLocation() + LITTLE_DOWN);
     }
     /**
