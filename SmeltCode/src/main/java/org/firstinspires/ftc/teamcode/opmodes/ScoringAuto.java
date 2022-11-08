@@ -113,11 +113,29 @@ public class ScoringAuto extends StealthOpMode {
 
                 new FollowTrajectory(drive, BlueRightTrajectories.forward3),
                 //drops cone
-                new WaitBefore(new GrabberDropRelease(grabber), 500).run(),
+                new WaitBefore(250, new GrabberDropRelease(grabber)),
+                //new InstantCommand(() -> new Pose2d(-30, 28.5, Math.toRadians(303))),
                 //drives back and re-aligns with tile
-                new FollowTrajectory(drive, BlueRightTrajectories.back1),
+                new FollowTrajectory(drive, BlueRightTrajectories.back2),
                 //parks based on signal
-                new FollowTrajectory(drive, traj3)
+                new InstantCommand(() -> grabber.setPos(.5)),
+                new FollowTrajectory(drive, BlueRightTrajectories.cone1),
+
+                new FollowTrajectory(drive, BlueRightTrajectories.cone2),
+                new ParallelCommandGroup(
+                        new InstantCommand(() -> lift.setTarget(0)),
+                        new InstantCommand(() -> grabber.setPos(0))
+                ),
+                new FollowTrajectory(drive, BlueRightTrajectories.cone3),
+                new WaitBefore(500, new InstantCommand(() -> grabber.grabberClose())),
+                new WaitBefore(250, new InstantCommand(() -> lift.setTarget(2730))),
+                new WaitBefore(1000,
+                new ParallelCommandGroup(
+                        new FollowTrajectory(drive, BlueRightTrajectories.cone4),
+                        new InstantCommand(() -> grabber.setPos(1))
+                )),
+                new FollowTrajectory(drive, BlueRightTrajectories.cone5),
+                new GrabberDropRelease(grabber)
 
         );
     }

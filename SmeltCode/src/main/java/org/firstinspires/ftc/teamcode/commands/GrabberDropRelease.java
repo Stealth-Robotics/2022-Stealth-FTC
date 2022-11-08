@@ -19,7 +19,7 @@ public class GrabberDropRelease extends SequentialCommandGroup {
     public GrabberDropRelease(GrabberSubsystem grabber) {
         addCommands(
                 new InstantCommand(() -> grabber.setLiftPos(0.75)),
-                new WaitBefore(new InstantCommand(() -> grabber.grabberOpen()), 500).run()
+                new WaitBefore(750, new InstantCommand(() -> grabber.grabberOpen()))
 
         );
         this.grabber = grabber;

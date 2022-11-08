@@ -82,7 +82,7 @@ public class DefaultAuto extends StealthOpMode {
         drive.setPoseEstimate(new Pose2d(-35, 62, Math.toRadians(270)));
 
         Trajectory trajectory1 = mecanumDrive.trajectoryBuilder(new Pose2d(-35, 62, Math.toRadians(270)))
-                .forward(40)
+                .forward(36)
                 .build();
 
         return new SequentialCommandGroup(

@@ -20,7 +20,7 @@ public class GrabberSubsystem extends SubsystemBase {
     final Servo rotateServo;
 
     public static double OPEN_POSITION = 0.5;
-    public static double CLOSED_POSITION = 0.95;
+    public static double CLOSED_POSITION = 0.7;
     public static double UP_POSITION = .1;
     public static double DOWN_POSITION = .5;
     public static double LEFT_POSITION = .7;

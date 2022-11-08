@@ -48,12 +48,20 @@ public class ElevatorSubsystem extends SubsystemBase {
         liftMotor.setTargetPosition(RESET_TICKS);
         liftMotor.setVelocity(RESET_VELO);
     }
+
+    /**
+     * can be used to reset where "zero" is on elevator
+     */
     public void limitSwitchReset(){
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         target = 0;
         liftMotor.setTargetPosition(target);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+
+    /**
+     * should be default command, will run to target, use setTarget to set target to run to
+     */
     public void runToPosition(){
         liftMotor.setTargetPosition(target);
         liftMotor.setVelocity(MAX_VELO);
