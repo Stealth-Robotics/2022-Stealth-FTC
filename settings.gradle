@@ -1,3 +1,4 @@
 include ':FtcRobotController'
 include ':StealthLib'
 include ':AutoPrimeCode', ':MishapCode', ':JankbotCode', ':SmeltCode', ':StarterCode', ':SampleCode', 'XeroCode'
+include ':MeepMeepTesting'
