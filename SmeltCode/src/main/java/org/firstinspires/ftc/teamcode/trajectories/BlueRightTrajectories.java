@@ -20,6 +20,11 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class BlueRightTrajectories {
+    public static TrajectorySequenceBuilder builder = new TrajectorySequenceBuilder(new Pose2d (-35, 62, Math.toRadians(270)),
+            new MecanumVelocityConstraint(MAX_VEL, TRACK_WIDTH),
+            new ProfileAccelerationConstraint(MAX_ACCEL),
+            MAX_ANG_VEL,
+            MAX_ANG_ACCEL);
     public static Trajectory forward1 = TrajectoryBuilder.buildTrajectory(new Pose2d (-35, 62, Math.toRadians(270)))
             .lineToSplineHeading(new Pose2d(-36, 33, 0))
             .build();
@@ -60,13 +65,13 @@ public class BlueRightTrajectories {
     public static Trajectory cone5 = TrajectoryBuilder.buildTrajectory(cone4.end())
             .lineToSplineHeading(new Pose2d(-31, 17.5, Math.toRadians(215)))
             .build();
-    TrajectorySequenceBuilder builder = new TrajectorySequenceBuilder(new Pose2d (-35, 62, Math.toRadians(270)),
 
-                    new MecanumVelocityConstraint(MAX_VEL, TRACK_WIDTH),
-                    new ProfileAccelerationConstraint(MAX_ACCEL),
-                    MAX_ANG_VEL,
-                    MAX_ANG_ACCEL
-    );
+    //drives forward while turning to strafe into signal and push it away
+    public static TrajectorySequence seq1 = builder
+            .lineToSplineHeading(new Pose2d(-36, 33, 0))
+            .lineToSplineHeading(new Pose2d(-29.5, 33, Math.toRadians(303)))
+            .build();
+
 
 
 }

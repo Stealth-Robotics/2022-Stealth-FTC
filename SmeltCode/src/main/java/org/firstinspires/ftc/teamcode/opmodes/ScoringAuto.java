@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
 import org.firstinspires.ftc.teamcode.commands.WaitBefore;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
@@ -102,11 +103,9 @@ public class ScoringAuto extends StealthOpMode {
         }
         return new SequentialCommandGroup(
                 // drives forward about 1 tile, rotating to not get signal stuck
-                new FollowTrajectory(drive, BlueRightTrajectories.forward1),
-                //drives closer to mid junction while rotating and lifting elevator
                 new ParallelCommandGroup(
-                        new FollowTrajectory(drive, BlueRightTrajectories.forward2),
-                        new InstantCommand(() -> lift.setTarget(2730))
+                    new FollowTrajectorySequence(drive, BlueRightTrajectories.seq1),
+                    new WaitBefore(5000, new InstantCommand(() -> lift.setTarget(2730)))
 
                 ),
 

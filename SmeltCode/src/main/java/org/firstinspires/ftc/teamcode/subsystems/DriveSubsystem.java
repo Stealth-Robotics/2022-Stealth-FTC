@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.stealthrobotics.library.Alliance;
 
 /**
@@ -138,6 +139,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, SampleMecanumDrive.VEL_CONSTRAINT, SampleMecanumDrive.ACCEL_CONSTRAINT);
+    }
+    public void followTrajectorySequence(TrajectorySequence trajSeq){
+        mecanumDrive.followTrajectorySequenceAsync(trajSeq);
     }
 
     @Override
