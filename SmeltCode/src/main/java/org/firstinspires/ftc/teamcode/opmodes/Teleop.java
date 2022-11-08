@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
@@ -37,6 +38,7 @@ public abstract class Teleop extends StealthOpMode {
 
     @Override
     public void initialize() {
+
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
         // Setup and register all of your subsystems here
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
@@ -47,6 +49,7 @@ public abstract class Teleop extends StealthOpMode {
 
         grabber.setLiftPos(0.5);
         grabber.setPos(0);
+        drive.headingAfterAuto(AutoToTeleStorage.finalAutoHeading);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);

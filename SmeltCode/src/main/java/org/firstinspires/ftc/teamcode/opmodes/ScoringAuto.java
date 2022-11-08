@@ -20,6 +20,8 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.trajectories.BlueRightTrajectories;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 import org.stealthrobotics.library.commands.WaitBeforeCommand;
 
@@ -132,8 +134,9 @@ public class ScoringAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.setPos(1))
                 )),
                 new FollowTrajectory(drive, BlueRightTrajectories.cone5),
-                new GrabberDropRelease(grabber)
-
+                new GrabberDropRelease(grabber),
+                new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                new EndOpModeCommand(this)
         );
     }
 }
