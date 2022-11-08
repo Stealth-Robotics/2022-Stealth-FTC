@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
+import org.firstinspires.ftc.teamcode.commands.ParallelWaitBetween;
 import org.firstinspires.ftc.teamcode.commands.WaitBefore;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
@@ -88,6 +89,8 @@ public class ScoringAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
+        Command LiftHigh = new InstantCommand(() -> lift.setTarget(2730));
+        Command LiftLow = new InstantCommand(() -> lift.setTarget(0));
         lift.setDefaultCommand(new DefaultElevatorCommand(lift));
         telemetry.addData("tag", camera.getID());
         telemetry.addData("tag id", camera.getID());
@@ -102,13 +105,8 @@ public class ScoringAuto extends StealthOpMode {
 
         }
         return new SequentialCommandGroup(
-                // drives forward about 1 tile, rotating to not get signal stuck
-                new ParallelCommandGroup(
-                    new FollowTrajectorySequence(drive, BlueRightTrajectories.seq1),
-                    new WaitBefore(5000, new InstantCommand(() -> lift.setTarget(2730)))
-
-                ),
-
+                new ParallelWaitBetween(new FollowTrajectorySequence(drive, BlueRightTrajectories.seq1),
+                        5000, LiftHigh),
 
                 new FollowTrajectory(drive, BlueRightTrajectories.forward3),
                 //drops cone
@@ -122,12 +120,12 @@ public class ScoringAuto extends StealthOpMode {
 
                 new FollowTrajectory(drive, BlueRightTrajectories.cone2),
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> lift.setTarget(0)),
+                        LiftLow,
                         new InstantCommand(() -> grabber.setPos(0))
                 ),
                 new FollowTrajectory(drive, BlueRightTrajectories.cone3),
                 new WaitBefore(500, new InstantCommand(() -> grabber.grabberClose())),
-                new WaitBefore(250, new InstantCommand(() -> lift.setTarget(2730))),
+                new WaitBefore(250, LiftHigh),
                 new WaitBefore(1000,
                 new ParallelCommandGroup(
                         new FollowTrajectory(drive, BlueRightTrajectories.cone4),
