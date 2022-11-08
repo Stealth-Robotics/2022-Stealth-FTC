@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
+import org.stealthrobotics.library.commands.WaitBeforeCommand;
 
 /**
  * Spin a wheel forward forever, until the command is cancelled.
@@ -19,7 +20,7 @@ public class GrabberDropRelease extends SequentialCommandGroup {
     public GrabberDropRelease(GrabberSubsystem grabber) {
         addCommands(
                 new InstantCommand(() -> grabber.setLiftPos(0.75)),
-                new WaitBefore(750, new InstantCommand(() -> grabber.grabberOpen()))
+                new WaitBeforeCommand(750, new InstantCommand(() -> grabber.grabberOpen()))
 
         );
         this.grabber = grabber;

@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
 import org.firstinspires.ftc.teamcode.commands.ParallelWaitBetween;
-import org.firstinspires.ftc.teamcode.commands.WaitBefore;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -22,6 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.trajectories.BlueRightTrajectories;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
+import org.stealthrobotics.library.commands.WaitBeforeCommand;
 
 /**
  * This is a sample auto command that drives forward a bit, spins a wheel, then drives right a bit.
@@ -110,7 +110,7 @@ public class ScoringAuto extends StealthOpMode {
 
                 new FollowTrajectory(drive, BlueRightTrajectories.forward3),
                 //drops cone
-                new WaitBefore(250, new GrabberDropRelease(grabber)),
+                new WaitBeforeCommand(250, new GrabberDropRelease(grabber)),
                 //new InstantCommand(() -> new Pose2d(-30, 28.5, Math.toRadians(303))),
                 //drives back and re-aligns with tile
                 new FollowTrajectory(drive, BlueRightTrajectories.back2),
@@ -124,9 +124,9 @@ public class ScoringAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.setPos(0))
                 ),
                 new FollowTrajectory(drive, BlueRightTrajectories.cone3),
-                new WaitBefore(500, new InstantCommand(() -> grabber.grabberClose())),
-                new WaitBefore(250, LiftHigh),
-                new WaitBefore(1000,
+                new WaitBeforeCommand(500, new InstantCommand(() -> grabber.grabberClose())),
+                new WaitBeforeCommand(250, LiftHigh),
+                new WaitBeforeCommand(1000,
                 new ParallelCommandGroup(
                         new FollowTrajectory(drive, BlueRightTrajectories.cone4),
                         new InstantCommand(() -> grabber.setPos(1))
