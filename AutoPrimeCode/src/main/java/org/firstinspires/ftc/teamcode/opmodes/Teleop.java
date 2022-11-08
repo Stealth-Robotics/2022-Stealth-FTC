@@ -1,11 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
+import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -13,19 +20,27 @@ public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
-
+    ElevatorSubsystem elevator;
+    GripperSubsystem gripper;
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
+
 
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        register(drive);
+        elevator = new ElevatorSubsystem(hardwareMap);
+        gripper = new GripperSubsystem(hardwareMap);
+        register(drive, elevator, gripper);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
+
+        // Automatically reset the elevator all the way down when we init
+        // @TODO: enable once the elevator is tuned!
+        schedule(new ResetElevatorCommand(elevator));
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
         drive.setDefaultCommand(
@@ -37,12 +52,26 @@ public abstract class Teleop extends StealthOpMode {
                 )
         );
 
-        // Setup all of your controllers' buttons and triggers here
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
+        elevator.setDefaultCommand(new DefaultElevatorCommand(elevator,
+                () -> mechGamepad.gamepad.left_trigger,
+                () -> mechGamepad.gamepad.right_trigger
+                )
+        );
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz now?"));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(new ExampleCommand("I can haz while?"));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
+
+        // Setup all of your controllers' buttons and triggers here
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.65)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.97)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.37)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new ResetElevatorCommand(elevator));
+
+        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.open()));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> gripper.close()));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> drive.togglefieldcentric()));
+
+
+
     }
 
     /**
@@ -61,4 +90,10 @@ public abstract class Teleop extends StealthOpMode {
     @TeleOp(name = "BLUE | Tele-Op", group = "Blue")
     public static class BlueTeleop extends Teleop {
     }
+
+    @Override
+    public double getFinalHeading() {
+        return drive.getHeading();
+    }
+
 }
