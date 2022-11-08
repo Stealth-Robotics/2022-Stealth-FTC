@@ -18,6 +18,6 @@ public class EndOpModeCommand extends InstantCommand {
      * @param opMode the opmode to end
      */
     public EndOpModeCommand(StealthOpMode opMode) {
-        super(() -> opMode.stop());
+        super(() -> opMode.requestOpModeStop());
     }
 }
