@@ -3,39 +3,38 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.commands.DriveForTicksCommand;
-import org.firstinspires.ftc.teamcode.commands.TwoSpeedWheelCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
+import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.WheelSubsystem;
 import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
-/**
- * This is a sample auto command that drives forward a bit, spins a wheel, then drives right a bit.
- * <p>
- * The @Autonomous annotation says that this is an autonomous opmode. The name and group show up
- * on the driver station so you can select the right mode. If you have "blue" or "red" in either
- * name then your Alliance color will be set correctly for use throughout.
- */
 @SuppressWarnings("unused")
-@Autonomous(name = "BLUE | Sample Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public abstract class SampleAuto extends StealthOpMode {
+@Disabled
+@Autonomous(name = "BLUE | Test Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class TestAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
-    WheelSubsystem wheel;
+    ElevatorSubsystem elevator;
+    GripperSubsystem gripper;
 
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
      */
     @Override
     public void initialize() {
+        // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        wheel = new WheelSubsystem(hardwareMap);
-        register(drive, wheel);
+        elevator = new ElevatorSubsystem(hardwareMap);
+        gripper = new GripperSubsystem(hardwareMap);
+        register(drive, elevator, gripper);
     }
 
     /**
@@ -54,21 +53,13 @@ public abstract class SampleAuto extends StealthOpMode {
         AutoToTeleStorage.clear();
 
         return new SequentialCommandGroup(
-                // Drive forward at half speed for 1000 ticks
-                new DriveForTicksCommand(drive, 0.5, 0.0, 0.0, 1000),
-
-                // Play with the wheel!
-                new TwoSpeedWheelCommand(wheel),
-
-                // Strafe right at half speed for 1000 ticks, or until 2 seconds have passed
-                new DriveForTicksCommand(drive, 0.0, 0.5, 0.0, 1000).withTimeout(2000),
-
-                // Save our final heading, so field-centric driving will work in teleop
+                // Just a little test for now!!
+                new DriveForwardInchesCommand(drive, 12.0),
+                new DriveForwardInchesCommand(drive, -12.0),
+                new TurnToDegreesCommand(drive, 90),
+                new TurnToDegreesCommand(drive, -90),
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
-
-                // End the opmode now, so we don't have to wait the rest of the 30s
                 new EndOpModeCommand(this)
-
         );
     }
 }

@@ -36,17 +36,6 @@ public class SampleCameraAuto extends StealthOpMode {
     }
 
     /**
-     * This will be called when your opmode is over so we can remember which way the robot is facing.
-     * This helps us with things like field-centric driving in teleop afterwards.
-     *
-     * @return heading in radians
-     */
-    @Override
-    public double getFinalHeading() {
-        return drive.getHeading();
-    }
-
-    /**
      * This is where we create the one command we want to run in our autonomous opmode.
      * <p>
      * You create a SequentialCommandGroup, which is a list of commands that will run one after

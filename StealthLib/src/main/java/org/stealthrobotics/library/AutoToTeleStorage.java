@@ -15,4 +15,11 @@ package org.stealthrobotics.library;
  */
 public class AutoToTeleStorage {
     public static double finalAutoHeading = 0.0;
+
+    /**
+     * Clear all storage when starting a new autonomous opmode.
+     */
+    public static void clear() {
+        finalAutoHeading = 0.0;
+    }
 }
