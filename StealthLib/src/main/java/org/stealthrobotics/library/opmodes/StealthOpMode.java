@@ -126,6 +126,12 @@ public abstract class StealthOpMode extends LinearOpMode {
             hubs.forEach(LynxModule::clearBulkCache);
         }
         CommandScheduler.getInstance().reset();
-        AutoToTeleStorage.finalAutoHeading = getFinalHeading();
+
+        // You're free to save the final heading from a command, so don't redo that here. It turns
+        // out this is a terrible place to ask for the final heading, since the IMU will always
+        // return 0 after the opmode is over!
+        if (AutoToTeleStorage.finalAutoHeading == 0.0) {
+            AutoToTeleStorage.finalAutoHeading = getFinalHeading();
+        }
     }
 }
