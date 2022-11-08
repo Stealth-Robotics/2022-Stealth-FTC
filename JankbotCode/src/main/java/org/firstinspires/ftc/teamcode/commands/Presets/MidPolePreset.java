@@ -15,7 +15,7 @@ public class MidPolePreset extends ParallelCommandGroup {
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),
-                        new ExtenderToPosition(extender, 2000 + offset, 1),
+                        new ExtenderToPosition(extender, 1500 + offset, 1).withTimeout(3000),
                         new InstantCommand(()-> grabber.armScorePosition())
                 )
         );

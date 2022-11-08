@@ -15,7 +15,7 @@ public class HighPolePreset extends ParallelCommandGroup {
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),
-                        new ExtenderToPosition(extender, 2450 + offset, 1),
+                        new ExtenderToPosition(extender, 2250 + offset, 1).withTimeout(3000),
                         new InstantCommand(()-> grabber.armScorePosition())
                 )
         );

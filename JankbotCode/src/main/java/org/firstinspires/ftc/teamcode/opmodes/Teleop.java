@@ -79,7 +79,7 @@ public abstract class Teleop extends StealthOpMode {
         //low goal and pick up
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
         //ground junction
-        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.toggleArmHigher()));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.toggleArmNoScorePos()));
         //reset the heading
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.resetHeading()));
         //reset the robot
@@ -90,6 +90,8 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ResetElevator(extender));
         //elevator tested
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new ExtenderToPosition(extender, 1500, 1));
+        /// THIS IS JUST FOR TESTING PLEASE REMOVE BEFORE COMP
+        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(new InstantCommand(() -> grabber.armPickupPosition()));
 
 
 

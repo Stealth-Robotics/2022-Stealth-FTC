@@ -112,7 +112,7 @@ public class ExtenderSubsystem extends SubsystemBase {
 
     //check the elevator down
     public void setElevatorDownSlowly() {
-        setSpeed(-.40);
+        setSpeed(-.60);
         stallDebouncer.calculate(false);
     }
 

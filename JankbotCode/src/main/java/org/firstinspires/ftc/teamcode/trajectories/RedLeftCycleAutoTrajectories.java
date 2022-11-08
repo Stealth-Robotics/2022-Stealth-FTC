@@ -6,7 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 
 public class RedLeftCycleAutoTrajectories {
-    public static Pose2d startingPose = new Pose2d(-30, -64, Math.toRadians(90));
+    public static Pose2d startingPose = new Pose2d(-27, -64, Math.toRadians(90));
     //Spline to line up to push signal cone and strafe right to score the preload
     public static TrajectorySequence trajectory1 = TrajectorySequenceBuilder.buildTrajectorySequence(startingPose)
             .lineToSplineHeading(new Pose2d(-34, -43, Math.toRadians(180)))
@@ -15,8 +15,8 @@ public class RedLeftCycleAutoTrajectories {
     // score cone on mid goal here
     //spline and forward to go to location to pick up the cones
     public static TrajectorySequence trajectory2 = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory1.end())
-            .lineToSplineHeading(new Pose2d(-40, -14, Math.toRadians(180)))
-             .forward(18)
+            .lineToSplineHeading(new Pose2d(-50, -14, Math.toRadians(180)))
+           //  .forward(18)
             .build();
     //pick up the cone here
     //

@@ -18,15 +18,15 @@ public class GrabberSubsystem extends SubsystemBase {
     public double GRIPPER_CLOSED_POSITION = 0.35;
     public double GRIPPER_OPEN_POSITION = 0.7;
 
-    public static double ARM_SCORE_POSITION = 1;
-    public static double ARM_UP_POSITION = 0.55;
+    public static double ARM_SCORE_POSITION = 0.9;
+    public static double ARM_UP_POSITION = 0.8;
     public static double ARM_DOWN_POSITION = 0.3;
 
     public static double ARM_DOWN_POSITION_LOWEST = 0.2;
     public static double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public static double ROTATOR_SCORE_POSITION = 1;
+    public static double ROTATOR_SCORE_POSITION = 0.7;
     public static double ROTATOR_UP_POSITION = 0;
     public static double ROTATOR_DOWN_POSITION = 0.1;
 
@@ -59,6 +59,7 @@ public class GrabberSubsystem extends SubsystemBase {
 
         }
     }
+    public void 
 
     public void closeGripper(){
         open = false;
@@ -80,7 +81,13 @@ public class GrabberSubsystem extends SubsystemBase {
         rotationServo.setPosition(ROTATOR_DOWN_POSITION);
         armPosition= armPosition.down;
     }
+    public void armAutoPickupPosition(double autoOffset){
+        armServo.setPosition(ARM_DOWN_POSITION + autoOffset);
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION);
 
+        armPosition= armPosition.down;
+
+    }
     public void toggleArm(){
         switch (armPosition) {
             case down:
@@ -111,21 +118,15 @@ public class GrabberSubsystem extends SubsystemBase {
             rotationServo.setPosition(ROTATOR_UP_POSITION);
         }*/
     }
-    public void toggleArmInverted() {
+    public void toggleArmNoScorePos() {
         switch (armPosition) {
             case up:
-                armPosition = ArmPosition.score;
                 armPickupPosition();
                 closeGripper();
                 break;
             case down:
-                armPosition = ArmPosition.up;
                 armUpPosition();
                 closeGripper();
-                break;
-            case score:
-                armPosition = ArmPosition.score;
-                armScorePosition();
                 break;
         }
     }
