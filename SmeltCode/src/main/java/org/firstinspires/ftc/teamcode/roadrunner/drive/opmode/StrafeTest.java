@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 /*
  * This is a simple routine to test translational drive capabilities.
  */
-@Disabled
+
 @Config
 @Autonomous(group = "drive")
 public class StrafeTest extends LinearOpMode {
@@ -40,6 +40,7 @@ public class StrafeTest extends LinearOpMode {
         telemetry.addData("finalX", poseEstimate.getX());
         telemetry.addData("finalY", poseEstimate.getY());
         telemetry.addData("finalHeading", poseEstimate.getHeading());
+        telemetry.addData("hello", 5);
         telemetry.update();
 
         while (!isStopRequested() && opModeIsActive()) ;

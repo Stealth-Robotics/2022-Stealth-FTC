@@ -1,28 +1,55 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
+import org.firstinspires.ftc.teamcode.commands.DefaultGrabberCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.commands.GrabberDown;
+import org.firstinspires.ftc.teamcode.commands.GrabberRotateLeft;
+import org.firstinspires.ftc.teamcode.commands.GrabberRotateRight;
+import org.firstinspires.ftc.teamcode.commands.GrabberUp;
+import org.firstinspires.ftc.teamcode.commands.LiftDown;
+import org.firstinspires.ftc.teamcode.commands.LiftUp;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
-    SimpleMecanumDriveSubsystem drive;
+    DriveSubsystem drive;
+    GrabberSubsystem grabber;
+    ElevatorSubsystem lift;
 
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
 
+    SampleMecanumDrive mecanumDrive;
+
     @Override
     public void initialize() {
+
+        mecanumDrive = new SampleMecanumDrive(hardwareMap);
         // Setup and register all of your subsystems here
-        drive = new SimpleMecanumDriveSubsystem(hardwareMap);
-        register(drive);
+        drive = new DriveSubsystem(mecanumDrive, hardwareMap);
+        grabber = new GrabberSubsystem(hardwareMap);
+        lift = new ElevatorSubsystem(hardwareMap);
+        CameraSubsystem camera = new CameraSubsystem(hardwareMap);
+        register(drive, grabber, lift, camera);
+
+        grabber.setLiftPos(0.5);
+        grabber.setPos(0);
+        drive.headingAfterAuto(AutoToTeleStorage.finalAutoHeading);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -33,16 +60,34 @@ public abstract class Teleop extends StealthOpMode {
                         drive,
                         () -> driveGamepad.gamepad.left_stick_y,
                         () -> driveGamepad.gamepad.left_stick_x,
-                        () -> driveGamepad.gamepad.right_stick_x
+                        () -> driveGamepad.gamepad.right_stick_x,
+                        () -> driveGamepad.gamepad.right_bumper
                 )
         );
+        grabber.setDefaultCommand(new DefaultGrabberCommand(
+                grabber,
+                () -> -mechGamepad.gamepad.left_stick_y,
+                () -> -mechGamepad.gamepad.left_stick_x
+        ));
+        lift.setDefaultCommand(new DefaultElevatorCommand(lift));
 
         // Setup all of your controllers' buttons and triggers here
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(() -> System.out.println("Oh hai"));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> drive.resetHeading()));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new ExampleCommand("I can haz now?"));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whileHeld(new ExampleCommand("I can haz while?"));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenReleased(new ExampleCommand("I can haz after?"));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(new GrabberDown(grabber));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(new GrabberUp(grabber));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
+//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> lift.setTarget(0)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> lift.setTarget(2500)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> lift.limitSwitchReset()));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new LiftDown(lift));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenHeld(new LiftUp(lift));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> grabber.right()));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> grabber.left()));
+
     }
 
     /**
@@ -51,6 +96,7 @@ public abstract class Teleop extends StealthOpMode {
      *
      * @see org.stealthrobotics.library.Alliance
      */
+
 
     @SuppressWarnings("unused")
     @TeleOp(name = "RED | Tele-Op", group = "Red")
