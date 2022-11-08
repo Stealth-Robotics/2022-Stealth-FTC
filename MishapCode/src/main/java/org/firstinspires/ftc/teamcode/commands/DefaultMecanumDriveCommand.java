@@ -4,14 +4,17 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+
 
 /**
  * Drive a Mecanum drivetrain based on stick inputs from a gamepad. This is a "default command" and runs forever.
  */
 public class DefaultMecanumDriveCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
-    final DoubleSupplier leftY, leftX, rightX;
+    final DoubleSupplier leftY, leftX, rightX, throttle;
+    final BooleanSupplier xButton;
 
     /**
      * Remember our drive subsystem and inputs for later.
@@ -21,11 +24,14 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      * @param leftX  a supplier of the left stick's X value (left/right)
      * @param rightX a supplier of the right stick's X value (left/right)
      */
-    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
+    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier xButton,
+                                      DoubleSupplier throttle) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
         this.rightX = rightX;
+        this.xButton = xButton;
+        this.throttle = throttle;
         addRequirements(drive);
     }
 
@@ -36,6 +42,6 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble());
+        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), xButton.getAsBoolean(), throttle.getAsDouble());
     }
 }
