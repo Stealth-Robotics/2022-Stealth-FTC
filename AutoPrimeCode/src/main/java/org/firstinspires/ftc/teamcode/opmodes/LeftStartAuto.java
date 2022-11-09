@@ -86,7 +86,7 @@ public class LeftStartAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, -24),
                     new StrafeForInches(drive, -13.5),
                     new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     new DriveForwardInchesCommand(drive, 3.5),
                     new ParallelCommandGroup(
@@ -105,7 +105,7 @@ public class LeftStartAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, -24),
                     new StrafeForInches(drive, -13.5),
                     new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     new DriveForwardInchesCommand(drive, 3.5),
                     new ParallelCommandGroup(
@@ -124,7 +124,7 @@ public class LeftStartAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, -24),
                     new StrafeForInches(drive, -13.5),
                     new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
+                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     new DriveForwardInchesCommand(drive, 3.5),
                     new ParallelCommandGroup(

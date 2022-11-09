@@ -23,7 +23,7 @@ public class SleeveDetection extends OpenCvPipeline {
     }
 
     // TOPLEFT anchor point for the bounding box
-    private static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(145, 168);
+    public static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(145, 168);
 
     // Width and height for the bounding box
     public static int REGION_WIDTH = 30;
@@ -49,18 +49,20 @@ public class SleeveDetection extends OpenCvPipeline {
     private Mat yelMat = new Mat(), cyaMat = new Mat(), magMat = new Mat(), blurredMat = new Mat(), kernel = new Mat();
 
     // Anchor point definitions
-    Point sleeve_pointA = new Point(
-            SLEEVE_TOPLEFT_ANCHOR_POINT.x,
-            SLEEVE_TOPLEFT_ANCHOR_POINT.y);
-    Point sleeve_pointB = new Point(
-            SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-            SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
     // Running variable storing the parking position
     private volatile ParkingPosition position = ParkingPosition.LEFT;
 
     @Override
     public Mat processFrame(Mat input) {
+        Point sleeve_pointA = new Point(
+                SLEEVE_TOPLEFT_ANCHOR_POINT.x,
+                SLEEVE_TOPLEFT_ANCHOR_POINT.y);
+        Point sleeve_pointB = new Point(
+                SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+
+
         // Noise reduction
         Imgproc.blur(input, blurredMat, new Size(5, 5));
         blurredMat = blurredMat.submat(new Rect(sleeve_pointA, sleeve_pointB));
@@ -114,11 +116,11 @@ public class SleeveDetection extends OpenCvPipeline {
         }
 
         // Memory cleanup
-        blurredMat.release();
-        yelMat.release();
-        cyaMat.release();
-        magMat.release();
-        kernel.release();
+//        blurredMat.release();
+//        yelMat.release();
+//        cyaMat.release();
+//        magMat.release();
+//        kernel.release();
 
         return input;
     }

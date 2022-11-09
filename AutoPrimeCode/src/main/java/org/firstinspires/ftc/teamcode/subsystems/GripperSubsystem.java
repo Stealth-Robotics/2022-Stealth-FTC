@@ -13,6 +13,7 @@ public class GripperSubsystem extends SubsystemBase {
 
     public static double OPEN_POSITION = 0.68;
     public static double CLOSE_POSITION = 0.45;
+    private boolean open = false;
 
     public GripperSubsystem(HardwareMap hardwareMap) {
         gripperServo = hardwareMap.get(Servo.class, "gripper");
@@ -21,10 +22,20 @@ public class GripperSubsystem extends SubsystemBase {
 
     public void open() {
         gripperServo.setPosition(OPEN_POSITION);
+        open = true;
     }
 
     public void close() {
         gripperServo.setPosition(CLOSE_POSITION);
+        open = false;
+    }
+
+    public void toggle() {
+        if (open) {
+            close();
+        }else{
+            open();
+        }
     }
 
 
