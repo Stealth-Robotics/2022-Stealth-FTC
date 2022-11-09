@@ -89,7 +89,6 @@ public class DefaultAuto extends StealthOpMode {
                 // Drive forward at half speed for 1000 ticks
                 new FollowTrajectory(drive, trajectory1)
 
-
         );
     }
 }
