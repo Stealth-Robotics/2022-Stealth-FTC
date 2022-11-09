@@ -137,38 +137,42 @@ public class ScoringAuto extends StealthOpMode {
                         LiftDown,
                         new InstantCommand(() -> grabber.setPos(0))
                 ),
+                //scores second cone
                 new WaitBeforeCommand(750,
                         new ParallelCommandGroup(
                                 new FollowTrajectory(drive, BlueRightTrajectories.cone2),
                                 new InstantCommand(() -> grabber.setPos(.5))
                         )),
-
+                //prepares to pick up third cone from stack
                 new InstantCommand(() -> grabber.grabberOpen()),
                 new ParallelCommandGroup(
                         new FollowTrajectory(drive, BlueRightTrajectories.cone1),
                         LiftDown,
                         new InstantCommand(() -> grabber.setPos(0))
                 ),
+                //scores third cone
                 new WaitBeforeCommand(750,
                         new ParallelCommandGroup(
                                 new FollowTrajectory(drive, BlueRightTrajectories.cone2),
                                 new InstantCommand(() -> grabber.setPos(.5))
                         )),
-
+                //prepares to pick up fourth cone
                 new InstantCommand(() -> grabber.grabberOpen()),
                 new ParallelCommandGroup(
                         new FollowTrajectory(drive, BlueRightTrajectories.cone1),
                         LiftDown,
                         new InstantCommand(() -> grabber.setPos(0))
                 ),
+                //scores fourth cone
                 new WaitBeforeCommand(750,
                         new ParallelCommandGroup(
                                 new FollowTrajectory(drive, BlueRightTrajectories.cone2),
                                 new InstantCommand(() -> grabber.setPos(.5))
                         )),
 
-                new InstantCommand(() -> grabber.grabberOpen()),
 
+                new InstantCommand(() -> grabber.grabberOpen()),
+                //TODO make parking trajectories
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new EndOpModeCommand(this)
         );
