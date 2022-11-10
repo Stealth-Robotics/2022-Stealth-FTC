@@ -77,10 +77,11 @@ public class LeftStartAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
-        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.RIGHT; //camera.getPosition();
+        SleeveDetection.ParkingPosition position = camera.getPosition();
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
+                    new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
                     new DriveForwardInchesCommand(drive, -24),
@@ -100,6 +101,7 @@ public class LeftStartAuto extends StealthOpMode {
             );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
+                    new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
                     new DriveForwardInchesCommand(drive, -24),
@@ -119,6 +121,7 @@ public class LeftStartAuto extends StealthOpMode {
             );
         } else { // RIGHT
             return new SequentialCommandGroup(
+                    new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
                     new DriveForwardInchesCommand(drive, -24),
@@ -137,5 +140,11 @@ public class LeftStartAuto extends StealthOpMode {
                     )
             );
         }
+
+    }
+
+    public void periodic() {
+        telemetry.addData("Web-Camera Color: ", SleeveDetection.ParkingPosition.values());
+
     }
 }

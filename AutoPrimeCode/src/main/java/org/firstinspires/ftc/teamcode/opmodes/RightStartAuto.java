@@ -82,6 +82,7 @@ public class RightStartAuto extends StealthOpMode {
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
+                    new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
                     new DriveForwardInchesCommand(drive, -24),
@@ -101,6 +102,7 @@ public class RightStartAuto extends StealthOpMode {
             );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
+                    new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
                     new DriveForwardInchesCommand(drive, -24),
@@ -120,6 +122,7 @@ public class RightStartAuto extends StealthOpMode {
             );
         } else { // RIGHT
             return new SequentialCommandGroup(
+                    new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
                     new DriveForwardInchesCommand(drive, -24),

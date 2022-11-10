@@ -7,6 +7,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.stealthrobotics.library.AutoToTeleStorage;
+
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
  */
@@ -17,6 +19,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor rightRearDrive;
     final BNO055IMU imu;
     boolean fieldcentric = true;
+    double headingOffset = 0.0;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -74,10 +77,26 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         fieldcentric = !fieldcentric;
     }
 
-    public double getHeading() {
+//    public double getHeading() {
+//        return -imu.getAngularOrientation().firstAngle;
+//    }
+
+    // The actual heading from the IMU, only adjusted so that positive is clockwise
+    public double getRawHeading() {
         return -imu.getAngularOrientation().firstAngle;
     }
 
+    // The heading we'll use to drive the bot, adjusted for an offset which we can set any time
+    // we want to correct for gyro drift as we drive.
+    public double getHeading() {
+        return getRawHeading() - headingOffset + AutoToTeleStorage.finalAutoHeading;
+    }
+
+    // Adjust our heading so the front of the bot is forward, no matter how we've drifted over time.
+    public void resetHeading() {
+        headingOffset = getRawHeading();
+        AutoToTeleStorage.finalAutoHeading = 0;
+    }
     public void drive(double y, double x, double rotation) {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when

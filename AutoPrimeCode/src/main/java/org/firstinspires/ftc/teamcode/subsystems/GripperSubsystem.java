@@ -38,7 +38,6 @@ public class GripperSubsystem extends SubsystemBase {
         }
     }
 
-
     public void periodic() {
         telemetry.addData("Gripper position", gripperServo.getPosition());
     }
