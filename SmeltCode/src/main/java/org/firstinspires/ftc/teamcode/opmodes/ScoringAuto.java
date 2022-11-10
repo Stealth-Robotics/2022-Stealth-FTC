@@ -140,13 +140,15 @@ public class ScoringAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.setLiftPos(.75))
                 )),
                 new InstantCommand(() -> grabber.grabberClose()),
-                new InstantCommand(()->drive.setPoseEstimate(new Pose2d(-57.3, 12, Math.toRadians(180)))),
+                new InstantCommand(()->drive.setPoseEstimate(new Pose2d(-59.4, 11, Math.toRadians(180)))),
                 new InstantCommand(() -> lift.setTarget(2730)),
                 //scores second cone
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.cone2),
-                                new InstantCommand(() -> grabber.setPos(.7))
+                                new InstantCommand(() -> grabber.setPos(.7)),
+                                new InstantCommand(() -> grabber.setLiftPos(0.75))
+
                         )),
                 //prepares to pick up third cone from stack
                 new InstantCommand(() -> grabber.grabberOpen()),
@@ -158,14 +160,15 @@ public class ScoringAuto extends StealthOpMode {
                                 new InstantCommand(() -> grabber.setLiftPos(.8))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
-                new InstantCommand(()->drive.setPoseEstimate(new Pose2d(-57.3, 12, Math.toRadians(180)))),
+                new InstantCommand(()->drive.setPoseEstimate(new Pose2d(-58.9, 11, Math.toRadians(180)))),
 
                 //scores third cone
                 new InstantCommand(() -> lift.setTarget(2730)),
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.cone2),
-                                new InstantCommand(() -> grabber.setPos(.7))
+                                new InstantCommand(() -> grabber.setPos(.7)),
+                                new InstantCommand(() -> grabber.setLiftPos(0.75))
                         )),
                 new InstantCommand(() -> grabber.grabberOpen()),
 //                //prepares to pick up fourth cone
@@ -174,18 +177,22 @@ public class ScoringAuto extends StealthOpMode {
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.cone1),
                                 new InstantCommand(() -> lift.setTarget(0)),
-                                new InstantCommand(() -> grabber.setPos(0)),
+                                new WaitBeforeCommand(500, new InstantCommand(() -> grabber.setPos(0))),
+
                                 new InstantCommand(() -> grabber.setLiftPos(.85))
+
+
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
-                new InstantCommand(()->drive.setPoseEstimate(new Pose2d(-57.3, 12, Math.toRadians(180)))),
+                new InstantCommand(()->drive.setPoseEstimate(new Pose2d(-59.3, 11, Math.toRadians(180)))),
 
 
                 new InstantCommand(() -> lift.setTarget(2730)),
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.cone2),
-                                new InstantCommand(() -> grabber.setPos(.7))
+                                new InstantCommand(() -> grabber.setPos(.7)),
+                                new InstantCommand(() -> grabber.setLiftPos(0.75))
                         )),
 //
                 new InstantCommand(() -> grabber.grabberOpen()),

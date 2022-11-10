@@ -23,27 +23,27 @@ public class BlueRightTrajectories {
     //goes to pole and scores first cone
     public static Trajectory forward1 = TrajectoryBuilder.buildTrajectory(new Pose2d (-40.5, 62, Math.toRadians(270)))
             .splineTo(new Vector2d(-36.7, 45), Math.toRadians(270))
-            .splineTo(new Vector2d(-27.5, 30), Math.toRadians(305))
+            .splineTo(new Vector2d(-29, 31.5), Math.toRadians(305))
             .build();
 
     //drives to cone stack
     public static TrajectorySequence back1 = TrajectorySequenceBuilder.buildTrajectorySequence(forward1.end())
             .back(4.5)
-            .splineTo(new Vector2d(-35.3, 12), Math.toRadians(0))
-            .forward(22)
+            .splineTo(new Vector2d(-35.3, 11), Math.toRadians(0))
+            .forward(24)
             .build();
     //drives to pole to socre second cone
     public static TrajectorySequence back2 = TrajectorySequenceBuilder.buildTrajectorySequence(back1.end())
             .back(5)
-            .splineToSplineHeading(new Pose2d(-31, 17.5, Math.toRadians(235)), 0)
+            .splineToSplineHeading(new Pose2d(-31, 16.25, Math.toRadians(235)), 0)
             .build();
     //gets second cone from stack
     public static TrajectorySequence cone1 = TrajectorySequenceBuilder.buildTrajectorySequence(back2.end())
-            .splineToSplineHeading(new Pose2d(-58, 12,  Math.toRadians(180)), Math.toRadians(180))
+            .splineToSplineHeading(new Pose2d(-59.8, 11,  Math.toRadians(180)), Math.toRadians(180))
             .build();
     public static TrajectorySequence cone2 = TrajectorySequenceBuilder.buildTrajectorySequence(cone1.end())
             .back(5)
-            .splineToSplineHeading(new Pose2d(-32, 18, Math.toRadians(225)), Math.toRadians(45))
+            .splineToSplineHeading(new Pose2d(-32, 16.7, Math.toRadians(230)), Math.toRadians(45))
             .build();
 
 
