@@ -39,6 +39,7 @@ public class BasicAuto extends StealthOpMode {
         register(drive, elevator, gripper, cameraSubsystem);
     }
 
+
     /**
      * This is where we create the one command we want to run in our autonomous opmode.
      * <p>
