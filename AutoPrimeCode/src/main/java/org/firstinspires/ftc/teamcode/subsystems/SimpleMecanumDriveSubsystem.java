@@ -63,6 +63,9 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             x = rotX;
             y = rotY;
         }
+        y = y * Math.abs(y);
+        x = x * Math.abs(x);
+        rotation = rotation * Math.abs(rotation);
 
         drive(y, x, rotation);
     }
