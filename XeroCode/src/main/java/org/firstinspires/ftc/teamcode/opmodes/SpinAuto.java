@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToPosition;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -25,6 +26,7 @@ public class SpinAuto extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
+    CameraSubsystem cameraSubsystem;
 
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
@@ -35,7 +37,8 @@ public class SpinAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        cameraSubsystem = new CameraSubsystem(hardwareMap);
+        register(drive, elevator, gripper, cameraSubsystem);
     }
 
     /**

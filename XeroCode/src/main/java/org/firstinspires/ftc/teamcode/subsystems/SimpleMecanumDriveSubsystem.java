@@ -5,6 +5,7 @@ import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.stealthrobotics.library.AutoToTeleStorage;

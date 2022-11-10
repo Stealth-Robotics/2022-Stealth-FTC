@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToPosition;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -25,7 +26,7 @@ public class PlumpAuto extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
-
+    CameraSubsystem cameraSubsystem;
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
      */
@@ -35,7 +36,8 @@ public class PlumpAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        cameraSubsystem = new CameraSubsystem(hardwareMap);
+        register(drive, elevator, gripper, cameraSubsystem);
     }
 
     /**
@@ -52,6 +54,9 @@ public class PlumpAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         AutoToTeleStorage.clear();
+
+        int positionFromCamera = cameraSubsystem.getPosition();
+
 
         return new SequentialCommandGroup(
                 new InstantCommand(() -> drive.turbomodeon()),
@@ -79,8 +84,8 @@ public class PlumpAuto extends StealthOpMode {
                 new TurnToDegreesCommand(drive,-87),
                 new DriveForwardInchesCommand(drive,-23.0),
 
-                new SaveAutoHeadingCommand(() -> drive.getHeading()),
-                new EndOpModeCommand(this)
+                new SaveAutoHeadingCommand(() -> drive.getHeading())
+//                new EndOpModeCommand(this)
         );
     }
 }
