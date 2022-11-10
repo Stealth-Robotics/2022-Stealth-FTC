@@ -21,7 +21,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public static int SLOW_SPEED = 100;
     public static int UPPER_LIMIT = 2500;
-    public static int MAX_VELO = 3000;
+    public static int MAX_VELO = 4000;
     public static int RESET_VELO = 1500;
     public static int RESET_TICKS = 0;
 
