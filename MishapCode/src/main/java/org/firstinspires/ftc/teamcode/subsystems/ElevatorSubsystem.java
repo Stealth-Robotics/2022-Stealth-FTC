@@ -20,10 +20,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx elevatorMotor;
     final DigitalChannel lowerLimitSwitch;
 
-    public static int UPPER_LIMIT_TICKS = 3850;
+    public static int UPPER_LIMIT_TICKS = 4200;
     public static int MAX_VELOCITY_TICKS_PER_SEC = 2000;
     public static double RESET_VELOCITY_TICKS_PER_SEC = 500;
-    public static int RESET_TICKS = -4000;
+    public static int RESET_TICKS = -6000;
     public static double LITTLE_UP = 0.04;
     public static double LITTLE_DOWN = -0.04;
 

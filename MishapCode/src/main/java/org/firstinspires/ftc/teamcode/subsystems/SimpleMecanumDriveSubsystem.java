@@ -49,7 +49,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     }
 
     public void resetHeading() {
-        headingOffset = getRawHeading();
+        headingOffset = -getRawHeading();
     }
 
     /**
