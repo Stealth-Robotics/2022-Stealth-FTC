@@ -26,7 +26,6 @@ public class GrabberSubsystem extends SubsystemBase {
     public static double LEFT_POSITION = .7;
     public static double RIGHT_POSITION = 0;
     boolean open = true;
-    final int CENTER_POSITION = 0;
 
     public GrabberSubsystem(HardwareMap hardwareMap) {
         grabberServo = hardwareMap.get(Servo.class, "grabberServo");
@@ -34,40 +33,55 @@ public class GrabberSubsystem extends SubsystemBase {
         rotateServo = hardwareMap.get(Servo.class, "rotateServo");
 
     }
-    public void toggleOpen(){
+
+    public void toggleOpen() {
         open = !open;
-        if(open){
+        if (open) {
             grabberServo.setPosition(OPEN_POSITION);
-        }
-        else{
+        } else {
             grabberServo.setPosition(CLOSED_POSITION);
         }
     }
-    public void grabberClose(){
+
+    public void grabberClose() {
         grabberServo.setPosition(CLOSED_POSITION);
     }
-    public void grabberOpen(){
+
+    public void grabberOpen() {
         grabberServo.setPosition(OPEN_POSITION);
     }
-    public void up(){
+
+    public void up() {
         liftServo.setPosition(UP_POSITION);
     }
-    public void down(){
+
+    public void down() {
         liftServo.setPosition(DOWN_POSITION);
     }
-    public void left(){
+
+    public void left() {
         rotateServo.setPosition(LEFT_POSITION);
     }
-    public void right(){
+
+    public void right() {
         rotateServo.setPosition(RIGHT_POSITION);
     }
-    public double getPos(){return rotateServo.getPosition();}
-    public void setPos(double pos){rotateServo.setPosition(pos);}
-    public double getLiftPos(){return liftServo.getPosition();}
-    public void setLiftPos(double pos){liftServo.setPosition(pos);}
 
+    public double getPos() {
+        return rotateServo.getPosition();
+    }
 
+    public void setPos(double pos) {
+        rotateServo.setPosition(pos);
+    }
 
+    public double getLiftPos() {
+        return liftServo.getPosition();
+    }
+
+    public void setLiftPos(double pos) {
+        liftServo.setPosition(pos);
+    }
 
 
 }
