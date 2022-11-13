@@ -3,22 +3,21 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
 
-public class MoveElevatorPercentage extends CommandBase {
+public class SetElevatorPercentageCommand extends CommandBase {
     final ElevatorSubsystem elevator;
-    double distance;
+    double percentage;
 
-    public MoveElevatorPercentage(ElevatorSubsystem elevator, double distance) {
+    public SetElevatorPercentageCommand(ElevatorSubsystem elevator, double percentage) {
         this.elevator = elevator;
-        this.distance = distance;
+        this.percentage = percentage;
         addRequirements(elevator);
     }
 
     @Override
     public void initialize() {
-        elevator.setTargetLocation(distance);
+        elevator.setTargetLocation(percentage);
         elevator.goToPosition();
     }
 

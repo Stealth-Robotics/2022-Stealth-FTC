@@ -11,7 +11,7 @@ import java.util.function.DoubleSupplier;
  */
 public class DefaultMecanumDriveCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
-    final DoubleSupplier leftY, leftX, rightX;
+    final DoubleSupplier leftY, leftX, rightX, rightTrigger;
 
     /**
      * Remember our drive subsystem and inputs for later.
@@ -21,11 +21,12 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      * @param leftX  a supplier of the left stick's X value (left/right)
      * @param rightX a supplier of the right stick's X value (left/right)
      */
-    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX) {
+    public DefaultMecanumDriveCommand(SimpleMecanumDriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, DoubleSupplier rightTrigger) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
         this.rightX = rightX;
+        this.rightTrigger = rightTrigger;
         addRequirements(drive);
     }
 
@@ -36,6 +37,6 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble());
+        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), rightTrigger.getAsDouble());
     }
 }

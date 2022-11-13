@@ -7,7 +7,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 
 public class GripperCloseCommand extends SequentialCommandGroup {
-    public GripperCloseCommand(GripperSubsystem gripper){
+    public GripperCloseCommand(GripperSubsystem gripper) {
         addCommands(
                 new InstantCommand(() -> gripper.close()),
                 new WaitCommand(1000)
