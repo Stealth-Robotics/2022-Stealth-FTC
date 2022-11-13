@@ -95,16 +95,16 @@ public class ScoringAuto extends StealthOpMode {
         telemetry.addData("tag", camera.getID());
         telemetry.addData("tag id", camera.getID());
         drive.setPoseEstimate(new Pose2d(-40.5, 62, Math.toRadians(270)));
-        TrajectorySequence traj3 = BlueRightTrajectories.park3;
+        TrajectorySequence park = BlueRightTrajectories.park3;
         switch (camera.getID()) {
             case 0:
-                traj3 = BlueRightTrajectories.park1;
+                park = BlueRightTrajectories.park1;
                 break;
             case 1:
-                traj3 = BlueRightTrajectories.park2;
+                park = BlueRightTrajectories.park2;
                 break;
             case 2:
-                traj3 = BlueRightTrajectories.park3;
+                park = BlueRightTrajectories.park3;
 
         }
         return new SequentialCommandGroup(
@@ -201,11 +201,9 @@ public class ScoringAuto extends StealthOpMode {
 //                                new InstantCommand(() -> grabber.setPos(.7)),
 //                                new InstantCommand(() -> grabber.setLiftPos(0.75))
 //                        )),
-//
-                new InstantCommand(() -> grabber.grabberOpen()),
                 new InstantCommand(() -> grabber.setPos(0)),
                 new WaitBeforeCommand(500,
-                new FollowTrajectorySequence(drive, traj3)
+                new FollowTrajectorySequence(drive, park)
                 ),
 //
 //                new InstantCommand(() -> grabber.grabberOpen()),
