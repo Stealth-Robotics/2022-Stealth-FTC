@@ -59,6 +59,10 @@ public class DriveForwardInchesPIDMotionProfileCommand extends CommandBase {
     //
     // Minimal change at this point, just translated their func to Java.
     // Retrieved on 2022/11/12 8:56pm from https://www.ctrlaltftc.com/advanced/motion-profiling
+    //
+    // Other resources:
+    // - https://gm0.org/en/latest/docs/software/concepts/control-loops.html
+    // - https://docs.ftclib.org/ftclib/features/controllers
     double motion_profile(double max_acceleration, double max_velocity, double distance, double current_dt) {
         //  Return the current reference position based on the given motion profile times, maximum acceleration, velocity, and current time.
 
@@ -91,11 +95,12 @@ public class DriveForwardInchesPIDMotionProfileCommand extends CommandBase {
             return distance;
 
         // if we're accelerating
-        if (current_dt < acceleration_dt)
+        if (current_dt < acceleration_dt) {
             // use the kinematic equation for acceleration
             return 0.5 * max_acceleration * current_dt * current_dt;
+        }
 
-            // if we're cruising
+        // if we're cruising
         else if (current_dt < deacceleration_time) {
             acceleration_distance = 0.5 * max_acceleration * acceleration_dt * acceleration_dt;
             double cruise_current_dt = current_dt - acceleration_dt;
