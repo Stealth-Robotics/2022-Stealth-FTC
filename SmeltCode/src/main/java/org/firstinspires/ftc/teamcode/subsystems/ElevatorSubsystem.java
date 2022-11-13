@@ -68,6 +68,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     public int getPos() {
         return liftMotor.getCurrentPosition();
     }
+    public boolean isBusy(){
+        return liftMotor.isBusy();
+    }
 
     @Override
     public void periodic() {
