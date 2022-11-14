@@ -59,6 +59,8 @@ public abstract class Teleop extends StealthOpMode {
                 )
         );
 
+        grabber.closeGripper();
+
         elevator.setDefaultCommand(new DefaultElevatorCommand(elevator));
         /*
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));

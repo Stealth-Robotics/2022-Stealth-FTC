@@ -36,7 +36,7 @@ public class RedRightSleeveMovementAuto extends StealthOpMode {
         camera = new CameraSubsystem(hardwareMap);
         AutoToTeleStorage.finalAutoHeading = 0;
         //mecanumDrive.getLocalizer().update();
-        register(drive, camera);
+        register(drive, camera, grabber);
     }
 
     @Override
@@ -54,23 +54,23 @@ public class RedRightSleeveMovementAuto extends StealthOpMode {
         switch (camera.getID()) {
             case 2:
                 return new SequentialCommandGroup(
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new InstantCommand(() -> drive.setPoseEstimate(RedRightAutoTrajectories.startingPose.getX(), RedRightAutoTrajectories.startingPose.getY(),RedRightAutoTrajectories.startingPose.getHeading())),
+                    new InstantCommand(() -> grabber.closeGripper()),
+                    new InstantCommand(() -> drive.setPoseEstimate(RedRightAutoTrajectories.startingPose.getX(), RedRightAutoTrajectories.startingPose.getY(),RedRightAutoTrajectories.startingPose.getHeading())),
                     new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory1),
                     new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory2A)
-                    );
+                );
             case 0:
                 return new SequentialCommandGroup(
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new InstantCommand(() -> drive.setPoseEstimate(RedRightAutoTrajectories.startingPose.getX(),RedRightAutoTrajectories.startingPose.getY(),RedRightAutoTrajectories.startingPose.getHeading())),
-                        new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory1),
-                        new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory2B)
+                    new InstantCommand(() -> grabber.closeGripper()),
+                    new InstantCommand(() -> drive.setPoseEstimate(RedRightAutoTrajectories.startingPose.getX(),RedRightAutoTrajectories.startingPose.getY(),RedRightAutoTrajectories.startingPose.getHeading())),
+                    new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory1),
+                    new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory2B)
                 );
             default:
                 return new SequentialCommandGroup(
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new InstantCommand(() -> drive.setPoseEstimate(RedRightAutoTrajectories.startingPose.getX(),RedRightAutoTrajectories.startingPose.getY(),RedRightAutoTrajectories.startingPose.getHeading())),
-                        new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory1)
+                    new InstantCommand(() -> grabber.closeGripper()),
+                    new InstantCommand(() -> drive.setPoseEstimate(RedRightAutoTrajectories.startingPose.getX(),RedRightAutoTrajectories.startingPose.getY(),RedRightAutoTrajectories.startingPose.getHeading())),
+                    new FollowTrajectory(drive, RedRightAutoTrajectories.trajectory1)
                 );
         }
     }

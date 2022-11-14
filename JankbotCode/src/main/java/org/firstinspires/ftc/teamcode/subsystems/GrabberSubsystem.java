@@ -15,9 +15,9 @@ public class GrabberSubsystem extends SubsystemBase {
     final Servo armServo;
 
     boolean open = true;
-    boolean isUp = false;
+    boolean isUp = true;
 
-    public double GRIPPER_CLOSED_POSITION = 0.4;
+    public double GRIPPER_CLOSED_POSITION = 0.35;
     public double GRIPPER_OPEN_POSITION = 0.7;
 
     public double ARM_UP_POSITION = 0.85;
