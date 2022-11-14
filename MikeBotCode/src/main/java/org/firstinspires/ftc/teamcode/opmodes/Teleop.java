@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDLimitedCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDMotionProfileCommand;
+import org.firstinspires.ftc.teamcode.commands.TurnToDegreesPIDCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -61,9 +62,14 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new InstantCommand(() -> drive.togglefieldcentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new DriveForwardInchesPIDCommand(drive, 24));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new DriveForwardInchesPIDLimitedCommand(drive, 24));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new DriveForwardInchesPIDMotionProfileCommand(drive, 24));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new DriveForwardInchesPIDCommand(drive, 24));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new DriveForwardInchesPIDLimitedCommand(drive, 24));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new DriveForwardInchesPIDMotionProfileCommand(drive, 24));
+
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new TurnToDegreesPIDCommand(drive, 180));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new TurnToDegreesPIDCommand(drive, 90));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new TurnToDegreesPIDCommand(drive, -90));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new TurnToDegreesPIDCommand(drive, 45));
     }
 
     /**
