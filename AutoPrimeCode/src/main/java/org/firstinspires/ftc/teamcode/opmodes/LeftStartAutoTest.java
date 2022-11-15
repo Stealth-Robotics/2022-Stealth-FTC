@@ -85,15 +85,15 @@ public class LeftStartAutoTest extends StealthOpMode {
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.08),
-                    new DriveForwardInchesCommand(drive, -24),
+                    new DriveForwardInchesCommand(drive, 24),
                     new TurnInDegrees(drive, 30),
                     new MoveElevatorPercentage(elevator, 0.68),
-                    new DriveForwardInchesCommand(drive, -6.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 6.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     //new DriveForwardInchesCommand(drive, 3.5),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 3.5)
+                            new DriveForwardInchesCommand(drive, -3.5)
                     ),
                     new TurnInDegrees(drive, 10),
                     new ParallelCommandGroup(
