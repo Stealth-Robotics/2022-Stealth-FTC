@@ -23,8 +23,8 @@ public class GrabberSubsystem extends SubsystemBase {
     public static double CLOSED_POSITION = 0.7;
     public static double UP_POSITION = .1;
     public static double DOWN_POSITION = .5;
-    public static double LEFT_POSITION = .7;
-    public static double RIGHT_POSITION = 0;
+    public static double LEFT_POSITION = .9;
+    public static double RIGHT_POSITION = 0.1;
     boolean open = true;
 
     public GrabberSubsystem(HardwareMap hardwareMap) {

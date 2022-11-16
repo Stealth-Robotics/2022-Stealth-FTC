@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx liftMotor;
     public static int MAX_VELO = 4000;
+
     public static int RESET_VELO = 3000;
     public static int RESET_TICKS = 0;
 

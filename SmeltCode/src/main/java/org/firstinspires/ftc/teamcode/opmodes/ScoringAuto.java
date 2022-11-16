@@ -53,7 +53,7 @@ public class ScoringAuto extends StealthOpMode {
         grabber = new GrabberSubsystem(hardwareMap);
         grabber.grabberClose();
         grabber.setLiftPos(0.5);
-        grabber.setPos(0);
+        grabber.setPos(0.1);
         lift = new ElevatorSubsystem(hardwareMap);
 
 
@@ -201,7 +201,8 @@ public class ScoringAuto extends StealthOpMode {
 //                                new InstantCommand(() -> grabber.setPos(.7)),
 //                                new InstantCommand(() -> grabber.setLiftPos(0.75))
 //                        )),
-                new InstantCommand(() -> grabber.setPos(0)),
+                new WaitBeforeCommand(300,
+                new InstantCommand(() -> grabber.setPos(0))),
                 new WaitBeforeCommand(500,
                 new FollowTrajectorySequence(drive, park)
                 ),
