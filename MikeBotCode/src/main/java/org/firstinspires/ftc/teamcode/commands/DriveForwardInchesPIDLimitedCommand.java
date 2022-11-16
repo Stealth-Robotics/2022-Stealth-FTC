@@ -43,6 +43,7 @@ public class DriveForwardInchesPIDLimitedCommand extends CommandBase {
         endTicks = drive.getTicks() + (int) (forward * TICS_PER_INCHES);
         pid.setSetPoint(endTicks);
         pid.setTolerance(10);
+        pid.reset();
         startTime = System.nanoTime();
     }
 

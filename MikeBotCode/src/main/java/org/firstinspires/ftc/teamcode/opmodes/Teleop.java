@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDLimitedCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDLimitedHeadingCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDMotionProfileCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesPIDCommand;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -71,6 +72,7 @@ public abstract class Teleop extends StealthOpMode {
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new DriveForwardInchesPIDCommand(drive, 36));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new DriveForwardInchesPIDLimitedCommand(drive, 36));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new DriveForwardInchesPIDLimitedHeadingCommand(drive, 36));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new DriveForwardInchesPIDMotionProfileCommand(drive, 36));
 
 //        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new TurnToDegreesPIDCommand(drive, 180));
