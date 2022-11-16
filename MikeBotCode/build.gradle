@@ -17,6 +17,13 @@ apply from: '../build.dependencies.gradle'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
+
+    sourceSets.main {
+        java {
+            exclude "org/firstinspires/ftc/teamcode/roadrunner/**"
+        }
+
+    }
 }
 
 dependencies {

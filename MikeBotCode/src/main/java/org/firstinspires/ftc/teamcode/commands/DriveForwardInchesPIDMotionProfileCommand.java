@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
+@Config
 public class DriveForwardInchesPIDMotionProfileCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     final double forward;
@@ -21,7 +23,16 @@ public class DriveForwardInchesPIDMotionProfileCommand extends CommandBase {
     int driveTicks;
     long startTime;
     double mpPosition;
-    PIDFController pid = new PIDFController(0.001, 0.1, 0, 0);
+
+    public static double kp = 0.001;
+    public static double ki = 0.1;
+    public static double kd = 0;
+    public static double kf = 0;
+
+    PIDFController pid = new PIDFController(kp, ki, kd, kf);
+
+    public static double MAX_ACCEL = 2000; // Tuned for living room carpet :)
+    public static double MAX_VELO = 4000;
 
     public DriveForwardInchesPIDMotionProfileCommand(SimpleMecanumDriveSubsystem drive, double forward) {
         this.drive = drive;
@@ -43,16 +54,18 @@ public class DriveForwardInchesPIDMotionProfileCommand extends CommandBase {
         // Use the motion profile to change the setpoint for the PID and let it chase it.
         // Good results with reasonable accel/decel.
         double dt = (System.nanoTime() - startTime) * 1E-9;
-        mpPosition = motion_profile(1000, 1500, driveTicks, dt);
+        mpPosition = motion_profile(MAX_ACCEL, MAX_VELO, driveTicks, dt);
         pid.setSetPoint(mpPosition + startTicks);
+        pid.setPIDF(kp, ki, kd, kf);
         double power = pid.calculate(drive.getTicks());
-        power = Math.max(-1.0, Math.min(power, 1.0));
-        drive.drive(power, 0, 0);
 
         telemetry.addData("dt", dt);
-        telemetry.addData("end ticks", startTicks + driveTicks);
+        telemetry.addData("endTicks", startTicks + driveTicks);
         telemetry.addData("mpPosition", mpPosition);
         telemetry.addData("power", power);
+
+        power = Math.max(-1.0, Math.min(power, 1.0));
+        drive.drive(power, 0, 0);
     }
 
     // Algorithm from CTRL ALT FTC, Motion Profiling section.

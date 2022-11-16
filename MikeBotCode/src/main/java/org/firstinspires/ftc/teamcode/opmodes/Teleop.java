@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -33,6 +35,11 @@ public abstract class Teleop extends StealthOpMode {
 //        gripper = new GripperSubsystem(hardwareMap);
         register(drive);
 
+        // Note: I don't recommend leaving this enabled. As of release 0.4.6 there is a bad
+        // memory leak if you disable the dashboard via the opmode, which will cause your opmode
+        // to crash after a short period of time. Use with caution until there's a new release.
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
 
@@ -62,14 +69,14 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new InstantCommand(() -> drive.togglefieldcentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
 
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new DriveForwardInchesPIDCommand(drive, 24));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new DriveForwardInchesPIDLimitedCommand(drive, 24));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new DriveForwardInchesPIDMotionProfileCommand(drive, 24));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new DriveForwardInchesPIDCommand(drive, 36));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new DriveForwardInchesPIDLimitedCommand(drive, 36));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new DriveForwardInchesPIDMotionProfileCommand(drive, 36));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new TurnToDegreesPIDCommand(drive, 180));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new TurnToDegreesPIDCommand(drive, 90));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new TurnToDegreesPIDCommand(drive, -90));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new TurnToDegreesPIDCommand(drive, 45));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new TurnToDegreesPIDCommand(drive, 180));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new TurnToDegreesPIDCommand(drive, 90));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new TurnToDegreesPIDCommand(drive, -90));
+//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new TurnToDegreesPIDCommand(drive, 45));
     }
 
     /**

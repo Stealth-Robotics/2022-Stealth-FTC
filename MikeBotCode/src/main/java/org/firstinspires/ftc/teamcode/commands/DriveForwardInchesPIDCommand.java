@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
+@Config
 public class DriveForwardInchesPIDCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     final double forward;
@@ -19,7 +21,12 @@ public class DriveForwardInchesPIDCommand extends CommandBase {
 
     int endTicks; // How far are we going?
 
-    PIDFController pid = new PIDFController(0.001, 0.1, 0, 0);
+    public static double kp = 0.001;
+    public static double ki = 0.1;
+    public static double kd = 0;
+    public static double kf = 0;
+
+    PIDFController pid = new PIDFController(kp, ki, kd, kf);
 
     public DriveForwardInchesPIDCommand(SimpleMecanumDriveSubsystem drive, double forward) {
         this.drive = drive;
@@ -37,6 +44,7 @@ public class DriveForwardInchesPIDCommand extends CommandBase {
     @Override
     public void execute() {
         // Very simple PID to get us to the destination
+        pid.setPIDF(kp, ki, kd, kf);
         double power = pid.calculate(drive.getTicks());
         power = Math.max(-0.5, Math.min(power, 0.5));
         drive.drive(power, 0, 0);
