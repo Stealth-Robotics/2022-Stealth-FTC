@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -8,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.apache.commons.math3.ode.nonstiff.GillFieldIntegrator;
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPID;
 import org.firstinspires.ftc.teamcode.commands.ElevatorResetCommand;
 import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
 import org.firstinspires.ftc.teamcode.commands.ToggleSnapDrivingCommand;
@@ -35,6 +38,8 @@ public abstract class Teleop extends StealthOpMode {
         gripper = new GripperSubsystem(hardwareMap);
         register(drive, elevator, gripper);
 
+        // DONT LEAVE THIS LINE IN FOR COMP!!!!!
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -67,6 +72,8 @@ public abstract class Teleop extends StealthOpMode {
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> gripper.open()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.close()));
+
+        driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new DriveForwardInchesPID(drive, 24.0,0));
 
     }
 

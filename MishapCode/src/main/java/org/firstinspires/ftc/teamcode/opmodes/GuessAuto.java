@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPID;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -45,7 +46,7 @@ public class GuessAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         return new SequentialCommandGroup(
-                new DriveForwardInchesCommand(drive, 24.0)
+                new DriveForwardInchesPID(drive, 24.0,0)
         );
     }
 }
