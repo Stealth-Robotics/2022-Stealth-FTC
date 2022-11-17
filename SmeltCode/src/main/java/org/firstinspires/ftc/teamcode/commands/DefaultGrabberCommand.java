@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
@@ -11,19 +13,26 @@ import java.util.function.DoubleSupplier;
  */
 public class DefaultGrabberCommand extends CommandBase {
     final GrabberSubsystem grabber;
-    DoubleSupplier leftY, leftX;
+    DoubleSupplier leftY, leftX, heading;
 
-    public DefaultGrabberCommand(GrabberSubsystem grabber, DoubleSupplier leftY, DoubleSupplier leftX) {
+    public DefaultGrabberCommand(GrabberSubsystem grabber, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier heading) {
         this.grabber = grabber;
         this.leftX = leftX;
         this.leftY = leftY;
+        this.heading = heading;
         addRequirements(grabber);
     }
 
     @Override
     public void execute(){
-
-        grabber.setPos(grabber.getPos() + .01 * leftX.getAsDouble());
+        if(Math.toDegrees(heading.getAsDouble()) > -90 && Math.toDegrees(heading.getAsDouble()) < 90){
+            grabber.setPos(grabber.getPos() + .01 * leftX.getAsDouble());
+            telemetry.addData("normal rotate: ", "true");
+        }
+        else{
+            grabber.setPos(grabber.getPos() - .01 * leftX.getAsDouble());
+            telemetry.addData("normal rotate: ", "false");
+        }
         grabber.setLiftPos(grabber.getLiftPos() - .01 * leftY.getAsDouble());
     }
 

@@ -53,7 +53,7 @@ public class ScoringAuto extends StealthOpMode {
         grabber = new GrabberSubsystem(hardwareMap);
         grabber.grabberClose();
         grabber.setLiftPos(0.5);
-        grabber.setPos(0.1);
+        grabber.setPos(0.17);
         lift = new ElevatorSubsystem(hardwareMap);
 
 
@@ -128,7 +128,7 @@ public class ScoringAuto extends StealthOpMode {
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.back2),
-                                new InstantCommand(() -> grabber.setPos(.7)),
+                                new InstantCommand(() -> grabber.setPos(1)),
                                 new InstantCommand(() -> grabber.setLiftPos(.75))
                         )),
 
@@ -138,7 +138,7 @@ public class ScoringAuto extends StealthOpMode {
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone1),
                                 new InstantCommand(() -> lift.setTarget(0)),
-                                new InstantCommand(() -> grabber.setPos(0)),
+                                new InstantCommand(() -> grabber.setPos(0.17)),
                                 new InstantCommand(() -> grabber.setLiftPos(.75))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
@@ -148,7 +148,7 @@ public class ScoringAuto extends StealthOpMode {
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone1),
-                                new InstantCommand(() -> grabber.setPos(.7)),
+                                new InstantCommand(() -> grabber.setPos(1)),
                                 new InstantCommand(() -> grabber.setLiftPos(0.75))
 
                         )),
@@ -158,7 +158,7 @@ public class ScoringAuto extends StealthOpMode {
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone2),
                                 new InstantCommand(() -> lift.setTarget(0)),
-                                new InstantCommand(() -> grabber.setPos(0)),
+                                new InstantCommand(() -> grabber.setPos(0.17)),
                                 new InstantCommand(() -> grabber.setLiftPos(.8))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
@@ -169,7 +169,7 @@ public class ScoringAuto extends StealthOpMode {
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone2),
-                                new InstantCommand(() -> grabber.setPos(.7)),
+                                new InstantCommand(() -> grabber.setPos(1)),
                                 new InstantCommand(() -> grabber.setLiftPos(0.75))
                         )),
                 new InstantCommand(() -> grabber.grabberOpen()),
@@ -202,7 +202,7 @@ public class ScoringAuto extends StealthOpMode {
 //                                new InstantCommand(() -> grabber.setLiftPos(0.75))
 //                        )),
                 new WaitBeforeCommand(300,
-                new InstantCommand(() -> grabber.setPos(0))),
+                new InstantCommand(() -> grabber.setPos(0.17))),
                 new WaitBeforeCommand(500,
                 new FollowTrajectorySequence(drive, park)
                 ),

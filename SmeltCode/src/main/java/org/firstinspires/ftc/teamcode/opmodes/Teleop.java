@@ -5,9 +5,11 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.ElevatorAndGrabberDown;
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultGrabberCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorAndGrabberUp;
 import org.firstinspires.ftc.teamcode.commands.GrabberDown;
 import org.firstinspires.ftc.teamcode.commands.GrabberRotateLeft;
 import org.firstinspires.ftc.teamcode.commands.GrabberRotateRight;
@@ -67,7 +69,8 @@ public abstract class Teleop extends StealthOpMode {
         grabber.setDefaultCommand(new DefaultGrabberCommand(
                 grabber,
                 () -> -mechGamepad.gamepad.left_stick_y,
-                () -> -mechGamepad.gamepad.left_stick_x
+                () -> -mechGamepad.gamepad.left_stick_x,
+                () -> drive.getHeading()
         ));
         lift.setDefaultCommand(new DefaultElevatorCommand(lift));
 
@@ -80,8 +83,8 @@ public abstract class Teleop extends StealthOpMode {
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(new GrabberUp(grabber));
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
 //        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> lift.setTarget(0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> lift.setTarget(2500)));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new ElevatorAndGrabberDown(grabber, lift));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new ElevatorAndGrabberUp(grabber, lift));
         mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> lift.limitSwitchReset()));
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new LiftDown(lift));
         mechGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenHeld(new LiftUp(lift));
