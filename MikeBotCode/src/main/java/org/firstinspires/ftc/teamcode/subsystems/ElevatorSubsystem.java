@@ -6,8 +6,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.stealthrobotics.library.math.filter.Debouncer;
 
 /**
  * This subsystem represents the elevator on our robots. We have a single motor and a single switch.
@@ -18,18 +19,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx elevatorMotor;
-    final DigitalChannel lowerLimitSwitch;
 
-    public static int UPPER_LIMIT_TICKS = 4500;
-    public static int MAX_VELOCITY_TICKS_PER_SEC = 4000;
-    public static double RESET_VELOCITY_TICKS_PER_SEC = 1000;
-    public static int RESET_TICKS = -6000;
+    public static int UPPER_LIMIT_TICKS = 1600;
+    public static int MAX_VELOCITY_TICKS_PER_SEC = 2000;
+    public static double RESET_POWER = 0.10;
+    public static double RESET_STALL_TIME_SEC = 0.050; // 50ms
+
+    final Debouncer stalledDebouncer = new Debouncer(RESET_STALL_TIME_SEC, Debouncer.DebounceType.kRising);
 
     int targetTicks = 0;
 
     public ElevatorSubsystem(HardwareMap hardwareMap) {
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "elevator");
-        elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        elevatorMotor.setDirection(DcMotor.Direction.FORWARD);
         elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         elevatorMotor.setTargetPositionTolerance(10);
@@ -41,35 +43,34 @@ public class ElevatorSubsystem extends SubsystemBase {
         //   'Position' to hit the position.
         // elevatorMotor.setVelocityPIDFCoefficients(1, 0.001, 0.1, 1.0);
         // elevatorMotor.setPositionPIDFCoefficients(1.0);
-
-        lowerLimitSwitch = hardwareMap.get(DigitalChannel.class, "limitSwitch");
     }
 
     /**
-     * Start the motor moving down gently. We'll look for the limit switch to get hit and stop it then.
+     * Start the motor moving down gently. We'll look for it to stall to find the bottom.
      */
-    public void startLimitSwitchReset() {
-        elevatorMotor.setTargetPosition(RESET_TICKS);
-        elevatorMotor.setVelocity(RESET_VELOCITY_TICKS_PER_SEC);
+    public void downSlowForReset() {
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        elevatorMotor.setPower(-RESET_POWER);
+        stalledDebouncer.calculate(false); // Reset the debouncer
     }
 
     /**
-     * the limit switch has been hit, so we know we're at the bottom. Reset the system to zero.
+     * True if the elevator is stalled, indicating we're at the bottom during a reset.
      */
-    public void limitSwitchReset() {
+    public boolean isStalled() {
+        telemetry.addData("Elevator velocity", elevatorMotor.getVelocity());
+        return stalledDebouncer.calculate(Math.abs(elevatorMotor.getVelocity()) < 1);
+    }
+
+    /**
+     * We're stalled going down, so we know we're at the bottom. Reset the system to zero.
+     */
+    public void completeReset() {
+        elevatorMotor.setPower(0);
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         targetTicks = 0;
         elevatorMotor.setTargetPosition(targetTicks);
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    /**
-     * True when the limit switch is activated, telling us we're at the bottom.
-     * <p>
-     * Note: the actual switch appears false when open, and true when closed.
-     */
-    public boolean isAtLimitSwitch() {
-        return lowerLimitSwitch.getState();
     }
 
     /**
@@ -121,24 +122,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void periodic() {
         telemetry.addData("Elevator current ticks", elevatorMotor.getCurrentPosition());
         telemetry.addData("Elevator target ticks", targetTicks);
-        telemetry.addData("Elevator limit switch", isAtLimitSwitch() ? 1 : 0);
-        telemetry.addData("Elevator current location", getCurrentLocation());
-        telemetry.addData("Elevator target location", getTargetLocation());
     }
-    //test code for ElevatorMoveInInches
-    public int getTicks(){
-        return elevatorMotor.getCurrentPosition();
-    }
-
-    public void stop(){
-        elevatorMotor.setPower(0);
-    }
-
-    public void drive(double speed) {
-        elevatorMotor.setPower(speed);
-
-    }
-
 }
 
 
