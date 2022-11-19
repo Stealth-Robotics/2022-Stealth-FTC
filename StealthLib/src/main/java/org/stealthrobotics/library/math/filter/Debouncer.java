@@ -61,6 +61,9 @@ public class Debouncer {
     }
 
     private void resetTimer() {
+        // nanoTime gives us nanoseconds (1 billionth of a second), but we prefer to work in seconds
+        // here. We can convert by dividing by 1000000000 which we can more easily express in
+        // scientific notation as 1e9. We can also multiply by the inverse, 1e-9.
         m_prevTimeSeconds = System.nanoTime() * 1e-9;
     }
 
