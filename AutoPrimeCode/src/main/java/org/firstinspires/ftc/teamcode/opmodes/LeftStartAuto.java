@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
+import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
@@ -77,70 +78,65 @@ public class LeftStartAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
-        SleeveDetection.ParkingPosition position = camera.getPosition();
+        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.RIGHT; //camera.getPosition();
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new StrafeForInches(drive, -13.5),
-                    new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
+                    new MoveElevatorPercentage(elevator, 0.08),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new TurnInDegrees(drive, 30),
+                    new MoveElevatorPercentage(elevator, 0.68),
+                    new DriveForwardInchesCommand(drive, 10).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
-                    new ParallelCommandGroup(
-                            new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 2)
-                    ),
+                    new DriveForwardInchesCommand(drive, -8),
+                    new MoveElevatorPercentage(elevator, 0.0),
+                    new TurnInDegrees(drive, 0),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, 40)
+                            new StrafeForInches(drive, 32)
                     )
             );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new StrafeForInches(drive, -13.5),
-                    new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
+                    new MoveElevatorPercentage(elevator, 0.08),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new TurnInDegrees(drive, 30),
+                    new MoveElevatorPercentage(elevator, 0.68),
+                    new DriveForwardInchesCommand(drive, 10).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
-                    new ParallelCommandGroup(
-                            new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 2)
-                    ),
+                    new DriveForwardInchesCommand(drive, -8),
+                    new MoveElevatorPercentage(elevator, 0.0),
+                    new TurnInDegrees(drive, 0),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, 13.5)
+                            new StrafeForInches(drive, 8)
                     )
             );
         } else { // RIGHT
             return new SequentialCommandGroup(
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new StrafeForInches(drive, -13.5),
-                    new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
+                    new MoveElevatorPercentage(elevator, 0.08),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new TurnInDegrees(drive, 30),
+                    new MoveElevatorPercentage(elevator, 0.68),
+                    new DriveForwardInchesCommand(drive, 10).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
-                    new ParallelCommandGroup(
-                            new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 1)
-                    ),
+                    new DriveForwardInchesCommand(drive, -8),
+                    new MoveElevatorPercentage(elevator, 0.0),
+                    new TurnInDegrees(drive, 0),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, -13.5)
+                            new StrafeForInches(drive, -24)
+
                     )
             );
-        }
 
+        }
     }
 
     public void periodic() {
