@@ -23,6 +23,7 @@ public abstract class Teleop extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
+
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;

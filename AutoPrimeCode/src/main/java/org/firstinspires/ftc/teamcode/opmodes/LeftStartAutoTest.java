@@ -88,18 +88,26 @@ public class LeftStartAutoTest extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 24),
                     new TurnInDegrees(drive, 30),
                     new MoveElevatorPercentage(elevator, 0.68),
-                    new DriveForwardInchesCommand(drive, 6.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 10).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    //new DriveForwardInchesCommand(drive, 3.5),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -3.5)
+                            new DriveForwardInchesCommand(drive, -5)
                     ),
-                    new TurnInDegrees(drive, 10),
+                    new TurnInDegrees(drive, 0),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
                             new StrafeForInches(drive, 32)
                     )
+                    // Todo Undo and test grabbing a second cone for scoring.
+//                    new TurnInDegrees(drive, -90),
+//                    new StrafeForInches(drive, -24),
+//                    new ParallelCommandGroup(
+//                            new GripperOpenCommand(gripper),
+//                            new DriveForwardInchesCommand(drive, 5)
+//                    ),
+//                    new MoveElevatorPercentage(elevator, 0.3),
+//                    new GripperCloseCommand(gripper)
             );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(

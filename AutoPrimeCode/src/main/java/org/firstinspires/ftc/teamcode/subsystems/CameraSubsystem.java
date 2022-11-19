@@ -71,7 +71,7 @@ public class CameraSubsystem extends SubsystemBase {
                  */
             }
         });
-        FtcDashboard.getInstance().startCameraStream(webcam,25);
+//        FtcDashboard.getInstance().startCameraStream(webcam,25);
     }
 
     public SleeveDetection.ParkingPosition getPosition() {
@@ -81,6 +81,5 @@ public class CameraSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("Camera fps", webcam.getFps());
-
     }
 }
