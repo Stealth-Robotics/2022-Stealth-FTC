@@ -15,6 +15,13 @@ import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
+// mmmfixme
+//   - StealthOpMode changes for next time
+//     - base class for Teleop vs. auto
+//       - auto can reset the auto-to-tele storage, ask for the auto cmd, pump the scheduler loop during init, etc.
+//       - tele can have a separate method to bind controller buttons vs. init, so we can schedule cmds during init but not bind buttons.
+
+
 public abstract class Teleop extends StealthOpMode {
 
     // Subsystems

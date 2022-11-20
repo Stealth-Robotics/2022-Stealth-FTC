@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.ParkingPosition;
+import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -64,6 +65,9 @@ public class MarcoAutoOne extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
+        // Reset our saved heading from the last auto run. It was updated by SaveAutoHeadingCommand.
+        AutoToTeleStorage.finalAutoHeading = 0;
+
         ParkingPosition position = camera.getPosition();
         camera.stop();
 
@@ -107,6 +111,8 @@ public class MarcoAutoOne extends StealthOpMode {
             );
         }
 
+        // Save the final robot heading so field-centric works well in the next teleop, then end
+        // the opmode now.
         autoCmd.addCommands(
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new EndOpModeCommand(this)
