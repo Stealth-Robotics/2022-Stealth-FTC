@@ -164,43 +164,12 @@ public class ScoringAuto extends StealthOpMode {
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone2)
                         ),
                 new InstantCommand(() -> grabber.grabberOpen()),
-//                //prepares to pick up fourth cone
-//                new InstantCommand(() -> grabber.grabberOpen()),
-//                new WaitBeforeCommand(500,
-//                        new ParallelCommandGroup(
-//                                new InstantCommand(() -> grabber.setPos(0)),
-//
-//
-//                                new WaitBeforeCommand(500,
-//                                        new ParallelCommandGroup(
-//                                                new FollowTrajectorySequence(drive, BlueRightTrajectories.getcone3),
-//                                                new InstantCommand(() -> lift.setTarget(0))
-//                                        )),
-//
-//
-//                                new InstantCommand(() -> grabber.setLiftPos(.85))
-//
-//
-//                        )),
-//                new InstantCommand(() -> grabber.grabberClose()),
-//
-//
-//                new InstantCommand(() -> lift.setTarget(2730)),
-//                new WaitBeforeCommand(500,
-//                        new ParallelCommandGroup(
-//                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scorecone3),
-//                                new InstantCommand(() -> grabber.setPos(.7)),
-//                                new InstantCommand(() -> grabber.setLiftPos(0.75))
-//                        )),
                 new WaitBeforeCommand(300,
                     new InstantCommand(() -> grabber.setPos(0.17))
                 ),
                 new WaitBeforeCommand(500,
                     new FollowTrajectorySequence(drive, park)
                     ),
-//
-//                new InstantCommand(() -> grabber.grabberOpen()),
-                //TODO make parking trajectories
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
                 new WaitBeforeCommand(1000,
                     new EndOpModeCommand(this))
