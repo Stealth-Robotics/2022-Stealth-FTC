@@ -2,7 +2,6 @@
 
 package org.firstinspires.ftc.teamcode.subsystems.pipelines;
 
-import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -40,7 +39,7 @@ public class SleeveDetection2 extends OpenCvPipeline {
             SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
     // Running variable storing the parking position
-    private volatile CameraSubsystem.ParkingPosition position = CameraSubsystem.ParkingPosition.LEFT;
+    private volatile ParkingPosition position = ParkingPosition.LEFT;
 
     @Override
     public Mat processFrame(Mat input) {
@@ -53,7 +52,7 @@ public class SleeveDetection2 extends OpenCvPipeline {
 
         // Change the bounding box color based on the sleeve color
         if (sumColors.val[0] == minColor) {
-            position = CameraSubsystem.ParkingPosition.CENTER;
+            position = ParkingPosition.CENTER;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -62,7 +61,7 @@ public class SleeveDetection2 extends OpenCvPipeline {
                     2
             );
         } else if (sumColors.val[1] == minColor) {
-            position = CameraSubsystem.ParkingPosition.RIGHT;
+            position = ParkingPosition.RIGHT;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -71,7 +70,7 @@ public class SleeveDetection2 extends OpenCvPipeline {
                     2
             );
         } else {
-            position = CameraSubsystem.ParkingPosition.LEFT;
+            position = ParkingPosition.LEFT;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -87,7 +86,7 @@ public class SleeveDetection2 extends OpenCvPipeline {
     }
 
     // Returns an enum being the current position where the robot will park
-    public CameraSubsystem.ParkingPosition getPosition() {
+    public ParkingPosition getPosition() {
         return position;
     }
 }

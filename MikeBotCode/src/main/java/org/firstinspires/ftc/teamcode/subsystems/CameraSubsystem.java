@@ -28,6 +28,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.subsystems.pipelines.ParkingPosition;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection2;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -40,12 +41,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 // Within the subsystem is a "pipeline", which actually does the work on each frame from the camera.
 
 public class CameraSubsystem extends SubsystemBase {
-    public enum ParkingPosition {
-        LEFT,
-        CENTER,
-        RIGHT
-    }
-
     private final OpenCvCamera webcam;
     private final SleeveDetection2 pipeline;
 

@@ -2,7 +2,6 @@
 
 package org.firstinspires.ftc.teamcode.subsystems.pipelines;
 
-import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -48,7 +47,7 @@ public class SleeveDetection extends OpenCvPipeline {
     // Anchor point definitions
 
     // Running variable storing the parking position
-    private volatile CameraSubsystem.ParkingPosition position = CameraSubsystem.ParkingPosition.LEFT;
+    private volatile ParkingPosition position = ParkingPosition.LEFT;
 
     @Override
     public Mat processFrame(Mat input) {
@@ -84,7 +83,7 @@ public class SleeveDetection extends OpenCvPipeline {
         // Checks all percentages, will highlight bounding box in camera preview
         // based on what color is being detected
         if (maxPercent == yelPercent) {
-            position = CameraSubsystem.ParkingPosition.LEFT;
+            position = ParkingPosition.LEFT;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -93,7 +92,7 @@ public class SleeveDetection extends OpenCvPipeline {
                     2
             );
         } else if (maxPercent == cyaPercent) {
-            position = CameraSubsystem.ParkingPosition.CENTER;
+            position = ParkingPosition.CENTER;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -102,7 +101,7 @@ public class SleeveDetection extends OpenCvPipeline {
                     2
             );
         } else if (maxPercent == magPercent) {
-            position = CameraSubsystem.ParkingPosition.RIGHT;
+            position = ParkingPosition.RIGHT;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -124,7 +123,7 @@ public class SleeveDetection extends OpenCvPipeline {
     }
 
     // Returns an enum being the current position where the robot will park
-    public CameraSubsystem.ParkingPosition getPosition() {
+    public ParkingPosition getPosition() {
         return position;
     }
 }
