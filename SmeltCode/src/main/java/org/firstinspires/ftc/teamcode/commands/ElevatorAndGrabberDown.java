@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 
-import org.firstinspires.ftc.teamcode.commands.GrabberRotateRight;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.stealthrobotics.library.commands.WaitBeforeCommand;
 
 /**
- * Spin a wheel forward forever, until the command is cancelled.
+ * brings elevator down and readies grabber to get another cone
  */
 public class ElevatorAndGrabberDown extends ParallelCommandGroup {
     final GrabberSubsystem grabber;

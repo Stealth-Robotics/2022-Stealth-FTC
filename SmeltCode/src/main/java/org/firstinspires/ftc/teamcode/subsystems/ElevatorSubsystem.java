@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * A very simple subsystem that has a single wheel that you can turn.
+ * Subsystem to control the elevator
  */
 @Config
 public class ElevatorSubsystem extends SubsystemBase {

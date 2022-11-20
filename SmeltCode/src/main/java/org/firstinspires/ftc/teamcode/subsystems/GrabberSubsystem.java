@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.stealthrobotics.library.Alliance;
 
 /**
- * A very simple subsystem that has a single wheel that you can turn.
+ * Subsystem that contains all the servos for the grabber
  */
 @Config
 public class GrabberSubsystem extends SubsystemBase {

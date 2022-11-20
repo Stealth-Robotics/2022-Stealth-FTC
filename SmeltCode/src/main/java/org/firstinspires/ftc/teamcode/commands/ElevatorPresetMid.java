@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.stealthrobotics.library.commands.WaitBeforeCommand;
 
 /**
- * Spin a wheel forward forever, until the command is cancelled.
+ * Bring elevator to mid position for scoring, rotates around
  */
 public class ElevatorPresetMid extends ParallelCommandGroup {
     final GrabberSubsystem grabber;

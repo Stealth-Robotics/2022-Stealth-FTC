@@ -43,8 +43,7 @@ public abstract class Teleop extends StealthOpMode {
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
         lift = new ElevatorSubsystem(hardwareMap);
-        CameraSubsystem camera = new CameraSubsystem(hardwareMap);
-        register(drive, grabber, lift, camera);
+        register(drive, grabber, lift);
 
         grabber.setLiftPos(0.5);
         grabber.setPos(0.1);
@@ -77,10 +76,6 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
 
         mechGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
-//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(new GrabberDown(grabber));
-//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(new GrabberUp(grabber));
-//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenHeld(new GrabberRotateLeft(grabber));
-//        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenHeld(new GrabberRotateRight(grabber));
         mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new ElevatorAndGrabberDown(grabber, lift));
         mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new ElevatorAndGrabberUp(grabber, lift));
         mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> lift.limitSwitchReset()));
