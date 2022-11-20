@@ -11,12 +11,15 @@ import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
-import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
+import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
+import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -53,17 +56,6 @@ public class LeftStartAutoTest extends StealthOpMode {
         CommandScheduler.getInstance().run();
     }
 
-    /**
-     * This will be called when your opmode is over so we can remember which way the robot is facing.
-     * This helps us with things like field-centric driving in teleop afterwards.
-     *
-     * @return heading in radians
-     */
-    @Override
-    public double getFinalHeading() {
-        //return drive.getHeading();
-        return 0;
-    }
 
     /**
      * This is where we create the one command we want to run in our autonomous opmode.
@@ -78,7 +70,8 @@ public class LeftStartAutoTest extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
-        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.LEFT; //camera.getPosition();
+        AutoToTeleStorage.finalAutoHeading = 0;
+        SleeveDetection.ParkingPosition position = camera.getPosition();
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
@@ -86,7 +79,7 @@ public class LeftStartAutoTest extends StealthOpMode {
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.08),
                     new DriveForwardInchesCommand(drive, 24),
-                    new TurnInDegrees(drive, 30),
+                    new TurnToDegrees(drive, 30),
                     new MoveElevatorPercentage(elevator, 0.68),
                     new DriveForwardInchesCommand(drive, 10).withTimeout(4000),
                     new GripperOpenCommand(gripper),
@@ -94,11 +87,13 @@ public class LeftStartAutoTest extends StealthOpMode {
                             new MoveElevatorPercentage(elevator, 0.0),
                             new DriveForwardInchesCommand(drive, -5)
                     ),
-                    new TurnInDegrees(drive, 0),
+                    new TurnToDegrees(drive, 0),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
                             new StrafeForInches(drive, 32)
-                    )
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
                     // Todo Undo and test grabbing a second cone for scoring.
 //                    new TurnInDegrees(drive, -90),
 //                    new StrafeForInches(drive, -24),

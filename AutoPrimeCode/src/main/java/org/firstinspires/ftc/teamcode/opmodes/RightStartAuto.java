@@ -11,12 +11,12 @@ import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
-import org.firstinspires.ftc.teamcode.commands.TurnInDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
+import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -54,18 +54,6 @@ public class RightStartAuto extends StealthOpMode {
     }
 
     /**
-     * This will be called when your opmode is over so we can remember which way the robot is facing.
-     * This helps us with things like field-centric driving in teleop afterwards.
-     *
-     * @return heading in radians
-     */
-    @Override
-    public double getFinalHeading() {
-        //return drive.getHeading();
-        return 0;
-    }
-
-    /**
      * This is where we create the one command we want to run in our autonomous opmode.
      * <p>
      * You create a SequentialCommandGroup, which is a list of commands that will run one after
@@ -78,8 +66,8 @@ public class RightStartAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
-        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.RIGHT;//camera.getPosition();
-
+        SleeveDetection.ParkingPosition position = camera.getPosition();
+        AutoToTeleStorage.finalAutoHeading = 0;
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
                     new GripperOpenCommand(gripper),
