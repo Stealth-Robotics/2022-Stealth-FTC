@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -8,7 +10,8 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 public class StrafeForInchesCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     double distance;
-    int end_ticks;
+    int endTicks;
+
     public static double TICKS_PER_REVOLUTION = 537.7;
     public static double WHEEL_DIAMETER_MM = 96;
     public static double MM_PER_REVOLUTION = WHEEL_DIAMETER_MM * Math.PI;
@@ -23,8 +26,8 @@ public class StrafeForInchesCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        end_ticks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
-        double drive_power = -0.5;
+        endTicks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
+        double drive_power = 0.5;
         if (distance < 0) {
             drive_power *= -1;
         }
@@ -38,12 +41,14 @@ public class StrafeForInchesCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        telemetry.addData("endTicks", endTicks);
+
         if (distance > 0) {
-            if (drive.getTicks() > end_ticks) {
+            if (drive.getTicks() > endTicks) {
                 return true;
             }
         } else {
-            if (drive.getTicks() < end_ticks) {
+            if (drive.getTicks() < endTicks) {
                 return true;
             }
         }

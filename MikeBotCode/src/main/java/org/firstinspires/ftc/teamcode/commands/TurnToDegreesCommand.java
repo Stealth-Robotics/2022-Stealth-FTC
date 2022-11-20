@@ -38,6 +38,7 @@ public class TurnToDegreesCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         telemetry.addData("End Angle", end_angle);
+
         if (positive_direction) {
             if (drive.getHeading() > end_angle) {
                 return true;

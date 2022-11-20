@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
+import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.SetElevatorPercentageCommand;
 import org.firstinspires.ftc.teamcode.commands.StrafeForInchesCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
@@ -16,11 +17,13 @@ import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.ParkingPosition;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "Test Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class TestAuto extends StealthOpMode {
+@Autonomous(name = "Marco Auto #1", preselectTeleOp = "BLUE | Tele-Op")
+public class MarcoAutoOne extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -38,6 +41,9 @@ public class TestAuto extends StealthOpMode {
         gripper = new GripperSubsystem(hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
         register(drive, elevator, gripper, camera);
+
+        // Automatically reset the elevator all the way down when we init
+        schedule(new ResetElevatorCommand(elevator));
     }
 
     @Override
@@ -61,63 +67,51 @@ public class TestAuto extends StealthOpMode {
         ParkingPosition position = camera.getPosition();
         camera.stop();
 
+        // This was Marco's auto from the first match.
+        // I've re-arranged it to separate the common and unique portions, and to add the epilogue.
+        SequentialCommandGroup autoCmd = new SequentialCommandGroup(
+                new GripperCloseCommand(gripper),
+                new SetElevatorPercentageCommand(elevator, 0.05),
+                new DriveForwardInchesCommand(drive, 24),
+                new StrafeForInchesCommand(drive, 13.5),
+                new SetElevatorPercentageCommand(elevator, 0.65),
+                new DriveForwardInchesCommand(drive, 3.5).withTimeout(1000),
+                new GripperOpenCommand(gripper),
+                new DriveForwardInchesCommand(drive, -3.5),
+                new ParallelCommandGroup(
+                        new SetElevatorPercentageCommand(elevator, 0.0),
+                        new DriveForwardInchesCommand(drive, -2)
+                )
+        );
+
         if (position == ParkingPosition.LEFT) {
-            return new SequentialCommandGroup(
-                    new GripperCloseCommand(gripper),
-                    new SetElevatorPercentageCommand(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new StrafeForInchesCommand(drive, -13.5),
-                    new SetElevatorPercentageCommand(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
-                    new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
-                    new ParallelCommandGroup(
-                            new SetElevatorPercentageCommand(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 2)
-                    ),
+            autoCmd.addCommands(
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInchesCommand(drive, 40)
+                            new StrafeForInchesCommand(drive, -40)
                     )
             );
         } else if (position == ParkingPosition.CENTER) {
-            return new SequentialCommandGroup(
-                    new GripperCloseCommand(gripper),
-                    new SetElevatorPercentageCommand(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new StrafeForInchesCommand(drive, -13.5),
-                    new SetElevatorPercentageCommand(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
-                    new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
-                    new ParallelCommandGroup(
-                            new SetElevatorPercentageCommand(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 2)
-                    ),
-                    new ParallelCommandGroup(
-                            new GripperCloseCommand(gripper),
-                            new StrafeForInchesCommand(drive, 13.5)
-                    )
-            );
-        } else { // RIGHT
-            return new SequentialCommandGroup(
-                    new GripperCloseCommand(gripper),
-                    new SetElevatorPercentageCommand(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new StrafeForInchesCommand(drive, -13.5),
-                    new SetElevatorPercentageCommand(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(1000),
-                    new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
-                    new ParallelCommandGroup(
-                            new SetElevatorPercentageCommand(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, 1)
-                    ),
+            autoCmd.addCommands(
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
                             new StrafeForInchesCommand(drive, -13.5)
                     )
             );
+        } else { // RIGHT
+            autoCmd.addCommands(
+                    new ParallelCommandGroup(
+                            new GripperCloseCommand(gripper),
+                            new StrafeForInchesCommand(drive, 13.5)
+                    )
+            );
         }
+
+        autoCmd.addCommands(
+                new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                new EndOpModeCommand(this)
+        );
+
+        return autoCmd;
     }
 }

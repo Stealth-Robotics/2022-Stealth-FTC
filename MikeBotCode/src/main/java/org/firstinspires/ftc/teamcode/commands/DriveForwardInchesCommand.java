@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
 
 public class DriveForwardInchesCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     double distance;
-    int end_ticks;
+    int endTicks;
 
     // From https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
     // Encoder Resolution           537.7 PPR at the Output Shaft
@@ -29,8 +30,8 @@ public class DriveForwardInchesCommand extends CommandBase {
     @Override
     public void initialize() {
 
-        end_ticks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
-        double drive_power = -0.5;
+        endTicks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
+        double drive_power = 0.5;
         if (distance < 0) {
             drive_power *= -1;
         }
@@ -44,12 +45,14 @@ public class DriveForwardInchesCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        telemetry.addData("endTicks", endTicks);
+
         if (distance > 0) {
-            if (drive.getTicks() > end_ticks) {
+            if (drive.getTicks() > endTicks) {
                 return true;
             }
         } else {
-            if (drive.getTicks() < end_ticks) {
+            if (drive.getTicks() < endTicks) {
                 return true;
             }
         }

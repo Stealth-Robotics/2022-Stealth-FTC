@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -19,7 +20,7 @@ public abstract class Teleop extends StealthOpMode {
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
-//    GripperSubsystem gripper;
+    GripperSubsystem gripper;
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -31,8 +32,8 @@ public abstract class Teleop extends StealthOpMode {
         // Setup and register all of your subsystems here
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
-//        gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator);
+        gripper = new GripperSubsystem(hardwareMap);
+        register(drive, elevator, gripper);
 
         // Note: I don't recommend leaving this enabled. As of release 0.4.6 there is a bad
         // memory leak if you disable the dashboard via the opmode, which will cause your opmode
@@ -65,6 +66,9 @@ public abstract class Teleop extends StealthOpMode {
         // Setup all of your controllers' buttons and triggers here
         driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new InstantCommand(() -> drive.togglefieldcentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
+
+        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> gripper.open()));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> gripper.close()));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.37)));
