@@ -13,6 +13,9 @@ public class DriveForwardInchesPIDMotionProfileCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     final double forward;
 
+    // From https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
+    // Encoder Resolution           537.7 PPR at the Output Shaft
+    // Encoder Resolution Formula   ((((1+(46/17))) * (1+(46/11))) * 28)
     public static double MOTOR_TICS_PER_REVOLUTION = 537.7;
     public static double WHEEL_DIAMETER_MM = 96;
     public static double DISTANCE_PER_REVOLUTION_MM = WHEEL_DIAMETER_MM * Math.PI;

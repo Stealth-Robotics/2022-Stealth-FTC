@@ -16,7 +16,6 @@ public class GripperSubsystem extends SubsystemBase {
 
     public GripperSubsystem(HardwareMap hardwareMap) {
         gripperServo = hardwareMap.get(Servo.class, "gripper");
-
     }
 
     public void open() {
@@ -26,7 +25,6 @@ public class GripperSubsystem extends SubsystemBase {
     public void close() {
         gripperServo.setPosition(CLOSE_POSITION);
     }
-
 
     public void periodic() {
         telemetry.addData("Gripper position", gripperServo.getPosition());

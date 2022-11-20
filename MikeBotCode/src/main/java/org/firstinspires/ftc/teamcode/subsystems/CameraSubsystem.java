@@ -28,34 +28,37 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
+import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection2;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 // This was taken from the EasyOpenCV SkystoneDeterminationExample
 // https://github.com/OpenFTC/EasyOpenCV/blob/526c42cefb13f2a36fe8bae350ef9c80f656dc3a/examples/src/main/java/org/firstinspires/ftc/teamcode/SkystoneDeterminationExample.java
-//
-// I've not made too many changes from the original sample, since it's easy to read and refer to.
-//
-// There are minimal changes to the example code to change the region sizes and the color detected.
-// It's also been re-packaged into something that can be used from our auto opmodes easily.
 
 // The CameraSubsystem sets up the webcam so we can process each frame and decide what to do.
 // Within the subsystem is a "pipeline", which actually does the work on each frame from the camera.
 
 public class CameraSubsystem extends SubsystemBase {
+    public enum ParkingPosition {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     private final OpenCvCamera webcam;
-    private final SleeveDetection pipeline;
+    private final SleeveDetection2 pipeline;
 
     private static final int CAMERA_WIDTH = 320;
     private static final int CAMERA_HEIGHT = 240;
+
+    private static final boolean useFtcDashboard = false;
 
     public CameraSubsystem(HardwareMap hardwareMap) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        pipeline = new SleeveDetection();
+        pipeline = new SleeveDetection2();
         webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -66,21 +69,30 @@ public class CameraSubsystem extends SubsystemBase {
 
             @Override
             public void onError(int errorCode) {
-                /*
-                 * This will be called if the camera could not be opened
-                 */
+                System.out.println("Whoa, failed to open camers with error " + errorCode);
             }
         });
-        FtcDashboard.getInstance().startCameraStream(webcam,25);
+
+        if (useFtcDashboard) {
+            FtcDashboard.getInstance().startCameraStream(webcam, 25);
+        }
     }
 
-    public SleeveDetection.ParkingPosition getPosition() {
+    public void stop() {
+        if (useFtcDashboard) {
+            FtcDashboard.getInstance().stopCameraStream();
+        }
+
+        webcam.closeCameraDeviceAsync(() -> System.out.println("Camera closed"));
+    }
+
+    public ParkingPosition getPosition() {
         return pipeline.getPosition();
     }
 
     @Override
     public void periodic() {
         telemetry.addData("Camera fps", webcam.getFps());
-
+        telemetry.addData("Detected position", pipeline.getPosition());
     }
 }

@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
-import org.stealthrobotics.library.commands.IfCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -32,6 +32,11 @@ public class SampleCameraAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
         register(drive, camera);
+    }
+
+    @Override
+    public void whileWaitingToStart() {
+        CommandScheduler.getInstance().run();
     }
 
     /**
@@ -64,6 +69,8 @@ public class SampleCameraAuto extends StealthOpMode {
         // autonomous command.
 //        int positionFromCamera = camera.getPosition();
 
+        camera.stop();
+
         return new SequentialCommandGroup(
                 // Drive forward at half speed some distance based on what the camera saw.
                 //new DriveForTicksCommand(drive, 0.5, 0.0, 0.0, 1000 * positionFromCamera).withTimeout(2000),
@@ -71,7 +78,7 @@ public class SampleCameraAuto extends StealthOpMode {
                 // Strafe right at half speed for 1000 ticks, or until 2 seconds have passed, but
                 // only if the camera saw our target in position #2.
                 //new IfCommand(() -> positionFromCamera == 2,
-                        //new DriveForTicksCommand(drive, 0.0, 0.5, 0.0, 1000).withTimeout(2000))
+                //new DriveForTicksCommand(drive, 0.0, 0.5, 0.0, 1000).withTimeout(2000))
         );
     }
 }

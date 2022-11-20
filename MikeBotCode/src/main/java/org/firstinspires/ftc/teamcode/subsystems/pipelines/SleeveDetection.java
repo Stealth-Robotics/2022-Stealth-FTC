@@ -1,5 +1,8 @@
+// From https://github.com/KookyBotz/PowerPlaySleeveDetection
+
 package org.firstinspires.ftc.teamcode.subsystems.pipelines;
 
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -16,14 +19,8 @@ public class SleeveDetection extends OpenCvPipeline {
     MAGENTA = Parking Right
      */
 
-    public enum ParkingPosition {
-        LEFT,
-        CENTER,
-        RIGHT
-    }
-
     // TOPLEFT anchor point for the bounding box
-    private static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(145, 168);
+    public static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(145, 168);
 
     // Width and height for the bounding box
     public static int REGION_WIDTH = 30;
@@ -31,17 +28,17 @@ public class SleeveDetection extends OpenCvPipeline {
 
     // Lower and upper boundaries for colors
     public static Scalar
-            lower_yellow_bounds  = new Scalar(200, 200, 0, 255),
-            upper_yellow_bounds  = new Scalar(255, 255, 130, 255),
-            lower_cyan_bounds    = new Scalar(0, 200, 200, 255),
-            upper_cyan_bounds    = new Scalar(150, 255, 255, 255),
+            lower_yellow_bounds = new Scalar(200, 200, 0, 255),
+            upper_yellow_bounds = new Scalar(255, 255, 130, 255),
+            lower_cyan_bounds = new Scalar(0, 200, 200, 255),
+            upper_cyan_bounds = new Scalar(150, 255, 255, 255),
             lower_magenta_bounds = new Scalar(170, 0, 170, 255),
             upper_magenta_bounds = new Scalar(255, 60, 255, 255);
 
     // Color definitions
     public static Scalar
-            YELLOW  = new Scalar(255, 255, 0),
-            CYAN    = new Scalar(0, 255, 255),
+            YELLOW = new Scalar(255, 255, 0),
+            CYAN = new Scalar(0, 255, 255),
             MAGENTA = new Scalar(255, 0, 255);
 
     // Percent and mat definitions
@@ -49,30 +46,32 @@ public class SleeveDetection extends OpenCvPipeline {
     private Mat yelMat = new Mat(), cyaMat = new Mat(), magMat = new Mat(), blurredMat = new Mat(), kernel = new Mat();
 
     // Anchor point definitions
-    Point sleeve_pointA = new Point(
-            SLEEVE_TOPLEFT_ANCHOR_POINT.x,
-            SLEEVE_TOPLEFT_ANCHOR_POINT.y);
-    Point sleeve_pointB = new Point(
-            SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-            SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
     // Running variable storing the parking position
-    private volatile ParkingPosition position = ParkingPosition.LEFT;
+    private volatile CameraSubsystem.ParkingPosition position = CameraSubsystem.ParkingPosition.LEFT;
 
     @Override
     public Mat processFrame(Mat input) {
+        Point sleeve_pointA = new Point(
+                SLEEVE_TOPLEFT_ANCHOR_POINT.x,
+                SLEEVE_TOPLEFT_ANCHOR_POINT.y);
+        Point sleeve_pointB = new Point(
+                SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+
+
         // Noise reduction
         Imgproc.blur(input, blurredMat, new Size(5, 5));
-        blurredMat = blurredMat.submat(new Rect(sleeve_pointA, sleeve_pointB));
+        Mat blurredSubMat = blurredMat.submat(new Rect(sleeve_pointA, sleeve_pointB));
 
         // Apply Morphology
         kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
-        Imgproc.morphologyEx(blurredMat, blurredMat, Imgproc.MORPH_CLOSE, kernel);
+        Imgproc.morphologyEx(blurredSubMat, blurredSubMat, Imgproc.MORPH_CLOSE, kernel);
 
         // Gets channels from given source mat
-        Core.inRange(blurredMat, lower_yellow_bounds, upper_yellow_bounds, yelMat);
-        Core.inRange(blurredMat, lower_cyan_bounds, upper_cyan_bounds, cyaMat);
-        Core.inRange(blurredMat, lower_magenta_bounds, upper_magenta_bounds, magMat);
+        Core.inRange(blurredSubMat, lower_yellow_bounds, upper_yellow_bounds, yelMat);
+        Core.inRange(blurredSubMat, lower_cyan_bounds, upper_cyan_bounds, cyaMat);
+        Core.inRange(blurredSubMat, lower_magenta_bounds, upper_magenta_bounds, magMat);
 
         // Gets color specific values
         yelPercent = Core.countNonZero(yelMat);
@@ -85,7 +84,7 @@ public class SleeveDetection extends OpenCvPipeline {
         // Checks all percentages, will highlight bounding box in camera preview
         // based on what color is being detected
         if (maxPercent == yelPercent) {
-            position = ParkingPosition.LEFT;
+            position = CameraSubsystem.ParkingPosition.LEFT;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -94,7 +93,7 @@ public class SleeveDetection extends OpenCvPipeline {
                     2
             );
         } else if (maxPercent == cyaPercent) {
-            position = ParkingPosition.CENTER;
+            position = CameraSubsystem.ParkingPosition.CENTER;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -103,7 +102,7 @@ public class SleeveDetection extends OpenCvPipeline {
                     2
             );
         } else if (maxPercent == magPercent) {
-            position = ParkingPosition.RIGHT;
+            position = CameraSubsystem.ParkingPosition.RIGHT;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
@@ -114,17 +113,18 @@ public class SleeveDetection extends OpenCvPipeline {
         }
 
         // Memory cleanup
-        blurredMat.release();
-        yelMat.release();
-        cyaMat.release();
-        magMat.release();
-        kernel.release();
+//        blurredMat.release();
+//        blurredSubMat.release();
+//        yelMat.release();
+//        cyaMat.release();
+//        magMat.release();
+//        kernel.release();
 
         return input;
     }
 
     // Returns an enum being the current position where the robot will park
-    public ParkingPosition getPosition() {
+    public CameraSubsystem.ParkingPosition getPosition() {
         return position;
     }
 }

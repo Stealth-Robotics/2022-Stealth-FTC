@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
@@ -58,9 +57,10 @@ public class TestAuto extends StealthOpMode {
      */
     @Override
     public Command getAutoCommand() {
-        SleeveDetection.ParkingPosition position = camera.getPosition();
+        CameraSubsystem.ParkingPosition position = camera.getPosition();
+        camera.stop();
 
-        if (position == SleeveDetection.ParkingPosition.LEFT) {
+        if (position == CameraSubsystem.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
                     new SetElevatorPercentageCommand(elevator, 0.05),
@@ -79,7 +79,7 @@ public class TestAuto extends StealthOpMode {
                             new StrafeForInchesCommand(drive, 40)
                     )
             );
-        } else if (position == SleeveDetection.ParkingPosition.CENTER) {
+        } else if (position == CameraSubsystem.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
                     new SetElevatorPercentageCommand(elevator, 0.05),
