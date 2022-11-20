@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 
@@ -11,16 +10,16 @@ import org.stealthrobotics.library.commands.WaitBeforeCommand;
 /**
  * Spin a wheel forward forever, until the command is cancelled.
  */
-public class ElevatorAndGrabberUp extends ParallelCommandGroup {
+public class ElevatorPresetMid extends ParallelCommandGroup {
     final GrabberSubsystem grabber;
     final ElevatorSubsystem lift;
 
-    public ElevatorAndGrabberUp(GrabberSubsystem grabber, ElevatorSubsystem lift) {
+    public ElevatorPresetMid(GrabberSubsystem grabber, ElevatorSubsystem lift) {
         this.grabber = grabber;
         this.lift = lift;
         addCommands(
                 new InstantCommand(() ->grabber.setLiftPos(.5)),
-                new InstantCommand(() -> lift.setTarget(2715)),
+                new InstantCommand(() -> lift.setTarget(1650)),
                 new WaitBeforeCommand(250,
                     new InstantCommand(() -> grabber.left())
 
