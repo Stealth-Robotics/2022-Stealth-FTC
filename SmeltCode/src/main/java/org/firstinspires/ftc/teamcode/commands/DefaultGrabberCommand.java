@@ -9,18 +9,19 @@ import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import java.util.function.DoubleSupplier;
 
 /**
- * Spin a wheel forward forever, until the command is cancelled.
+ * Command to move grabber with joystick
  */
 public class DefaultGrabberCommand extends CommandBase {
     final GrabberSubsystem grabber;
-    DoubleSupplier leftY, leftX, heading, liftPos;
+    DoubleSupplier leftY, leftX, heading, liftPos, driverRightY;
 
-    public DefaultGrabberCommand(GrabberSubsystem grabber, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier heading, DoubleSupplier liftPos) {
+    public DefaultGrabberCommand(GrabberSubsystem grabber, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier heading, DoubleSupplier liftPos, DoubleSupplier driverRightY) {
         this.grabber = grabber;
         this.leftX = leftX;
         this.leftY = leftY;
         this.heading = heading;
         this.liftPos = liftPos;
+        this.driverRightY = driverRightY;
         addRequirements(grabber);
     }
 
@@ -36,7 +37,14 @@ public class DefaultGrabberCommand extends CommandBase {
             grabber.setPos(grabber.getPos() - .02 * leftX.getAsDouble());
             telemetry.addData("normal rotate: ", "false");
         }
-        grabber.setLiftPos(grabber.getLiftPos() - .01 * leftY.getAsDouble());
+        if(driverRightY.getAsDouble() == 0){
+            grabber.setLiftPos(grabber.getLiftPos() - .01 * leftY.getAsDouble());
+
+        }
+        if(leftY.getAsDouble() == 0){
+            grabber.setLiftPos(grabber.getLiftPos() - .01 * driverRightY.getAsDouble());
+
+        }
         telemetry.addData("rotate pos", grabber.getPos());
         telemetry.addData("lift pos", grabber.getLiftPos());
     }

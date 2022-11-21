@@ -9,8 +9,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorAndGrabberDown;
-import org.firstinspires.ftc.teamcode.commands.ElevatorAndGrabberUp;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
@@ -124,14 +122,14 @@ public class ScoringAuto extends StealthOpMode {
                 ),
                 //grabs a cone and starts lifting lift
                 new InstantCommand(() -> grabber.grabberClose()),
-                new InstantCommand(() -> lift.setTarget(2620)),
+                new InstantCommand(() -> lift.setTarget(2200)),
 
                 //drives to pole
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.back2),
                                 new InstantCommand(() -> grabber.setPos(1)),
-                                new InstantCommand(() -> grabber.setLiftPos(.75))
+                                new InstantCommand(() -> grabber.setLiftPos(.72))
                         )),
 
                 new InstantCommand(() -> grabber.grabberOpen()),
@@ -139,40 +137,80 @@ public class ScoringAuto extends StealthOpMode {
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone1),
-                                new ElevatorAndGrabberDown(grabber, lift)
+                                new InstantCommand(() -> lift.setTarget(0)),
+                                new InstantCommand(() -> grabber.setPos(0.17)),
+                                new InstantCommand(() -> grabber.setLiftPos(.75))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
 
-                new ElevatorAndGrabberUp(grabber, lift),
+                new InstantCommand(() -> lift.setTarget(2200)),
                 //scores second cone
                 new WaitBeforeCommand(500,
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone1)
-                        ),
+                        new ParallelCommandGroup(
+                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone1),
+                                new InstantCommand(() -> grabber.setPos(1)),
+                                new InstantCommand(() -> grabber.setLiftPos(0.72))
+
+                        )),
                 //prepares to pick up third cone from stack
                 new InstantCommand(() -> grabber.grabberOpen()),
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone2),
-                                new ElevatorAndGrabberDown(grabber, lift)
+                                new InstantCommand(() -> lift.setTarget(0)),
+                                new InstantCommand(() -> grabber.setPos(0.17)),
+                                new InstantCommand(() -> grabber.setLiftPos(.8))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
 
 
                 //scores third cone
-                new ElevatorAndGrabberUp(grabber, lift),
+                new InstantCommand(() -> lift.setTarget(2200)),
                 new WaitBeforeCommand(500,
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone2)
-                        ),
+                        new ParallelCommandGroup(
+                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone2),
+                                new InstantCommand(() -> grabber.setPos(1)),
+                                new InstantCommand(() -> grabber.setLiftPos(0.72))
+                        )),
                 new InstantCommand(() -> grabber.grabberOpen()),
+//                //prepares to pick up fourth cone
+//                new InstantCommand(() -> grabber.grabberOpen()),
+//                new WaitBeforeCommand(500,
+//                        new ParallelCommandGroup(
+//                                new InstantCommand(() -> grabber.setPos(0)),
+//
+//
+//                                new WaitBeforeCommand(500,
+//                                        new ParallelCommandGroup(
+//                                                new FollowTrajectorySequence(drive, BlueRightTrajectories.getcone3),
+//                                                new InstantCommand(() -> lift.setTarget(0))
+//                                        )),
+//
+//
+//                                new InstantCommand(() -> grabber.setLiftPos(.85))
+//
+//
+//                        )),
+//                new InstantCommand(() -> grabber.grabberClose()),
+//
+//
+//                new InstantCommand(() -> lift.setTarget(2730)),
+//                new WaitBeforeCommand(500,
+//                        new ParallelCommandGroup(
+//                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scorecone3),
+//                                new InstantCommand(() -> grabber.setPos(.7)),
+//                                new InstantCommand(() -> grabber.setLiftPos(0.75))
+//                        )),
                 new WaitBeforeCommand(300,
-                    new InstantCommand(() -> grabber.setPos(0.17))
-                ),
+                        new InstantCommand(() -> grabber.setPos(0.17))),
                 new WaitBeforeCommand(500,
-                    new FollowTrajectorySequence(drive, park)
-                    ),
+                        new FollowTrajectorySequence(drive, park)
+                ),
+//
+//                new InstantCommand(() -> grabber.grabberOpen()),
+                //TODO make parking trajectories
                 new SaveAutoHeadingCommand(() -> drive.getHeading()),
-                new WaitBeforeCommand(1000,
-                    new EndOpModeCommand(this))
+                new EndOpModeCommand(this)
         );
     }
 }

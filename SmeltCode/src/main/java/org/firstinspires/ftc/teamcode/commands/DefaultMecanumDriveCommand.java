@@ -12,7 +12,7 @@ import java.util.function.DoubleSupplier;
  */
 public class DefaultMecanumDriveCommand extends CommandBase {
     final DriveSubsystem drive;
-    final DoubleSupplier leftY, leftX, rightX;
+    final DoubleSupplier leftY, leftX, rightX, rightY;
     final BooleanSupplier rightbumper;
 
     /**
@@ -23,12 +23,13 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      * @param leftX  a supplier of the left stick's X value (left/right)
      * @param rightX a supplier of the right stick's X value (left/right)
      */
-    public DefaultMecanumDriveCommand(DriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier rightbumper) {
+    public DefaultMecanumDriveCommand(DriveSubsystem drive, DoubleSupplier leftY, DoubleSupplier leftX, DoubleSupplier rightX, BooleanSupplier rightbumper, DoubleSupplier rightY) {
         this.drive = drive;
         this.leftX = leftX;
         this.leftY = leftY;
         this.rightX = rightX;
         this.rightbumper = rightbumper;
+        this.rightY = rightY;
         addRequirements(drive);
     }
 
@@ -39,6 +40,12 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), rightbumper.getAsBoolean());
+        if(rightY.getAsDouble() > 0.25 || rightY.getAsDouble() < -0.25) {
+            drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), 0, rightbumper.getAsBoolean());
+        }
+        else{
+            drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), rightbumper.getAsBoolean());
+
+        }
     }
 }

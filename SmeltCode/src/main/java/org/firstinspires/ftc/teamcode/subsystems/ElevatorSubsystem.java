@@ -14,9 +14,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx liftMotor;
-    public static int MAX_VELO = 4000;
+    public static int MAX_VELOCITY = 4000;
 
-    public static int RESET_VELO = 3000;
+    public static int RESET_VELOCITY = 3000;
     public static int RESET_TICKS = 0;
 
     int target = 0;
@@ -37,7 +37,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void initReset() {
         liftMotor.setTargetPosition(RESET_TICKS);
-        liftMotor.setVelocity(RESET_VELO);
+        liftMotor.setVelocity(RESET_VELOCITY);
     }
 
     /**
@@ -56,9 +56,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void runToPosition() {
         liftMotor.setTargetPosition(target);
         if (target == 0) {
-            liftMotor.setVelocity(RESET_VELO);
+            liftMotor.setVelocity(RESET_VELOCITY);
         } else {
-            liftMotor.setVelocity(MAX_VELO);
+            liftMotor.setVelocity(MAX_VELOCITY);
         }
     }
 
