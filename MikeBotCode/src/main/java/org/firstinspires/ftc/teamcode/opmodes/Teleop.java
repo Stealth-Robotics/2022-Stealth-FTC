@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDMotionProfileCommand;
 import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
+import org.firstinspires.ftc.teamcode.commands.TurnToDegreesPIDCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.stealthrobotics.library.gamepad.Gamepad;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 // mmmfixme
@@ -29,11 +29,6 @@ public abstract class Teleop extends StealthOpMode {
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
 
-    // Game controllers
-    GamepadEx driveGamepad;
-    GamepadEx mechGamepad;
-
-
     @Override
     public void initialize() {
         // Setup and register all of your subsystems here
@@ -47,8 +42,9 @@ public abstract class Teleop extends StealthOpMode {
         // to crash after a short period of time. Use with caution until there's a new release.
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        driveGamepad = new GamepadEx(gamepad1);
-        mechGamepad = new GamepadEx(gamepad2);
+        // Game controllers
+        Gamepad driveGamepad = new Gamepad(gamepad1);
+        Gamepad mechGamepad = new Gamepad(gamepad2);
 
         // Automatically reset the elevator all the way down when we init
         schedule(new ResetElevatorCommand(elevator));
@@ -57,43 +53,37 @@ public abstract class Teleop extends StealthOpMode {
         drive.setDefaultCommand(
                 new DefaultMecanumDriveCommand(
                         drive,
-                        () -> driveGamepad.gamepad.left_stick_y,
-                        () -> driveGamepad.gamepad.left_stick_x,
-                        () -> driveGamepad.gamepad.right_stick_x,
-                        () -> driveGamepad.gamepad.right_trigger
+                        driveGamepad.left_stick_y,
+                        driveGamepad.left_stick_x,
+                        driveGamepad.right_stick_x,
+                        driveGamepad.right_trigger
                 )
         );
 
-        elevator.setDefaultCommand(new DefaultElevatorCommand(elevator,
-                        () -> driveGamepad.gamepad.left_trigger,
-                        () -> driveGamepad.gamepad.right_trigger
+        elevator.setDefaultCommand(
+                new DefaultElevatorCommand(elevator,
+                        mechGamepad.left_trigger,
+                        mechGamepad.right_trigger
                 )
         );
 
         // Setup all of your controllers' buttons and triggers here
-        driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new InstantCommand(() -> drive.togglefieldcentric()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
+        driveGamepad.back.whenActive(() -> drive.togglefieldcentric());
+        driveGamepad.y.whenActive(() -> drive.resetHeading());
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> gripper.open()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> gripper.close()));
+        mechGamepad.left_bumper.whenActive(() -> gripper.open());
+        mechGamepad.right_bumper.whenActive(() -> gripper.close());
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.37)));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.65)));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.START)
-                .and(driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN))
-                .whenActive(new ResetElevatorCommand(elevator));
+        mechGamepad.x.whenActive(new ResetElevatorCommand(elevator));
+        mechGamepad.dpad_down.whenActive(() -> elevator.setTargetLocation(0.0));
+        mechGamepad.dpad_left.whenActive(() -> elevator.setTargetLocation(0.37));
+        mechGamepad.dpad_right.whenActive(() -> elevator.setTargetLocation(0.65));
+        mechGamepad.dpad_up.whenActive(() -> elevator.setTargetLocation(1.0));
 
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new DriveForwardInchesPIDCommand(drive, 36));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new DriveForwardInchesPIDLimitedCommand(drive, 36));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new DriveForwardInchesPIDLimitedHeadingCommand(drive, 36));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new DriveForwardInchesPIDMotionProfileCommand(drive, 36));
-
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new TurnToDegreesPIDCommand(drive, 180));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new TurnToDegreesPIDCommand(drive, 90));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new TurnToDegreesPIDCommand(drive, -90));
-//        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new TurnToDegreesPIDCommand(drive, 45));
+        // Random testing
+        driveGamepad.dpad_up.whenActive(new TurnToDegreesPIDCommand(drive, -90));
+        driveGamepad.dpad_left.whenActive(new DriveForwardInchesPIDMotionProfileCommand(drive, 36));
+        driveGamepad.dpad_right.whenActive(new TurnToDegreesPIDCommand(drive, 180));
     }
 
     /**

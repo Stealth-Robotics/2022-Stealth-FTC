@@ -89,5 +89,8 @@ public class CameraSubsystem extends SubsystemBase {
     public void periodic() {
         telemetry.addData("Camera fps", webcam.getFps());
         telemetry.addData("Detected position", pipeline.getPosition());
+        telemetry.addData("s1", pipeline.s1);
+        telemetry.addData("s2", pipeline.s2);
+        telemetry.addData("s3", pipeline.s3);
     }
 }

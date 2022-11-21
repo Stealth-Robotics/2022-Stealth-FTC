@@ -41,11 +41,19 @@ public class SleeveDetection2 extends OpenCvPipeline {
     // Running variable storing the parking position
     private volatile ParkingPosition position = ParkingPosition.LEFT;
 
+    public volatile double s1;
+    public volatile double s2;
+    public volatile double s3;
+
     @Override
     public Mat processFrame(Mat input) {
         // Get the submat frame, and then sum all the values
         Mat areaMat = input.submat(new Rect(sleeve_pointA, sleeve_pointB));
         Scalar sumColors = Core.sumElems(areaMat);
+
+        s1 = sumColors.val[0];
+        s2 = sumColors.val[1];
+        s3 = sumColors.val[2];
 
         // Get the minimum RGB value from every single channel
         double minColor = Math.min(sumColors.val[0], Math.min(sumColors.val[1], sumColors.val[2]));
