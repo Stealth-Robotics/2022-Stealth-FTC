@@ -18,6 +18,8 @@ import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -85,7 +87,9 @@ public class LeftStartAuto extends StealthOpMode {
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
                             new StrafeForInches(drive, 32)
-                    )
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
             );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
@@ -103,7 +107,9 @@ public class LeftStartAuto extends StealthOpMode {
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
                             new StrafeForInches(drive, 8)
-                    )
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
             );
         } else { // RIGHT
             return new SequentialCommandGroup(
@@ -122,7 +128,9 @@ public class LeftStartAuto extends StealthOpMode {
                             new GripperCloseCommand(gripper),
                             new StrafeForInches(drive, -24)
 
-                    )
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
             );
 
         }

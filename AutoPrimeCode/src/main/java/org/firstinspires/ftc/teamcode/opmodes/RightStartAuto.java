@@ -17,6 +17,8 @@ import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.AutoToTeleStorage;
+import org.stealthrobotics.library.commands.EndOpModeCommand;
+import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -73,60 +75,66 @@ public class RightStartAuto extends StealthOpMode {
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
+                    new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, 13.5),
                     new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 3.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3),
+                    new DriveForwardInchesCommand(drive, -3),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -2)
+                            new DriveForwardInchesCommand(drive, 2)
                     ),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, 13.5) // postive numbers are left
-                    )
+                            new StrafeForInches(drive, -13.5) // postive numbers are right
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
             );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
+                    new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, 13.5),
                     new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 3.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
+                    new DriveForwardInchesCommand(drive, -3.5),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -2)
+                            new DriveForwardInchesCommand(drive, 2)
                     ),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, -13.5)
-                    )
+                            new StrafeForInches(drive, 13.5)
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
             );
         } else { // RIGHT
             return new SequentialCommandGroup(
                     new GripperOpenCommand(gripper),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.05),
-                    new DriveForwardInchesCommand(drive, -24),
+                    new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, 13.5),
                     new MoveElevatorPercentage(elevator, 0.65),
-                    new DriveForwardInchesCommand(drive, -3.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 3.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, 3.5),
+                    new DriveForwardInchesCommand(drive, -3.5),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -1)
+                            new DriveForwardInchesCommand(drive, 2)
                     ),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, -40)
-                    )
+                            new StrafeForInches(drive, 40)
+                    ),
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
             );
         }
     }

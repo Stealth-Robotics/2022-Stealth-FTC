@@ -14,7 +14,7 @@ public class TurnToDegrees extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     double toRadians;
 
-    public static double kp = 1;
+    public static double kp = 1.2;
     public static double ki = 0.2;
     public static double kd = 0.1;
     public static double kf = 0;
