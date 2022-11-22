@@ -20,11 +20,12 @@ public class ExtenderDefault extends CommandBase {
         this.extender = extender;
         this.negativeSpeed = negativeSpeed;
         this.positveSpeed = positiveSpeed;
-
+        addRequirements(extender);
     }
 
     @Override
     public void execute() {
-        extender.setSpeed((-1 * negativeSpeed.getAsDouble()) + positveSpeed.getAsDouble());
+        extender.update();
+        extender.setSpeed((negativeSpeed.getAsDouble() + (-1 * positveSpeed.getAsDouble())));
     }
 }

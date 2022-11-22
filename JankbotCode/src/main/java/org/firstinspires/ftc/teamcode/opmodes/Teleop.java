@@ -69,12 +69,13 @@ public abstract class Teleop extends StealthOpMode {
         );
 
         grabber.closeGripper();
+        grabber.toggleArm();
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
         //driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ExtenderToPosition(extender, 0, 0.25));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ExtenderToPosition(extender, 100, 0.25));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ExtenderToPosition(extender, 0, 1));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new ExtenderToPosition(extender, 2000, 1));
         //TODO: MAKE BETTER TRAJECTORY SIDD SUGESTED FOR 1 and 3 PARKING SPOT
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
