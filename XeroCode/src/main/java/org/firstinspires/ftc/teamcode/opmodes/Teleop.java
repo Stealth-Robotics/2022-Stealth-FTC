@@ -60,7 +60,7 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.39)));
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
         mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.67)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new ResetElevatorCommand(elevator));
+        mechGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetElevatorCommand(elevator));
 
         mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.open()));
         mechGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> gripper.close()));
@@ -68,7 +68,6 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new InstantCommand(() -> drive.toggleFieldCentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.toggleturbomode()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> drive.resetHeading()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new DriveExperimentCommand(drive,24));
     }
 
     /**
