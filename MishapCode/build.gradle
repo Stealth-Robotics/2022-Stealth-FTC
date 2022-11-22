@@ -22,6 +22,7 @@ android {
 dependencies {
     implementation project(':FtcRobotController')
     implementation project(':StealthLib')
+    implementation project(path: ':StarterCode')
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
     implementation 'org.ftclib.ftclib:core:2.0.1'
     implementation 'org.apache.commons:commons-math3:3.6.1'

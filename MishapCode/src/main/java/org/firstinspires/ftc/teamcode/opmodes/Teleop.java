@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPID;
 import org.firstinspires.ftc.teamcode.commands.ElevatorResetCommand;
-import org.firstinspires.ftc.teamcode.commands.ExampleCommand;
+import org.firstinspires.ftc.teamcode.commands.RotateToDegreesPID;
 import org.firstinspires.ftc.teamcode.commands.ToggleSnapDrivingCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
@@ -74,6 +74,7 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.close()));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new DriveForwardInchesPID(drive, 24.0,0));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(new RotateToDegreesPID(drive, Math.toDegrees(drive.getHeading() + 360)));
 
     }
 
