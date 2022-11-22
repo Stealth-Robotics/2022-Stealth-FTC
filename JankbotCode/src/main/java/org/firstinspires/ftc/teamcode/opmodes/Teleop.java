@@ -9,12 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.ElevatorBackwardManualCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorForwardManualCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 @Config
@@ -29,7 +27,6 @@ public abstract class Teleop extends StealthOpMode {
     GamepadEx mechGamepad;
 
     CameraSubsystem camera;
-    ElevatorSubsystem elevator;
     GrabberSubsystem grabber;
 
     double armPositionA = 0;
@@ -40,10 +37,9 @@ public abstract class Teleop extends StealthOpMode {
     public void initialize() {
         drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
-        elevator = new ElevatorSubsystem(hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
         armMotors = new ArmMotorSubsystem(hardwareMap);
-        register(drive, armMotors, camera, elevator, grabber);
+        register(drive, armMotors, camera, grabber);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -61,13 +57,6 @@ public abstract class Teleop extends StealthOpMode {
 
         grabber.closeGripper();
 
-        elevator.setDefaultCommand(new DefaultElevatorCommand(elevator));
-        /*
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.39)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.67)));
-        */
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
         //driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
 
@@ -89,8 +78,8 @@ public abstract class Teleop extends StealthOpMode {
         //driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> System.out.println("UwU"));
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.resetHeading()));
         //driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenHeld(new ElevatorForwardManualCommand(armMotors));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new ElevatorBackwardManualCommand(armMotors));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenHeld(new ElevatorForwardManualCommand(armMotors));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new ElevatorBackwardManualCommand(armMotors));
     }
 
     /**
