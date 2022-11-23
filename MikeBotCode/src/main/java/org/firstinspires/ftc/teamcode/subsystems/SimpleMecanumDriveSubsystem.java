@@ -4,9 +4,13 @@ import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.stealthrobotics.library.AutoToTeleStorage;
 
 /**
@@ -17,7 +21,9 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor leftRearDrive;
     final DcMotor rightFrontDrive;
     final DcMotor rightRearDrive;
-    final BNO055IMU imu;
+//    final BNO055IMU imu;
+    final IMU newImu;
+    final IMU newImu055;
 
     boolean fieldCentric = true;
     double headingOffset = 0.0;
@@ -43,10 +49,31 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu-exp");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(parameters);
+//        imu = hardwareMap.get(BNO055IMU.class, "imu-exp");
+//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+//        imu.initialize(parameters);
+
+        // New IMU interface
+        newImu = hardwareMap.get(IMU.class, "imu");
+        newImu.initialize(
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(
+                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                                RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+                        )
+                )
+        );
+
+        newImu055 = hardwareMap.get(IMU.class, "imu-exp");
+        newImu.initialize(
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(
+                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                        )
+                )
+        );
     }
 
     public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, double rightTrigger) {
@@ -80,7 +107,9 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     // The actual heading from the IMU, only adjusted so that positive is clockwise
     public double getRawHeading() {
-        return -imu.getAngularOrientation().firstAngle;
+//        return -imu.getAngularOrientation().firstAngle;
+        YawPitchRollAngles orientation = newImu055.getRobotYawPitchRollAngles();
+        return -orientation.getYaw(AngleUnit.RADIANS);
     }
 
     // The heading we'll use to drive the bot, adjusted for an offset which we can set any time
@@ -126,6 +155,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     public void periodic() {
         telemetry.addData("Drive current ticks", getTicks());
         telemetry.addData("Field centric driving", fieldCentric);
-        telemetry.addData("Bot Heading", getHeading());
+        telemetry.addData("Bot Heading", Math.toDegrees(getHeading()));
+
+        YawPitchRollAngles orientation = newImu.getRobotYawPitchRollAngles();
+        telemetry.addData("NEW Heading", -orientation.getYaw(AngleUnit.DEGREES));
+
     }
 }
