@@ -64,9 +64,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
                         )
                 )
         );
+        newImu.resetYaw();
 
         newImu055 = hardwareMap.get(IMU.class, "imu-exp");
-        newImu.initialize(
+        newImu055.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
                                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -74,6 +75,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
                         )
                 )
         );
+        newImu055.resetYaw();
     }
 
     public void driveTeleop(double leftSickY, double leftStickX, double rightStickX, double rightTrigger) {
