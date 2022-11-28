@@ -25,6 +25,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -49,7 +50,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 public class CameraSubsystem extends SubsystemBase {
     private final OpenCvCamera webcam;
-    private final ExamplePipeline pipeline;
+    private final SleeveDetection pipeline;
 
     private static final int CAMERA_WIDTH = 320;
     private static final int CAMERA_HEIGHT = 240;
@@ -58,7 +59,7 @@ public class CameraSubsystem extends SubsystemBase {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        pipeline = new ExamplePipeline();
+        pipeline = new SleeveDetection();
         webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -76,8 +77,8 @@ public class CameraSubsystem extends SubsystemBase {
         });
     }
 
-    public int getPosition() {
-        return pipeline.getAnalysis();
+    public SleeveDetection.ParkingPosition getPosition() {
+        return pipeline.getPosition();
     }
 
     public static class ExamplePipeline extends OpenCvPipeline {
