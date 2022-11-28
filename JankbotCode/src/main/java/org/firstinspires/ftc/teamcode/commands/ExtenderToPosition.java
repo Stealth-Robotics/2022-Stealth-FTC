@@ -13,10 +13,12 @@ public class ExtenderToPosition extends CommandBase {
     private final int target;
     private final double speed;
 
+
     public ExtenderToPosition(ExtenderSubsystem extender, int target, double speed) {
         this.extender = extender;
         this.target = target;
         this.speed = speed;
+        addRequirements(extender);
     }
 
     @Override
@@ -28,7 +30,6 @@ public class ExtenderToPosition extends CommandBase {
     public void execute() {
         double update = extender.update();
         extender.setSpeed(update);
-        extender.setSpeed(extender.update());
     }
 
     @Override

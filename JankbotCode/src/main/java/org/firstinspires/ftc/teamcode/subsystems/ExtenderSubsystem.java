@@ -23,11 +23,14 @@ public class ExtenderSubsystem extends SubsystemBase {
     private double speedConstraints = 0.15;
 
     public static double extenderP = 0.01;
-    public static double extenderI = 0;
+    public static double extenderI = 0.01;
     public static double extenderD = 0;
     public static double extenderF = 0;
 
     private double extenderTolerance = 10;
+    private double extenderVelocityTolerance = 10;
+
+    private final int MAX_EXTENSION_TICKS = 2500;
 
     private Debouncer stallDebouncer = new Debouncer(0.100, Debouncer.DebounceType.kRising);
 
@@ -41,7 +44,7 @@ public class ExtenderSubsystem extends SubsystemBase {
 
         );
 
-        extenderController.setTolerance(extenderTolerance);
+        extenderController.setTolerance(extenderTolerance, extenderVelocityTolerance);
 
 
         armMotorA = hardwareMap.get(DcMotorEx.class, "armMotorA");
@@ -90,14 +93,14 @@ public class ExtenderSubsystem extends SubsystemBase {
 
     //check the elevator down
     public void setElevatorDownSlowly() {
-        armMotorB.setPower(-.25);
-        armMotorA.setPower(-.25);
+        armMotorA.setPower(-.40);
+        armMotorB.setPower(-.40);
         stallDebouncer.calculate(false);
     }
 
     public boolean checkVelocity() {
 
-        return stallDebouncer.calculate(Math.abs(armMotorA.getVelocity()) < 1);
+        return stallDebouncer.calculate(Math.abs(armMotorA.getVelocity()) < 50);
     }
 
     public void completeReset() {
@@ -114,5 +117,8 @@ public class ExtenderSubsystem extends SubsystemBase {
     public void periodic() {
         telemetry.addData("Elevator Target", getTarget());
         telemetry.addData("Current Elevator Position", getPosition());
+        telemetry.addData("Motor A Velocity", armMotorA.getVelocity());
+        telemetry.addData("Motor A current power", armMotorA.getPower());
+        telemetry.addData("Motor B current power", armMotorB.getPower());
     }
 }

@@ -25,7 +25,7 @@ public class ExtenderDefault extends CommandBase {
 
     @Override
     public void execute() {
-        extender.update();
+//        extender.update();
         extender.setSpeed((negativeSpeed.getAsDouble() + (-1 * positveSpeed.getAsDouble())));
     }
 }
