@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.DefaultDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtenderDefault;
 import org.firstinspires.ftc.teamcode.commands.ExtenderToPosition;
+import org.firstinspires.ftc.teamcode.commands.Presets.HighPolePreset;
+import org.firstinspires.ftc.teamcode.commands.Presets.MidPolePreset;
+import org.firstinspires.ftc.teamcode.commands.Presets.ResetRobot;
 import org.firstinspires.ftc.teamcode.commands.ResetElevator;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
@@ -67,29 +70,26 @@ public abstract class Teleop extends StealthOpMode {
 
         grabber.closeGripper();
         grabber.toggleArm();
-
+        //open the claw
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
-
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ExtenderToPosition(extender, 20, 1));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new ExtenderToPosition(extender, 1500, 1));
-        //TODO: MAKE BETTER TRAJECTORY SIDD SUGESTED FOR 1 and 3 PARKING SPOT
-
+        //high goal preset
+        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new HighPolePreset(extender, grabber));
+        //mid preset
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MidPolePreset(extender,grabber));
+        //low goal and pick up
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
+        //ground junction
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.toggleArmHigher()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.toggleArmLowest()));
-
+        //reset the heading
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.resetHeading()));
-
+        //reset the robot
+        driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetRobot(extender, grabber));
+        //pickup knocked over cone from the ground
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
+        //reset just the elevator
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ResetElevator(extender));
 
-/*
-        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ExtendoToHighPreset(extender, grabber));
-       driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new ExtendoToMidPreset(extender, grabber));
-         */
-
-
+        //TODO: MAKE BETTER TRAJECTORY SIDD SUGESTED FOR 1 and 3 PARKING SPOT
     }
 
     /**

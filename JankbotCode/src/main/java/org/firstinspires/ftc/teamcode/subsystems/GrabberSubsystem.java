@@ -99,6 +99,7 @@ public class GrabberSubsystem extends SubsystemBase {
             rotationServo.setPosition(ROTATOR_UP_POSITION);
         }
 
+       // public void R
 
     }
     public void setArmPosition(double armPosition)
