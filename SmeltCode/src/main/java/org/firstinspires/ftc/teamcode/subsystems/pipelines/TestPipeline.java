@@ -38,16 +38,14 @@ public class TestPipeline extends OpenCvPipeline {
         Core.merge(channels, hls);
         Imgproc.cvtColor(hls, rgb, Imgproc.COLOR_HLS2BGR);
 
-
-        Core.inRange(rgb, new Scalar(254, 169, 0), new Scalar(255, 180, 0), hueMask);
-        Imgproc.cvtColor(rgb, hls, Imgproc.COLOR_BGR2HLS);
+        Core.inRange(rgb, new Scalar(200, 100, 0), new Scalar(255, 200, 0), hueMask);
+        Imgproc.cvtColor(rgb, hls, Imgproc.COLOR_RGB2HLS);
         Core.split(rgb, channels);
         channels.get(1).setTo(Scalar.all(0));
         channels.get(1).setTo(Scalar.all(127), hueMask);  // lightness
         channels.get(2).setTo(Scalar.all(0));
         channels.get(2).setTo(Scalar.all(255), hueMask);  // saturation
-        channels.get(0).setTo(Scalar.all(0));
-        channels.get(0).setTo(Scalar.all(100), hueMask);  // saturation
+        // hue
         Core.merge(channels, hls);
         Imgproc.cvtColor(hls, rgb, Imgproc.COLOR_HLS2BGR);
 

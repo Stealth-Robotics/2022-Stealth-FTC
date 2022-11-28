@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TeleopCameraSubsystem;
 import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -35,15 +36,18 @@ public abstract class Teleop extends StealthOpMode {
 
     SampleMecanumDrive mecanumDrive;
 
+    TeleopCameraSubsystem camera;
+
     @Override
     public void initialize() {
 
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
         // Setup and register all of your subsystems here
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
+        camera = new TeleopCameraSubsystem(hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
         lift = new ElevatorSubsystem(hardwareMap);
-        register(drive, grabber, lift);
+        register(drive, grabber, lift, camera);
 
         grabber.setLiftPos(0.5);
         grabber.setPos(0.1);
