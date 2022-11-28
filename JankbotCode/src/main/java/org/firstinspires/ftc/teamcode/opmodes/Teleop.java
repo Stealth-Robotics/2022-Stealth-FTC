@@ -6,15 +6,13 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.commands.ElevatorBackwardManualCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorForwardManualCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtenderDefault;
 import org.firstinspires.ftc.teamcode.commands.ExtenderToPosition;
+import org.firstinspires.ftc.teamcode.commands.ResetElevator;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -23,7 +21,7 @@ public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     DriveSubsystem drive;
-    ArmMotorSubsystem armMotors;
+
 
     // Game controllers
     GamepadEx driveGamepad;
@@ -43,9 +41,8 @@ public abstract class Teleop extends StealthOpMode {
         drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
-        armMotors = new ArmMotorSubsystem(hardwareMap);
         extender = new ExtenderSubsystem(hardwareMap);
-        register(drive, armMotors, camera, grabber, extender);
+        register(drive, camera, grabber, extender);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -85,8 +82,12 @@ public abstract class Teleop extends StealthOpMode {
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.resetHeading()));
 
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenHeld(new ElevatorForwardManualCommand(armMotors));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new ElevatorBackwardManualCommand(armMotors));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new ResetElevator(extender));
+
+/*
+        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new ExtendoToHighPreset(extender, grabber));
+       driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new ExtendoToMidPreset(extender, grabber));
+         */
 
 
     }

@@ -11,21 +11,25 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.stealthrobotics.library.math.filter.Debouncer;
+
 @Config
 public class ExtenderSubsystem extends SubsystemBase {
-    private DcMotor armMotorA;
-    private DcMotor armMotorB;
+    private DcMotorEx armMotorA;
+    private DcMotorEx armMotorB;
     DigitalChannel ls;
 
     private PIDFController extenderController;
     private double speedConstraints = 0.15;
 
-    public static double extenderP= 0.01;
-    public static double extenderI=0;
-    public static double extenderD=0;
-    public static double extenderF=0;
+    public static double extenderP = 0.01;
+    public static double extenderI = 0;
+    public static double extenderD = 0;
+    public static double extenderF = 0;
 
-    private double extenderTolerance;
+    private double extenderTolerance = 10;
+
+    private Debouncer stallDebouncer = new Debouncer(0.100, Debouncer.DebounceType.kRising);
 
     public ExtenderSubsystem(HardwareMap hardwareMap) {
 
@@ -42,7 +46,7 @@ public class ExtenderSubsystem extends SubsystemBase {
 
         armMotorA = hardwareMap.get(DcMotorEx.class, "armMotorA");
         armMotorA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotorA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotorA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armMotorA.setDirection(DcMotorSimple.Direction.REVERSE);
 
         armMotorB = hardwareMap.get(DcMotorEx.class, "frontEncoder");
@@ -83,6 +87,29 @@ public class ExtenderSubsystem extends SubsystemBase {
         return extenderController.getPositionError();
     }
 
+
+    //check the elevator down
+    public void setElevatorDownSlowly() {
+        armMotorB.setPower(-.25);
+        armMotorA.setPower(-.25);
+        stallDebouncer.calculate(false);
+    }
+
+    public boolean checkVelocity() {
+
+        return stallDebouncer.calculate(Math.abs(armMotorA.getVelocity()) < 1);
+    }
+
+    public void completeReset() {
+        armMotorA.setPower(0);
+        armMotorB.setPower(0);
+        armMotorA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    //check the elevator downn
     @Override
     public void periodic() {
         telemetry.addData("Elevator Target", getTarget());
