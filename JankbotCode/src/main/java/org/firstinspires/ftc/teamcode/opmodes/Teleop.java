@@ -89,7 +89,7 @@ public abstract class Teleop extends StealthOpMode {
         //reset just the elevator
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ResetElevator(extender));
         //elevator tested
-        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> extender.setTargetPosition(1500, 1)));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new ExtenderToPosition(extender, 1500, 1));
 
 
 
