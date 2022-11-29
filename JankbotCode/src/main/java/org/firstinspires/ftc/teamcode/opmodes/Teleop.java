@@ -42,10 +42,10 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
-        camera = new CameraSubsystem(hardwareMap);
+        //camera = new CameraSubsystem(hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
         extender = new ExtenderSubsystem(hardwareMap);
-        register(drive, camera, grabber, extender);
+        register(drive, /*camera,*/ grabber, extender);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -88,6 +88,10 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
         //reset just the elevator
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ResetElevator(extender));
+        //elevator tested
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> extender.setTargetPosition(1500, 1)));
+
+
 
         //TODO: MAKE BETTER TRAJECTORY SIDD SUGESTED FOR 1 and 3 PARKING SPOT
     }

@@ -7,18 +7,18 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 
-public class ResetRobot extends SequentialCommandGroup {
+public class ResetRobot extends ParallelCommandGroup {
 
     public ResetRobot(ExtenderSubsystem extender, GrabberSubsystem grabber) {
 
         addCommands(
                 new ParallelCommandGroup(
 
-                        new InstantCommand(() -> grabber.setArmPosition(grabber.ARM_DOWN_POSITION_LOWEST)),
-                        new InstantCommand(() -> grabber.setRotationServo(grabber.ROTATOR_UP_POSITION)),
+                        new InstantCommand(() -> grabber.setArmPositionDown()),
+                        new InstantCommand(() -> grabber.setRotationPositionDown()),
                         new InstantCommand(() -> grabber.toggleOpen())
                 )//,
-        //  new ResetElevator(extender),
+                //extender down
 
         );
 

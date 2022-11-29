@@ -103,9 +103,9 @@ public class CameraSubsystem extends SubsystemBase {
         // If there's been a new frame...
         if(detections != null)
         {
-            telemetry.addData("FPS", camera.getFps());
-            telemetry.addData("Overhead ms", camera.getOverheadTimeMs());
-            telemetry.addData("Pipeline ms", camera.getPipelineTimeMs());
+            //telemetry.addData("FPS", camera.getFps());
+            //telemetry.addData("Overhead ms", camera.getOverheadTimeMs());
+            //telemetry.addData("Pipeline ms", camera.getPipelineTimeMs());
 
             // If we don't see any tags
             if(detections.size() == 0)

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -90,25 +88,36 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public void toggleArmDownCone(){
         isUp = !isUp;
-        if(isUp){
+        if (isUp) {
             armServo.setPosition(ARM_DOWN_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
-        }
-        else{
+        } else {
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
         }
 
-       // public void R
 
     }
-    public void setArmPosition(double armPosition)
-    {
-        armServo.setPosition(armPosition);
+
+    public void setArmPositionUp() {
+        armServo.setPosition(ARM_UP_POSITION);
+        isUp = true;
     }
 
-    public void setRotationServo(double rotatorPosition)
-    {
-        armServo.setPosition(rotatorPosition);
+    public void setArmPositionDown() {
+        armServo.setPosition(ARM_DOWN_POSITION);
+        isUp = !true;
     }
+
+    public void setRotationPositionUp() {
+        rotationServo.setPosition(ROTATOR_UP_POSITION);
+
+    }
+
+    public void setRotationPositionDown() {
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+
+    }
+
+
 }

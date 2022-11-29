@@ -7,14 +7,14 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 
-public class MidPolePreset extends SequentialCommandGroup {
+public class MidPolePreset extends ParallelCommandGroup {
 
     public MidPolePreset(ExtenderSubsystem extender, GrabberSubsystem grabber) {
 
         addCommands(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> extender.setTargetPosition(500, 1)),
-                        new InstantCommand(() -> grabber.setArmPosition(0.9)),
+                        new InstantCommand(() -> extender.setTargetPosition(1500, 0.5)),
+                        new InstantCommand(() -> grabber.setArmPositionUp()),
                         new InstantCommand(() -> grabber.toggleOpen())
                 )
         );
