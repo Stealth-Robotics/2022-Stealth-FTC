@@ -69,7 +69,7 @@ public abstract class Teleop extends StealthOpMode {
         );
 
         grabber.closeGripper();
-        grabber.toggleArm();
+        //grabber.toggleArm();
         //open the claw
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
         //high goal preset

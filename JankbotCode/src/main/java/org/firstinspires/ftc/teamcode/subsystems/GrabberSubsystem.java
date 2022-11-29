@@ -18,22 +18,35 @@ public class GrabberSubsystem extends SubsystemBase {
     public double GRIPPER_CLOSED_POSITION = 0.35;
     public double GRIPPER_OPEN_POSITION = 0.7;
 
-    public double ARM_UP_POSITION = 0.85;
-    public double ARM_DOWN_POSITION = 0.3;
-    public double ARM_DOWN_POSITION_LOWEST = 0.2;
-    public double ARM_DOWN_POSITION_HIGHER = 0.4;
+    public static double ARM_SCORE_POSITION = 1;
+    public static double ARM_UP_POSITION = 0.55;
+    public static double ARM_DOWN_POSITION = 0.3;
+
+    public static double ARM_DOWN_POSITION_LOWEST = 0.2;
+    public static double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public double ROTATOR_UP_POSITION = 0.45;
-    public double ROTATOR_DOWN_POSITION = 0.8;
-    public double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
-    public double ROTATOR_DOWN_POSITION_HIGHER = 0.7;
+    public static double ROTATOR_SCORE_POSITION = 0.1;
+    public static double ROTATOR_UP_POSITION = 0.5;
+    public static double ROTATOR_DOWN_POSITION = 0.8;
 
+
+    public static double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
+    public static double ROTATOR_DOWN_POSITION_HIGHER = 0.7;
+
+
+    private enum ArmPosition {
+        score,
+        up,
+        down
+    }
+    private ArmPosition armPosition = ArmPosition.down;;
 
     public GrabberSubsystem(HardwareMap hardwareMap) {
         gripperServo = hardwareMap.get(Servo.class, "gripper");
         rotationServo = hardwareMap.get(Servo.class, "rotation");
         armServo = hardwareMap.get(Servo.class, "arm");
+
     }
 
     public void toggleOpen(){
@@ -51,7 +64,38 @@ public class GrabberSubsystem extends SubsystemBase {
         gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
     }
 
+    public void armScorePosition(){
+        armServo.setPosition(ARM_SCORE_POSITION);
+        rotationServo.setPosition(ROTATOR_SCORE_POSITION);
+    }
+    public void armUpPosition(){
+        armServo.setPosition(ARM_UP_POSITION);
+        rotationServo.setPosition(ROTATOR_UP_POSITION);
+    }
+    public void armPickupPosition(){
+        armServo.setPosition(ARM_DOWN_POSITION);
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+    }
+
     public void toggleArm(){
+        switch (armPosition) {
+            case down:
+                armPosition = ArmPosition.up;
+                armUpPosition();
+                closeGripper();
+                break;
+            case up:
+                armPosition = ArmPosition.score;
+                armScorePosition();
+                break;
+            case score:
+                armPosition = ArmPosition.down;
+                armPickupPosition();
+                closeGripper();
+                break;
+        }
+
+        /*
         isUp = !isUp;
         if(isUp){
             armServo.setPosition(ARM_DOWN_POSITION);
@@ -60,7 +104,7 @@ public class GrabberSubsystem extends SubsystemBase {
         else{
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
-        }
+        }*/
     }
 
     public void toggleArmHigher(){

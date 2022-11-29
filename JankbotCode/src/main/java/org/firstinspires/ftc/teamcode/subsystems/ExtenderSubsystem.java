@@ -20,7 +20,7 @@ public class ExtenderSubsystem extends SubsystemBase {
     DigitalChannel ls;
 
     private PIDFController extenderController;
-    private double speedConstraints = 0.15;
+    private double speedConstraints = 1;
 
     public static double extenderP = 0.01;
     public static double extenderI = 0.01;
@@ -60,11 +60,20 @@ public class ExtenderSubsystem extends SubsystemBase {
     }
 
     public void setTargetPosition(int targetPosition, double speed) {
+       
         speedConstraints = speed;
         extenderController.setSetPoint(targetPosition);
+
     }
 
-    public void setSpeed(double speed) {
+    /*public void setTargetPosition(double targetPositionPercent, double speed) {
+        speedConstraints = speed;
+        extenderController.setSetPoint(targetPositionPercent * MAX_EXTENSION_TICKS);
+    }
+
+     */
+
+    private void setSpeed(double speed) {
         armMotorA.setPower(speed);
         armMotorB.setPower(speed);
     }
@@ -77,9 +86,10 @@ public class ExtenderSubsystem extends SubsystemBase {
         return armMotorA.getCurrentPosition();
     }
 
-    public double update() {
-        extenderController.setPIDF(extenderP,extenderI,extenderD,extenderF);
-        return Math.max(Math.min(extenderController.calculate(getPosition()), speedConstraints), -speedConstraints);
+    public void update() {
+        extenderController.setPIDF(extenderP, extenderI, extenderD, extenderF);
+        double power = Math.max(Math.min(extenderController.calculate(getPosition()), speedConstraints), -speedConstraints);
+        setSpeed(power);
     }
 
     public double getTarget() {
@@ -93,8 +103,7 @@ public class ExtenderSubsystem extends SubsystemBase {
 
     //check the elevator down
     public void setElevatorDownSlowly() {
-        armMotorA.setPower(-.40);
-        armMotorB.setPower(-.40);
+        setSpeed(-.40);
         stallDebouncer.calculate(false);
     }
 
@@ -104,8 +113,7 @@ public class ExtenderSubsystem extends SubsystemBase {
     }
 
     public void completeReset() {
-        armMotorA.setPower(0);
-        armMotorB.setPower(0);
+        setSpeed(0);
         armMotorA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotorB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotorA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

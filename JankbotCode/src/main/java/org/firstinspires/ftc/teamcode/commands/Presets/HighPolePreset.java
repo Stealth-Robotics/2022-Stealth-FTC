@@ -13,9 +13,10 @@ public class HighPolePreset extends ParallelCommandGroup {
 
         addCommands(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> extender.setTargetPosition(2000, 0.5)),
-                        new InstantCommand(() -> grabber.setArmPositionUp()),
-                        new InstantCommand(() -> grabber.toggleOpen())
+                       // new InstantCommand(() -> extender.setTargetPosition(2000, 0.5)),
+                        new InstantCommand(() -> grabber.setArmPositionDown()),
+                        new InstantCommand(() -> grabber.setRotationPositionUp())
+                     //   new InstantCommand(() -> grabber.toggleOpen())
                 )
 
         );

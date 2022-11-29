@@ -28,16 +28,15 @@ public class ExtenderToPosition extends CommandBase {
 
     @Override
     public void execute() {
-        double update = extender.update();
-        extender.setSpeed(update);
+        extender.update();
+
     }
 
     @Override
     public void end(boolean isInterrupted) {
-        extender.setSpeed(0);
     }
 
-    @Override
+
     public boolean isFinished() {
         return extender.atTargetPosition();
     }
