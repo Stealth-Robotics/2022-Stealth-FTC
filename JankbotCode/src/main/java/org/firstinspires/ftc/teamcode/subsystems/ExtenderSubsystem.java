@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.apache.commons.math3.analysis.function.Max;
 import org.stealthrobotics.library.math.filter.Debouncer;
 
 @Config
@@ -31,6 +32,7 @@ public class ExtenderSubsystem extends SubsystemBase {
     private double extenderVelocityTolerance = 10;
 
     private final int MAX_EXTENSION_TICKS = 2500;
+    private final int MIN_EXTENSION_TICKS = 0;
 
     private Debouncer stallDebouncer = new Debouncer(0.100, Debouncer.DebounceType.kRising);
 
@@ -60,7 +62,14 @@ public class ExtenderSubsystem extends SubsystemBase {
     }
 
     public void setTargetPosition(int targetPosition, double speed) {
-       
+        if(targetPosition > MAX_EXTENSION_TICKS)
+        {
+            targetPosition = MAX_EXTENSION_TICKS;
+        }
+        if(targetPosition < MIN_EXTENSION_TICKS)
+        {
+            targetPosition = MIN_EXTENSION_TICKS;
+        }
         speedConstraints = speed;
         extenderController.setSetPoint(targetPosition);
 
