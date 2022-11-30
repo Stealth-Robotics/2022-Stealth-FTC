@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.commands.ExtenderToPosition;
 import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 
@@ -12,13 +13,11 @@ public class HighPolePreset extends ParallelCommandGroup {
     public HighPolePreset(ExtenderSubsystem extender, GrabberSubsystem grabber) {
 
         addCommands(
-                new ParallelCommandGroup(
-                       // new InstantCommand(() -> extender.setTargetPosition(2000, 0.5)),
-                        new InstantCommand(() -> grabber.setArmPositionDown()),
-                        new InstantCommand(() -> grabber.setRotationPositionUp())
-                     //   new InstantCommand(() -> grabber.toggleOpen())
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> grabber.closeGripper()),
+                        new ExtenderToPosition(extender, 2500, 1),
+                        new InstantCommand(()-> grabber.armScorePosition())
                 )
-
         );
 
         addRequirements(extender, grabber);
