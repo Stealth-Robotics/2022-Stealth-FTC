@@ -36,7 +36,7 @@ public abstract class Teleop extends StealthOpMode {
 
     SampleMecanumDrive mecanumDrive;
 
-    TeleopCameraSubsystem camera;
+//    TeleopCameraSubsystem camera;
 
     @Override
     public void initialize() {
@@ -44,10 +44,10 @@ public abstract class Teleop extends StealthOpMode {
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
         // Setup and register all of your subsystems here
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
-        camera = new TeleopCameraSubsystem(hardwareMap);
+//        camera = new TeleopCameraSubsystem(hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
         lift = new ElevatorSubsystem(hardwareMap);
-        register(drive, grabber, lift, camera);
+        register(drive, grabber, lift);
 
         grabber.setLiftPos(0.5);
         grabber.setPos(0.1);
