@@ -9,22 +9,18 @@ import java.util.function.DoubleSupplier;
 /**
  * Spin a wheel forward forever, until the command is cancelled.
  */
-public class DefaultElevatorCommand extends CommandBase {
+public class DefaultElevatorAutoCommand extends CommandBase {
     final ElevatorSubsystem lift;
-    DoubleSupplier rightY;
 
 
-    public DefaultElevatorCommand(ElevatorSubsystem lift, DoubleSupplier rightY) {
+
+    public DefaultElevatorAutoCommand(ElevatorSubsystem lift) {
         this.lift = lift;
-        this.rightY = rightY;
         addRequirements(lift);
     }
 
     @Override
     public void execute(){
-        if(rightY.getAsDouble() != 0){
-            lift.setTarget(lift.getPos() + (int)(300 * rightY.getAsDouble()));
-        }
         lift.runToPosition();
     }
 

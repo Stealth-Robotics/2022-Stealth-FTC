@@ -19,7 +19,7 @@ public class ElevatorAndGrabberDown extends ParallelCommandGroup {
         this.lift = lift;
         addCommands(
                 new InstantCommand(() -> grabber.right()),
-                new WaitBeforeCommand(250, new InstantCommand(() -> grabber.setLiftPos(.84))),
+                new WaitBeforeCommand(250, new InstantCommand(() -> grabber.setLiftPos(.64))),
                 new WaitBeforeCommand(300,
                         new InstantCommand(() -> lift.setTarget(0))
 

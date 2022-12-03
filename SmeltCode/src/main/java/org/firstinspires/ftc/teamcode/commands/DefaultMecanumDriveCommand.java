@@ -40,12 +40,6 @@ public class DefaultMecanumDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        if(rightY.getAsDouble() > 0.25 || rightY.getAsDouble() < -0.25) {
-            drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), 0, rightbumper.getAsBoolean());
-        }
-        else{
             drive.driveTeleop(leftY.getAsDouble(), leftX.getAsDouble(), rightX.getAsDouble(), rightbumper.getAsBoolean());
-
-        }
     }
 }

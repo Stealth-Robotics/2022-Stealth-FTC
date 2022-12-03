@@ -18,7 +18,7 @@ public class ElevatorPresetUp extends ParallelCommandGroup {
         this.grabber = grabber;
         this.lift = lift;
         addCommands(
-                new InstantCommand(() ->grabber.setLiftPos(.5)),
+                new InstantCommand(() ->grabber.setLiftPos(.29)),
                 new InstantCommand(() -> lift.setTarget(2715))
         );
     }
