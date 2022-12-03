@@ -131,7 +131,5 @@ public class ElevatorSubsystem extends SubsystemBase {
         telemetry.addData("Elevator current ticks", elevatorMotor.getCurrentPosition());
         telemetry.addData("Elevator target ticks", targetTicks);
         telemetry.addData("Elevator limit switch", isAtLimitSwitch() ? 1 : 0);
-        telemetry.addData("Elevator current location", getCurrentLocation());
-        telemetry.addData("Elevator target location", getTargetLocation());
     }
 }
