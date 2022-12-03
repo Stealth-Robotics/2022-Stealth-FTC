@@ -46,7 +46,6 @@ public class GrabberSubsystem extends SubsystemBase {
         gripperServo = hardwareMap.get(Servo.class, "gripper");
         rotationServo = hardwareMap.get(Servo.class, "rotation");
         armServo = hardwareMap.get(Servo.class, "arm");
-
     }
 
     public void toggleOpen(){
@@ -59,8 +58,10 @@ public class GrabberSubsystem extends SubsystemBase {
 
         }
     }
-    public void 
-
+    public void openGripper(){
+        gripperServo.setPosition(GRIPPER_OPEN_POSITION);
+        open = true;
+    }
     public void closeGripper(){
         open = false;
         gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
