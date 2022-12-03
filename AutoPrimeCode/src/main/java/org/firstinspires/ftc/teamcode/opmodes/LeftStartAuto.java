@@ -143,9 +143,4 @@ public class LeftStartAuto extends StealthOpMode {
         }
 
     }
-
-    public void periodic() {
-        telemetry.addData("Web-Camera Color: ", SleeveDetection.ParkingPosition.values());
-
-    }
 }

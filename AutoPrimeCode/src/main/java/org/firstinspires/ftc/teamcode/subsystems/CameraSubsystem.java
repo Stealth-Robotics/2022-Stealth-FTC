@@ -81,5 +81,6 @@ public class CameraSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         telemetry.addData("Camera fps", webcam.getFps());
+        telemetry.addData("Parking position", getPosition());
     }
 }

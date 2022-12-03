@@ -79,17 +79,17 @@ public class RightStartAuto extends StealthOpMode {
                     new StrafeForInches(drive, -12),
                     new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, 12),
-                    new TurnToDegrees(drive, -46),
+                    new TurnToDegrees(drive, -40),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new DriveForwardInchesCommand(drive, 9.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 6.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -10)
+                            new DriveForwardInchesCommand(drive, -6.5)
                     ),
                     new TurnToDegrees(drive, -2),
                     new ParallelCommandGroup(
-                            new StrafeForInches(drive, -24),
+                            new StrafeForInches(drive, 24),
                             new GripperCloseCommand(gripper)
                     ),
                     new SaveAutoHeadingCommand(() -> drive.getHeading()),
@@ -100,15 +100,12 @@ public class RightStartAuto extends StealthOpMode {
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.1),
                     new StrafeForInches(drive, -12),
-                    new DriveForwardInchesCommand(drive, 24),
-                    new StrafeForInches(drive, 12),
-                    new TurnToDegrees(drive, -46),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new DriveForwardInchesCommand(drive, 9.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 6.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -10)
+                            new DriveForwardInchesCommand(drive, -6.5)
                     ),
                     new TurnToDegrees(drive, -2),
                     new ParallelCommandGroup(
@@ -124,18 +121,18 @@ public class RightStartAuto extends StealthOpMode {
                     new StrafeForInches(drive, -12),
                     new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, 12),
-                    new TurnToDegrees(drive, -46),
+                    new TurnToDegrees(drive, -40),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new DriveForwardInchesCommand(drive, 9.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 6.5).withTimeout(4000),
                     new GripperOpenCommand(gripper),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -10)
+                            new DriveForwardInchesCommand(drive, -6.5)
                     ),
                     new TurnToDegrees(drive, -2),
                     new ParallelCommandGroup(
                             new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, 24)
+                            new StrafeForInches(drive, -24)
                     ),
                     new SaveAutoHeadingCommand(() -> drive.getHeading()),
                     new EndOpModeCommand(this)
