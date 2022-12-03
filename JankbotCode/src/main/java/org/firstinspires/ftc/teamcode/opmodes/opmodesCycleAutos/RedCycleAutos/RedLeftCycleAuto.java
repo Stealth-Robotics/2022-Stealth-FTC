@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.RedCycleAutos;
+package org.firstinspires.ftc.teamcode.opmodes.opmodesCycleAutos.RedCycleAutos;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -6,18 +6,14 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
-import org.firstinspires.ftc.teamcode.commands.Presets.HighPolePreset;
-import org.firstinspires.ftc.teamcode.commands.Presets.MidPolePreset;
 import org.firstinspires.ftc.teamcode.commands.WaitBeforeAuto;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
-import org.firstinspires.ftc.teamcode.trajectories.RedLeftAutoTrajectories;
-import org.firstinspires.ftc.teamcode.trajectories.RedLeftCycleAutoTrajectories;
+import org.firstinspires.ftc.teamcode.trajectories.CycleAutos.RedCycleAutos.RedLeftCycleAutoTrajectories;
 import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
@@ -63,33 +59,55 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                        new MidPolePreset(extender, grabber, 0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        // new MidPolePreset(extender, grabber, 0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.150)),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajfx1),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                        new InstantCommand(() -> grabber.closeGripper()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.125)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                        //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.080)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                        //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.060)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                        //new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        /*
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.035)),
+                        new WaitBeforeAuto(500, new InstantCommand(()-> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(()-> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                      //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper())
+                        // new ResetRobot(extender, grabber),
+
+                         */
+
+
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory6)
                 );
             case 2:
@@ -97,35 +115,55 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                        new MidPolePreset(extender, grabber, 0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        // new MidPolePreset(extender, grabber, 0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.150)),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajfx1),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                        new InstantCommand(() -> grabber.closeGripper()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.125)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                        //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.080)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                        //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.060)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                        //new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        // new ResetRobot(extender, grabber),
+                        /*
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        new HighPolePreset(extender, grabber,0),
-                        new InstantCommand(() -> grabber.toggleOpen()),
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory5)
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.035)),
+                        new WaitBeforeAuto(500, new InstantCommand(()-> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(()-> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
+                      //  new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.openGripper())
+                        // new ResetRobot(extender, grabber),
 
+                         */
+
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory5)
 
 
                 );
@@ -134,20 +172,21 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                       // new MidPolePreset(extender, grabber, 0),
+                        // new MidPolePreset(extender, grabber, 0),
                         new InstantCommand(() -> grabber.openGripper()),
                         // new ResetRobot(extender, grabber),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.150)),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajfx1),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                        new WaitBeforeAuto(500, new InstantCommand(()-> grabber.closeGripper())),
-                        new WaitBeforeAuto(1000, new InstantCommand(()-> grabber.setArmPositionUp())),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                      //  new HighPolePreset(extender, grabber,0),
+                        //  new HighPolePreset(extender, grabber,0),
                         new InstantCommand(() -> grabber.openGripper()),
                         // new ResetRobot(extender, grabber),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.125)),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        new WaitBeforeAuto(500, new InstantCommand(()-> grabber.closeGripper())),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
                         new WaitBeforeAuto(1000, new InstantCommand(()-> grabber.setArmPositionUp())),
                         new WaitBeforeAuto(500, new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)),
                       //  new HighPolePreset(extender, grabber,0),
