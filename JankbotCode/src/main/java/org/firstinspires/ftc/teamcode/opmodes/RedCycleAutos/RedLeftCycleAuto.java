@@ -8,9 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
+import org.firstinspires.ftc.teamcode.commands.Presets.HighPolePreset;
+import org.firstinspires.ftc.teamcode.commands.Presets.MidPolePreset;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.trajectories.RedLeftAutoTrajectories;
 import org.firstinspires.ftc.teamcode.trajectories.RedLeftCycleAutoTrajectories;
@@ -26,6 +29,7 @@ public class RedLeftCycleAuto extends StealthOpMode {
     CameraSubsystem camera;
     SampleMecanumDrive mecanumDrive;
     GrabberSubsystem grabber;
+    ExtenderSubsystem extender;
 
     @Override
     public void initialize() {
@@ -57,27 +61,33 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                        //score cone on mid here
+                        new MidPolePreset(extender, grabber, 0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                        //pick up a cone here
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory6)
                 );
             case 2:
@@ -85,27 +95,33 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                        //score cone on mid here
+                        new MidPolePreset(extender, grabber, 0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                        //pick up a cone here
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory5)
 
 
@@ -116,27 +132,34 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                        //score cone on mid here
+                        new MidPolePreset(extender, grabber, 0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                        //pick up a cone here
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
+                        new InstantCommand(() -> grabber.closeGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                        //score the cone on the high goal here
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                        //pick a cone
-                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3)
-                        //score the cone on the high goal here
+                        new InstantCommand(() -> grabber.closeGripper()),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
+                        new HighPolePreset(extender, grabber,0),
+                        new InstantCommand(() -> grabber.toggleOpen()),
+                        new HighPolePreset(extender, grabber,0)
 
 
 

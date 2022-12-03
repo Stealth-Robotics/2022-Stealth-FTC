@@ -10,12 +10,12 @@ import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 
 public class MidPolePreset extends ParallelCommandGroup {
 
-    public MidPolePreset(ExtenderSubsystem extender, GrabberSubsystem grabber) {
+    public MidPolePreset(ExtenderSubsystem extender, GrabberSubsystem grabber, int offset) {
 
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),
-                        new ExtenderToPosition(extender, 2000, 1),
+                        new ExtenderToPosition(extender, 2000 + offset, 1),
                         new InstantCommand(()-> grabber.armScorePosition())
                 )
         );

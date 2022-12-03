@@ -10,12 +10,12 @@ import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 
 public class HighPolePreset extends ParallelCommandGroup {
 
-    public HighPolePreset(ExtenderSubsystem extender, GrabberSubsystem grabber) {
+    public HighPolePreset(ExtenderSubsystem extender, GrabberSubsystem grabber, int offset) {
 
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),
-                        new ExtenderToPosition(extender, 2500, 1),
+                        new ExtenderToPosition(extender, 2450 + offset, 1),
                         new InstantCommand(()-> grabber.armScorePosition())
                 )
         );

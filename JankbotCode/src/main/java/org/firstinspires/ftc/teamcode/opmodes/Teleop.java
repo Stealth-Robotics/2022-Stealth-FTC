@@ -73,9 +73,9 @@ public abstract class Teleop extends StealthOpMode {
         //open the claw
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
         //high goal preset
-        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new HighPolePreset(extender, grabber));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new HighPolePreset(extender, grabber,0));
         //mid preset
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MidPolePreset(extender,grabber));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MidPolePreset(extender,grabber,0));
         //low goal and pick up
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
         //ground junction
@@ -85,7 +85,7 @@ public abstract class Teleop extends StealthOpMode {
         //reset the robot
         driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetRobot(extender, grabber));
         //pickup knocked over cone from the ground
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
+      //  driveGamepad.getGamepadButton(GamepadKeys.Button.).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
         //reset just the elevator
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ResetElevator(extender));
         //elevator tested

@@ -26,9 +26,9 @@ public class GrabberSubsystem extends SubsystemBase {
     public static double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public static double ROTATOR_SCORE_POSITION = 0.1;
-    public static double ROTATOR_UP_POSITION = 0.5;
-    public static double ROTATOR_DOWN_POSITION = 0.8;
+    public static double ROTATOR_SCORE_POSITION = 1;
+    public static double ROTATOR_UP_POSITION = 0;
+    public static double ROTATOR_DOWN_POSITION = 0.1;
 
 
     public static double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
@@ -56,6 +56,7 @@ public class GrabberSubsystem extends SubsystemBase {
         }
         else{
             gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
+
         }
     }
 
@@ -67,14 +68,17 @@ public class GrabberSubsystem extends SubsystemBase {
     public void armScorePosition(){
         armServo.setPosition(ARM_SCORE_POSITION);
         rotationServo.setPosition(ROTATOR_SCORE_POSITION);
+        armPosition = armPosition.score;
     }
     public void armUpPosition(){
         armServo.setPosition(ARM_UP_POSITION);
         rotationServo.setPosition(ROTATOR_UP_POSITION);
+        armPosition=armPosition.up;
     }
     public void armPickupPosition(){
         armServo.setPosition(ARM_DOWN_POSITION);
         rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+        armPosition= armPosition.down;
     }
 
     public void toggleArm(){
@@ -95,6 +99,7 @@ public class GrabberSubsystem extends SubsystemBase {
                 break;
         }
 
+
         /*
         isUp = !isUp;
         if(isUp){
@@ -106,8 +111,26 @@ public class GrabberSubsystem extends SubsystemBase {
             rotationServo.setPosition(ROTATOR_UP_POSITION);
         }*/
     }
+    public void toggleArmInverted() {
+        switch (armPosition) {
+            case up:
+                armPosition = ArmPosition.score;
+                armPickupPosition();
+                closeGripper();
+                break;
+            case down:
+                armPosition = ArmPosition.up;
+                armUpPosition();
+                closeGripper();
+                break;
+            case score:
+                armPosition = ArmPosition.score;
+                armScorePosition();
+                break;
+        }
+    }
 
-    public void toggleArmHigher(){
+        public void toggleArmHigher(){
         isUp = !isUp;
         if(isUp){
             armServo.setPosition(ARM_DOWN_POSITION_HIGHER);
@@ -135,9 +158,11 @@ public class GrabberSubsystem extends SubsystemBase {
         if (isUp) {
             armServo.setPosition(ARM_DOWN_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
+            armPosition = armPosition.down;
         } else {
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
+            armPosition = armPosition.up;
         }
 
 
@@ -151,6 +176,7 @@ public class GrabberSubsystem extends SubsystemBase {
     public void setArmPositionDown() {
         armServo.setPosition(ARM_DOWN_POSITION);
         isUp = !true;
+        armPosition = armPosition.down;
     }
 
     public void setRotationPositionUp() {
