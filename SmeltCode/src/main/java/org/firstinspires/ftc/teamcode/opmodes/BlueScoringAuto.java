@@ -9,7 +9,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorAutoCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
@@ -33,8 +32,8 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "score auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class ScoringAuto extends StealthOpMode {
+@Autonomous(name = "blue score auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class BlueScoringAuto extends StealthOpMode {
 
     // Subsystems
     DriveSubsystem drive;
@@ -95,7 +94,7 @@ public class ScoringAuto extends StealthOpMode {
         lift.setDefaultCommand(new DefaultElevatorAutoCommand(lift));
         telemetry.addData("tag", camera.getID());
         telemetry.addData("tag id", camera.getID());
-        drive.setPoseEstimate(new Pose2d(-40.5, 62, Math.toRadians(270)));
+        drive.setPoseEstimate(new Pose2d(-40.5, 62.125, Math.toRadians(270)));
         TrajectorySequence park = BlueRightTrajectories.park3;
         switch (camera.getID()) {
             case 0:
@@ -112,7 +111,7 @@ public class ScoringAuto extends StealthOpMode {
                 //drives to pole
                 new InstantCommand(() -> grabber.setLiftPos(.5)),
                 new ParallelCommandGroup(
-                        new FollowTrajectory(drive, BlueRightTrajectories.forward1),
+                        new FollowTrajectory(drive, BlueRightTrajectories.blueforward1),
                         new InstantCommand(() -> lift.setTarget(2730))
                 ),
                 //drops cone 1
@@ -220,7 +219,7 @@ public class ScoringAuto extends StealthOpMode {
 //
 //                new InstantCommand(() -> grabber.grabberOpen()),
                 //TODO make parking trajectories
-                new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                new SaveAutoHeadingCommand(() -> getFinalHeading()),
                 new EndOpModeCommand(this)
         );
     }
