@@ -28,6 +28,9 @@ public class ExtenderSubsystem extends SubsystemBase {
     public static double extenderD = 0;
     public static double extenderF = 0;
 
+
+    public static int highPoleExtension = 2080;
+    public static int midPoleExtension = 1800;
     private double extenderTolerance = 10;
     private double extenderVelocityTolerance = 10;
 
@@ -124,9 +127,9 @@ public class ExtenderSubsystem extends SubsystemBase {
     public void completeReset() {
         setSpeed(0);
         armMotorA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotorB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //armMotorB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotorA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armMotorB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //armMotorB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     //check the elevator downn

@@ -25,7 +25,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     boolean robotCentric = false;
 
-    public double headingOffset = AutoToTeleStorage.finalAutoHeading;
+    public double headingOffset = Math.toRadians(180);
 
     private final SampleMecanumDrive mecanumDrive;
 

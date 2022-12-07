@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.commands.ExtenderToPosition;
 import org.firstinspires.ftc.teamcode.commands.ResetElevator;
 import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
@@ -19,7 +20,7 @@ public class ResetRobot extends ParallelCommandGroup {
                                 new InstantCommand(() -> grabber.setArmPositionUp()),
                                 new InstantCommand(() -> grabber.setRotationPositionUp())
                         ),
-                        new ResetElevator(extender).withTimeout(3000),
+                        new ExtenderToPosition(extender,0,1).withTimeout(2000),
                         new InstantCommand(() -> grabber.toggleOpen()),
                 new InstantCommand(() -> grabber.setArmPositionDown()),
                 new InstantCommand(() -> grabber.setRotationPositionDown())

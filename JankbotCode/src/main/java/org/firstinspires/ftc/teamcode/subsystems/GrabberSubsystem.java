@@ -15,20 +15,20 @@ public class GrabberSubsystem extends SubsystemBase {
     boolean open = true;
     boolean isUp = true;
 
-    public double GRIPPER_CLOSED_POSITION = 0.35;
+    public double GRIPPER_CLOSED_POSITION = 0.5;
     public double GRIPPER_OPEN_POSITION = 0.7;
 
-    public static double ARM_SCORE_POSITION = 0.9;
-    public static double ARM_UP_POSITION = 0.8;
-    public static double ARM_DOWN_POSITION = 0.3;
+    public static double ARM_SCORE_POSITION = 0.75;
+    public static double ARM_UP_POSITION = 0.7;
+    public static double ARM_DOWN_POSITION = 0.15;
 
     public static double ARM_DOWN_POSITION_LOWEST = 0.2;
     public static double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public static double ROTATOR_SCORE_POSITION = 0.7;
+    public static double ROTATOR_SCORE_POSITION = 0.8;
     public static double ROTATOR_UP_POSITION = 0;
-    public static double ROTATOR_DOWN_POSITION = 0.1;
+    public static double ROTATOR_DOWN_POSITION = 0.3;
 
 
     public static double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
@@ -82,9 +82,9 @@ public class GrabberSubsystem extends SubsystemBase {
         rotationServo.setPosition(ROTATOR_DOWN_POSITION);
         armPosition= armPosition.down;
     }
-    public void armAutoPickupPosition(double autoOffset){
+    public void armAutoPickupPosition(double autoOffset, double rotOffset){
         armServo.setPosition(ARM_DOWN_POSITION + autoOffset);
-        rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION + rotOffset);
 
         armPosition= armPosition.down;
 
@@ -188,8 +188,9 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public void setRotationPositionDown() {
         rotationServo.setPosition(ROTATOR_DOWN_POSITION);
-
     }
-
+    public void setRotationPositionScore() {
+        rotationServo.setPosition(ROTATOR_SCORE_POSITION);
+    }
 
 }
