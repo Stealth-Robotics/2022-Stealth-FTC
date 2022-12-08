@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -70,9 +71,15 @@ public class CoolAuto extends StealthOpMode {
                 new ElevatorToPosition(elevator, 0.67),
                 new DriveForwardInchesCommand(drive, 9.0),
 
-                new WaitCommand(1000),
-                new InstantCommand(() -> gripper.open()),
-                new WaitCommand(1000),
+                new ParallelCommandGroup(
+                        new WaitCommand(750),
+                        new ElevatorToPosition(elevator, 0.4),
+                        new SequentialCommandGroup(
+                                new WaitCommand(500),
+                                new InstantCommand(() -> gripper.open())
+                        ),
+                        new WaitCommand(750)
+                ),
 
                 new DriveForwardInchesCommand(drive, -5.0),
                 new ElevatorToPosition(elevator, 0),

@@ -68,19 +68,25 @@ public class SpinAuto extends StealthOpMode {
                     new WaitCommand(500),
                     new ElevatorToPosition(elevator, 0.02),
 
-                    new DriveForwardInchesCommand(drive, 36.0),
+                    new DriveForwardInchesCommand(drive,36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, 90),
+                    new TurnToDegreesCommand(drive,90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, 37),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 8.75),
 
-                    new WaitCommand(1000),
-                    new InstantCommand(() -> gripper.open()),
-                    new WaitCommand(1000),
+                    new ParallelCommandGroup(
+                            new WaitCommand(1000),
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open())
+                            ),
+                            new WaitCommand(750)
+                    ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
@@ -108,9 +114,15 @@ public class SpinAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 8.75),
 
-                    new WaitCommand(1000),
-                    new InstantCommand(() -> gripper.open()),
-                    new WaitCommand(1000),
+                    new ParallelCommandGroup(
+                            new WaitCommand(1000),
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open())
+                            ),
+                            new WaitCommand(750)
+                    ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
@@ -138,10 +150,16 @@ public class SpinAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
+                    new ParallelCommandGroup(
+                            new WaitCommand(1000),
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open())
+                            ),
+                            new WaitCommand(750)
+                    ),
 
-                    new WaitCommand(1000),
-                    new InstantCommand(() -> gripper.open()),
-                    new WaitCommand(1000),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
