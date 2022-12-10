@@ -20,7 +20,7 @@ public class BlueRightTrajectories {
     //drives to cone stack to pick up first stack cone
     public static TrajectorySequence back1 = TrajectorySequenceBuilder.buildTrajectorySequence(forward1.end())
             .back(4.5)
-            .splineTo(new Vector2d(-35.3, 11.25), Math.toRadians(-3))
+            .splineTo(new Vector2d(-35.3, 10.75), Math.toRadians(-3))
             .forward(24.5)
             .build();
     //drives to pole to score first stack cone

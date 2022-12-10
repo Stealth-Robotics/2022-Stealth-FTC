@@ -16,7 +16,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx liftMotor;
     public static int MAX_VELOCITY = 4000;
 
-    public static int RESET_VELOCITY = 3000;
+    public static int RESET_VELOCITY = 2000;
     public static int RESET_TICKS = 0;
 
     int target = 0;

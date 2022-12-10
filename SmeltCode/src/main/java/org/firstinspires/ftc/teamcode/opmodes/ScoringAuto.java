@@ -54,7 +54,7 @@ public class ScoringAuto extends StealthOpMode {
         grabber = new GrabberSubsystem(hardwareMap);
         grabber.grabberClose();
         grabber.setLiftPos(0.29);
-        grabber.setPos(0.14);
+        grabber.right();
         lift = new ElevatorSubsystem(hardwareMap);
 
 
@@ -141,7 +141,7 @@ public class ScoringAuto extends StealthOpMode {
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone1),
                                 new InstantCommand(() -> lift.setTarget(0)),
-                                new InstantCommand(() -> grabber.setPos(0.17)),
+                                new InstantCommand(() -> grabber.right()),
                                 new InstantCommand(() -> grabber.setLiftPos(.6))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
@@ -161,7 +161,7 @@ public class ScoringAuto extends StealthOpMode {
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone2),
                                 new InstantCommand(() -> lift.setTarget(0)),
-                                new InstantCommand(() -> grabber.setPos(0.17)),
+                                new InstantCommand(() -> grabber.right()),
                                 new InstantCommand(() -> grabber.setLiftPos(.6))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
@@ -206,14 +206,14 @@ public class ScoringAuto extends StealthOpMode {
 //                                new InstantCommand(() -> grabber.setLiftPos(0.75))
 //                        )),
                 new WaitBeforeCommand(300,
-                        new InstantCommand(() -> grabber.setPos(0.17))),
+                        new InstantCommand(() -> grabber.right())),
                 new InstantCommand(() -> lift.setTarget(0)),
                 new WaitBeforeCommand(500,
                         new FollowTrajectorySequence(drive, park)
                 ),
                 new ParallelCommandGroup(
                         new InstantCommand(() -> lift.setTarget(0)),
-                        new InstantCommand(() -> grabber.setPos(0.17)),
+                        new InstantCommand(() -> grabber.right()),
                         new InstantCommand(() -> grabber.grabberClose()),
                         new InstantCommand(() -> grabber.setLiftPos(.6))
                 ),

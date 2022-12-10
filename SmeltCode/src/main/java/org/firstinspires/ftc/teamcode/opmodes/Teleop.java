@@ -51,7 +51,7 @@ public abstract class Teleop extends StealthOpMode {
         register(drive, grabber, lift);
 
         grabber.setLiftPos(0.5);
-        grabber.setPos(0.1);
+        grabber.right();
         drive.headingAfterAuto(AutoToTeleStorage.finalAutoHeading);
 
         driveGamepad = new GamepadEx(gamepad1);
