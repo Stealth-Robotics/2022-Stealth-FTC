@@ -30,7 +30,7 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "LeftSideStart FIX ME!!!!!", preselectTeleOp = "BLUE | Tele-Op")
+@Autonomous(name = "LeftSideStart Cycle-Test", preselectTeleOp = "BLUE | Tele-Op")
 public class CoolCycleTest extends StealthOpMode {
 
     // Subsystems

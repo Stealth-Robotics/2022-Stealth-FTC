@@ -8,12 +8,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ColorSensorSubsystem extends SubsystemBase {
-    private final ColorSensor colorSensor;
+    private final ColorSensor colorSensorLeft;
+    private final ColorSensor colorSensorRight;
 
     public ColorSensorSubsystem(HardwareMap hardwareMap) {
 
 
-        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+        colorSensorLeft = hardwareMap.get(ColorSensor.class, "colorSensorLeft");
+        colorSensorRight = hardwareMap.get(ColorSensor.class, "colorSensorRight");
+
     }
 
 
@@ -22,8 +25,11 @@ public class ColorSensorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("Color Sensor Red Values", colorSensor.red());
-        telemetry.addData("Color Sensor Green Values", colorSensor.green());
-        telemetry.addData("Color Sensor Blue Values", colorSensor.blue());
+        telemetry.addData("Left Sensor Red Values", colorSensorLeft.red());
+        telemetry.addData("Left Sensor Green Values", colorSensorLeft.green());
+        telemetry.addData("Left Sensor Blue Values", colorSensorLeft.blue());
+        telemetry.addData("Right Sensor Red Values", colorSensorRight.red());
+        telemetry.addData("Right Sensor Green Values", colorSensorRight.green());
+        telemetry.addData("Right Sensor Blue Values", colorSensorRight.blue());
     }
 }
