@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
 public class AlignToTapeCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
+    final ColorSensorSubsystem colorSensors;
     double distance;
     int end_ticks;
     public static double TICKS_PER_REVOLUTION = 537.7;
@@ -16,20 +17,46 @@ public class AlignToTapeCommand extends CommandBase {
     public static double IN_PER_REVOLUTION = MM_PER_REVOLUTION / 25.4;
     public static double TICKS_PER_IN = TICKS_PER_REVOLUTION / IN_PER_REVOLUTION;
 
-    public AlignToTapeCommand(SimpleMecanumDriveSubsystem drive, ColorSensorSubsystem colorSensor, double distance) {
+    boolean done = false;
+
+    public AlignToTapeCommand(SimpleMecanumDriveSubsystem drive, ColorSensorSubsystem colorSensors, double distance) {
         this.drive = drive;
+        this.colorSensors = colorSensors;
         this.distance = distance;
         addRequirements(drive);
     }
 
+    int leftFalseCount = 0;
+
     @Override
     public void initialize() {
-        end_ticks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
-        double drive_power = -0.5;
-        if (distance < 0) {
-            drive_power *= -1;
+        done = false;
+        leftFalseCount = 0;
+    }
+
+    @Override
+    public void execute() {
+        boolean lt = colorSensors.doesLeftSensorSeeTape();
+        boolean rt = colorSensors.doesRightSensorSeeTape();
+
+        if (lt) {
+            leftFalseCount = 0;
+        } else {
+            leftFalseCount++;
         }
-        drive.drive(0, drive_power, 0);
+
+        double findTapeSpeed = 0.25;
+
+        // I think "left" is positive, and "right" is negative.
+        if (rt) {
+            drive.drive(0, findTapeSpeed, 0); // Strafe left slowly
+        } else if (lt) {
+            drive.drive(0, -findTapeSpeed, 0); // Strafe right slowly
+        }
+
+        if (leftFalseCount > 4) {
+            done = true;
+        }
     }
 
     @Override
@@ -39,15 +66,6 @@ public class AlignToTapeCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (distance > 0) {
-            if (drive.getTicks() > end_ticks) {
-                return true;
-            }
-        } else {
-            if (drive.getTicks() < end_ticks) {
-                return true;
-            }
-        }
-        return false;
+        return done;
     }
 }
