@@ -45,7 +45,7 @@ public class TurnToDegreesPIDCommand extends CommandBase {
         telemetry.addData("delta", delta);
         telemetry.addData("power", power);
 
-        double maxSpeed = 1.0;
+        double maxSpeed = 0.8;
         power = Math.max(-maxSpeed, Math.min(power, maxSpeed));
         drive.drive(0, 0, power);
     }

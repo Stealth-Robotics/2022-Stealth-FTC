@@ -4,13 +4,16 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.AlignToTapeCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesPIDMotionProfileCommand;
 import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
+import org.firstinspires.ftc.teamcode.commands.StrafeForInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesPIDCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.GroundSensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.stealthrobotics.library.gamepad.Gamepad;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
@@ -28,6 +31,7 @@ public abstract class Teleop extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
+    GroundSensorSubsystem groundSensor;
 
     @Override
     public void initialize() {
@@ -35,7 +39,8 @@ public abstract class Teleop extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        groundSensor = new GroundSensorSubsystem(hardwareMap);
+        register(drive, elevator, gripper, groundSensor);
 
         // Note: I don't recommend leaving this enabled. As of release 0.4.6 there is a bad
         // memory leak if you disable the dashboard via the opmode, which will cause your opmode
@@ -81,9 +86,9 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad.dpad_up.whenActive(() -> elevator.setTargetLocation(1.0));
 
         // Random testing
-        driveGamepad.dpad_up.whenActive(new TurnToDegreesPIDCommand(drive, -90));
-        driveGamepad.dpad_left.whenActive(new DriveForwardInchesPIDMotionProfileCommand(drive, 36));
-        driveGamepad.dpad_right.whenActive(new TurnToDegreesPIDCommand(drive, 180));
+        driveGamepad.dpad_left.whenActive(new AlignToTapeCommand(drive, groundSensor, AlignToTapeCommand.Direction.LEFT));
+        driveGamepad.dpad_right.whenActive(new AlignToTapeCommand(drive, groundSensor, AlignToTapeCommand.Direction.RIGHT));
+        driveGamepad.dpad_up.whenActive(new StrafeForInchesCommand(drive, 2.0));
     }
 
     /**

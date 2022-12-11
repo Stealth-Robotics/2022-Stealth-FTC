@@ -18,6 +18,11 @@ public class StrafeForInchesCommand extends CommandBase {
     public static double IN_PER_REVOLUTION = MM_PER_REVOLUTION / 25.4;
     public static double TICKS_PER_IN = TICKS_PER_REVOLUTION / IN_PER_REVOLUTION;
 
+    /**
+     * Strafe approx. a number of inches.
+     * @param drive the drive subsystem
+     * @param distance positive is right, negative is left
+     */
     public StrafeForInchesCommand(SimpleMecanumDriveSubsystem drive, double distance) {
         this.drive = drive;
         this.distance = distance;
@@ -26,8 +31,9 @@ public class StrafeForInchesCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        endTicks = drive.getTicks() + (int) (distance * TICKS_PER_IN);
-        double drive_power = 0.5;
+        // nb: we're going in "reverse" when strafing
+        endTicks = drive.getTicks() - (int) (distance * TICKS_PER_IN);
+        double drive_power = 0.25;
         if (distance < 0) {
             drive_power *= -1;
         }
@@ -44,11 +50,11 @@ public class StrafeForInchesCommand extends CommandBase {
         telemetry.addData("endTicks", endTicks);
 
         if (distance > 0) {
-            if (drive.getTicks() > endTicks) {
+            if (drive.getTicks() < endTicks) {
                 return true;
             }
         } else {
-            if (drive.getTicks() < endTicks) {
+            if (drive.getTicks() > endTicks) {
                 return true;
             }
         }
