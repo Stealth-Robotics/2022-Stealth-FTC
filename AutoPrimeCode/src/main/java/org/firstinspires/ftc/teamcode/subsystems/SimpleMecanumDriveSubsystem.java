@@ -96,8 +96,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     // Adjust our heading so the front of the bot is forward, no matter how we've drifted over time.
     public void resetHeading() {
         headingOffset = getRawHeading();
-        AutoToTeleStorage.finalAutoHeading = 0;
-    }
+        AutoToTeleStorage.finalAutoHeading = 0;    }
     public void drive(double y, double x, double rotation) {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
