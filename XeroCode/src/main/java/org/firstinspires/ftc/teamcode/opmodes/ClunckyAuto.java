@@ -16,13 +16,12 @@ import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.AutoToTeleStorage;
-import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "TallRIGHT| Wallace The Plump", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class PlumpAuto extends StealthOpMode {
+@Autonomous(name = "CycleRIGHT| Wallace The Clunky", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class ClunckyAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -90,7 +89,10 @@ public class PlumpAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 0),
 
                     new TurnToDegreesCommand(drive, 90),
-                    new DriveForwardInchesCommand(drive, 48.0),
+                    new DriveForwardInchesCommand(drive, 45.0),
+
+                    new InstantCommand(() -> gripper.open()),
+                    new ElevatorToPosition(elevator, 0.6),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
