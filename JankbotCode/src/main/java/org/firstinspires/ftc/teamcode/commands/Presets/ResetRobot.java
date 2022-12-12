@@ -21,6 +21,7 @@ public class ResetRobot extends ParallelCommandGroup {
                                 new InstantCommand(() -> grabber.setRotationPositionUp())
                         ),
                         new ExtenderToPosition(extender,0,1).withTimeout(1000),
+                        new ResetElevator(extender),
                         new InstantCommand(() -> grabber.toggleOpen()),
                 new InstantCommand(() -> grabber.setArmPositionDown()),
                 new InstantCommand(() -> grabber.setRotationPositionDown()),
