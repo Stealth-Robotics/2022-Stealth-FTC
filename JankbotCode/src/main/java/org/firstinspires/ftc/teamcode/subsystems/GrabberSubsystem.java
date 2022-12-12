@@ -20,7 +20,7 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public static double ARM_SCORE_POSITION = 0.75;
     public static double ARM_UP_POSITION = 0.7;
-    public static double ARM_DOWN_POSITION = 0.15;
+    public static double ARM_DOWN_POSITION = 0.2;
 
     public static double ARM_DOWN_POSITION_LOWEST = 0.2;
     public static double ARM_DOWN_POSITION_HIGHER = 0.4;
@@ -99,6 +99,7 @@ public class GrabberSubsystem extends SubsystemBase {
             case up:
                 armPosition = ArmPosition.score;
                 armScorePosition();
+                closeGripper();
                 break;
             case score:
                 armPosition = ArmPosition.down;
