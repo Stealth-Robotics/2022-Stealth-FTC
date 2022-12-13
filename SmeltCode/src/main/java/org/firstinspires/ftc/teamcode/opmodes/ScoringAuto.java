@@ -147,7 +147,6 @@ public class ScoringAuto extends StealthOpMode {
                                 new InstantCommand(() -> grabber.setLiftPos(.6))
                         )),
                 new InstantCommand(() -> grabber.grabberClose()),
-
                 new InstantCommand(() -> lift.setTarget(1650)),
                 //scores second cone
                 new WaitBeforeCommand(500,
