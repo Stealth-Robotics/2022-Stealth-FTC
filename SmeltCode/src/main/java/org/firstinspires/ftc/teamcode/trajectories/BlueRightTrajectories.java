@@ -21,12 +21,12 @@ public class BlueRightTrajectories {
     public static TrajectorySequence back1 = TrajectorySequenceBuilder.buildTrajectorySequence(forward1.end())
             .back(4.5)
             .splineTo(new Vector2d(-35.3, 10.75), Math.toRadians(-3))
-            .forward(24.5)
+            .forward(24.75)
             .build();
     //drives to pole to score first stack cone
     public static TrajectorySequence back2 = TrajectorySequenceBuilder.buildTrajectorySequence(back1.end())
             .back(5)
-            .splineToSplineHeading(new Pose2d(-33, 13.25, Math.toRadians(210)), 0)
+            .splineToSplineHeading(new Pose2d(-33, 13.25, Math.toRadians(212)), 0)
             .build();
     //gets second cone from stack
     public static TrajectorySequence getCone1 = TrajectorySequenceBuilder.buildTrajectorySequence(back2.end())
@@ -36,14 +36,14 @@ public class BlueRightTrajectories {
     public static TrajectorySequence scoreCone1 = TrajectorySequenceBuilder.buildTrajectorySequence(getCone1.end())
             .back(5)
 
-            .splineToSplineHeading(new Pose2d(-33, 13.25, Math.toRadians(210)), Math.toRadians(45))
+            .splineToSplineHeading(new Pose2d(-32.75, 13.5, Math.toRadians(212)), Math.toRadians(45))
             .build();
     public static TrajectorySequence getCone2 = TrajectorySequenceBuilder.buildTrajectorySequence(scoreCone1.end())
-            .splineToSplineHeading(new Pose2d(-61.25, 10,  Math.toRadians(175)), Math.toRadians(180))
+            .splineToSplineHeading(new Pose2d(-61.5, 10,  Math.toRadians(175)), Math.toRadians(180))
             .build();
     public static TrajectorySequence scoreCone2 = TrajectorySequenceBuilder.buildTrajectorySequence(getCone2.end())
             .back(5)
-            .splineToSplineHeading(new Pose2d(-33, 13.25, Math.toRadians(215)), Math.toRadians(45))
+            .splineToSplineHeading(new Pose2d(-32.75, 13.5, Math.toRadians(217)), Math.toRadians(45))
             .build();
     public static TrajectorySequence park1 = TrajectorySequenceBuilder.buildTrajectorySequence(scoreCone2.end())
             .lineToSplineHeading(new Pose2d(-35, 11, Math.toRadians(270)))
