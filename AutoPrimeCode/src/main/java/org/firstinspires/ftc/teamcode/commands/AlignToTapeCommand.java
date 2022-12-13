@@ -11,12 +11,24 @@ public class AlignToTapeCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
     final ColorSensorSubsystem colorSensors;
 
-    boolean done = false;
+    public enum Direction {LEFT, RIGHT}
 
-    public AlignToTapeCommand(SimpleMecanumDriveSubsystem drive, ColorSensorSubsystem colorSensors) {
+    final Direction directionHint;
+
+    boolean done = false;
+    boolean lookingForAnyTape = false;
+    double findTapeSpeed = 0.25;
+
+
+    public AlignToTapeCommand(SimpleMecanumDriveSubsystem drive, ColorSensorSubsystem colorSensors, Direction directionHint) {
         this.drive = drive;
         this.colorSensors = colorSensors;
+        this.directionHint = directionHint;
         addRequirements(drive);
+    }
+
+    public AlignToTapeCommand(SimpleMecanumDriveSubsystem drive, ColorSensorSubsystem colorSensors) {
+        this(drive, colorSensors, Direction.RIGHT);
     }
 
     int leftFalseCount = 0;
@@ -25,8 +37,19 @@ public class AlignToTapeCommand extends CommandBase {
     @Override
     public void initialize() {
         done = false;
-        leftFalseCount = 0;
-        rightFalseCount = 0;
+//        leftFalseCount = 0;
+//        rightFalseCount = 0;
+        boolean lt = colorSensors.doesLeftSensorSeeTape();
+        boolean rt = colorSensors.doesRightSensorSeeTape();
+
+        if (!lt && !rt) {
+            lookingForAnyTape = true;
+            if (directionHint == Direction.RIGHT) {
+                drive.drive(0, -findTapeSpeed, 0); // Strafe right slowly
+            } else {
+                drive.drive(0, findTapeSpeed, 0); // Strafe left slowly
+            }
+        }
     }
 
     @Override
@@ -49,13 +72,16 @@ public class AlignToTapeCommand extends CommandBase {
 //            rightFalseCount++;
 //        }
 
-        double findTapeSpeed = 0.25;
 
         // I think "left" is positive, and "right" is negative.
         if (rt) {
             drive.drive(0, findTapeSpeed, 0); // Strafe left slowly
+            lookingForAnyTape = false;
         } else if (lt) {
             drive.drive(0, -findTapeSpeed, 0); // Strafe right slowly
+            lookingForAnyTape = false;
+        } else if (lookingForAnyTape) {
+            // do nothing
         } else {
             done = true;
         }
