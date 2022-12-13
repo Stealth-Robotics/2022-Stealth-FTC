@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.AlignToTapeCommand;
@@ -78,13 +79,47 @@ public class CoolCycleTest extends StealthOpMode {
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
-                    new AlignToTapeCommand(drive, colorSensor)
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.1),
+                    new StrafeForInches(drive, -12),
+                    new DriveForwardInchesCommand(drive, 28),
+                    new StrafeForInches(drive, 12),
+                    new TurnToDegrees(drive, -45),
+                    new MoveElevatorPercentage(elevator, 0.63),
+                    new DriveForwardInchesCommand(drive, 5.5),
+                    new WaitCommand(500),
+                    new MoveElevatorPercentage(elevator, 0.6),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.64),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.0),
+                            new DriveForwardInchesCommand(drive, -5.5)
+                    ),
+                    new TurnToDegrees(drive, 0),
+                    new DriveForwardInchesCommand(drive, 20),
+                    new TurnToDegrees(drive, 90),
+                    new DriveForwardInchesCommand(drive, 20),
+                    new AlignToTapeCommand(drive, colorSensor).withTimeout(1000),
+                    new WaitCommand(500),
+                    new DriveForwardInchesCommand(drive, 10).withTimeout(2000),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.1),
+                    new DriveForwardInchesCommand(drive, -24),
+                    new TurnToDegrees(drive, -90),
+                    new MoveElevatorPercentage(elevator, 0.63),
+                    new TurnToDegrees(drive, -135),
+                    new DriveForwardInchesCommand(drive, 9.5),
+                    new MoveElevatorPercentage(elevator, 0.61),
+                    new GripperOpenCommand(gripper)
 
 
 
 
 
-            );
+
+
+
+                    );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
