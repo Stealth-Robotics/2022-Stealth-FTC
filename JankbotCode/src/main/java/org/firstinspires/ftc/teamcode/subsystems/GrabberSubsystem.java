@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
 @Config
 public class GrabberSubsystem extends SubsystemBase {
@@ -15,8 +15,8 @@ public class GrabberSubsystem extends SubsystemBase {
     boolean open = true;
     boolean isUp = true;
 
-    public static double  GRIPPER_CLOSED_POSITION = 0.6;
-    public static  double GRIPPER_OPEN_POSITION = 0.5;
+    public static double  GRIPPER_CLOSED_POSITION = 0.4;
+    public static  double GRIPPER_OPEN_POSITION = 0.7;
 
     public static double ARM_SCORE_POSITION = 0.75;
     public static double ARM_UP_POSITION = 0.7;
@@ -26,7 +26,7 @@ public class GrabberSubsystem extends SubsystemBase {
     public static double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public static double ROTATOR_SCORE_POSITION = 0.2;
+    public static double ROTATOR_SCORE_POSITION = 0.1;
     public static double ROTATOR_UP_POSITION =0.5;
     public static double ROTATOR_DOWN_POSITION = 0.9;
 
@@ -51,10 +51,10 @@ public class GrabberSubsystem extends SubsystemBase {
     public void toggleOpen(){
         open = !open;
         if(open){
-            gripperServo.setPosition(GRIPPER_OPEN_POSITION);
+            gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
         }
         else{
-            gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
+            gripperServo.setPosition(GRIPPER_OPEN_POSITION);
 
         }
     }
@@ -62,6 +62,7 @@ public class GrabberSubsystem extends SubsystemBase {
         gripperServo.setPosition(GRIPPER_OPEN_POSITION);
         open = true;
     }
+
     public void closeGripper(){
         open = false;
         gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
@@ -94,17 +95,15 @@ public class GrabberSubsystem extends SubsystemBase {
             case down:
                 armPosition = ArmPosition.up;
                 armUpPosition();
-                closeGripper();
+                //closeGripper();
                 break;
             case up:
                 armPosition = ArmPosition.score;
                 armScorePosition();
-                closeGripper();
                 break;
             case score:
                 armPosition = ArmPosition.down;
                 armPickupPosition();
-                closeGripper();
                 break;
         }
 
@@ -124,11 +123,9 @@ public class GrabberSubsystem extends SubsystemBase {
         switch (armPosition) {
             case up:
                 armPickupPosition();
-                closeGripper();
                 break;
             case down:
                 armUpPosition();
-                closeGripper();
                 break;
         }
     }
@@ -194,4 +191,8 @@ public class GrabberSubsystem extends SubsystemBase {
         rotationServo.setPosition(ROTATOR_SCORE_POSITION);
     }
 
+    @Override
+    public void periodic() {
+        telemetry.addData("Grabber servo open:", open);
+    }
 }
