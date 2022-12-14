@@ -28,12 +28,12 @@ public class DefaultGrabberCommand extends CommandBase {
     public void execute(){
         //if bot is facing normally, or if trying to score rotate as expected
         if((Math.toDegrees(heading.getAsDouble()) > -90 && Math.toDegrees(heading.getAsDouble()) < 90) || liftPos.getAsDouble() > 1000){
-            grabber.setPos(grabber.getPos() + .02 * leftX.getAsDouble());
+            grabber.setPos(grabber.getPos() + .01 * leftX.getAsDouble());
             telemetry.addData("normal rotate: ", "true");
         }
         //"field centric" grabber movement when grabber is at bottom and bot is facing toward driver
         else{
-            grabber.setPos(grabber.getPos() - .02 * leftX.getAsDouble());
+            grabber.setPos(grabber.getPos() - .01 * leftX.getAsDouble());
             telemetry.addData("normal rotate: ", "false");
         }
 
