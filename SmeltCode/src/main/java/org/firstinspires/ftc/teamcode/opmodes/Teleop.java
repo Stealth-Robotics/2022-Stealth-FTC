@@ -56,6 +56,7 @@ public abstract class Teleop extends StealthOpMode {
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
+        grabber.grabberOpen();
 
         // A subsystem's default command runs all the time. Great for drivetrains and such.
         drive.setDefaultCommand(
