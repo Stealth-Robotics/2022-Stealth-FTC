@@ -24,10 +24,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     public static int MAX_VELOCITY_TICKS_PER_SEC = 2000;
     public static double RESET_VELOCITY_TICKS_PER_SEC = 500;
     public static int RESET_TICKS = -6000;
-    public static double LITTLE_UP = 0.04;
-    public static double LITTLE_DOWN = -0.04;
-    public static double RESET_STALL_TIME_SEC = 0.050; // 50ms
-    public static double RESET_POWER = 0.10;
+    public static double LITTLE_UP = 0.004;
+    public static double LITTLE_DOWN = -0.004;
+    public static double RESET_STALL_TIME_SEC = 0.100; // 100ms
+    public static double RESET_POWER = 0.17;
 
     final Debouncer stalledDebouncer = new Debouncer(RESET_STALL_TIME_SEC, Debouncer.DebounceType.kRising);
 

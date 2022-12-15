@@ -39,7 +39,7 @@ public abstract class Teleop extends StealthOpMode {
         register(drive, elevator, gripper);
 
         // DONT LEAVE THIS LINE IN FOR COMP!!!!!
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
@@ -67,8 +67,8 @@ public abstract class Teleop extends StealthOpMode {
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
         driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.67)));
         driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenReleased(new ElevatorResetCommand(elevator));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenReleased(new InstantCommand(() -> elevator.setTargetLocation(elevator.upALittle())));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenReleased(new InstantCommand(() -> elevator.setTargetLocation(elevator.downALittle())));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileHeld(new InstantCommand(() -> elevator.setTargetLocation(elevator.upALittle())));
+        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whileHeld(new InstantCommand(() -> elevator.setTargetLocation(elevator.downALittle())));
 
         driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> gripper.open()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.close()));
