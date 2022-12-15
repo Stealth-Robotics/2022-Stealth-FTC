@@ -45,9 +45,9 @@ public class AlignToTapeCommand extends CommandBase {
         if (!lt && !rt) {
             lookingForAnyTape = true;
             if (directionHint == Direction.RIGHT) {
-                drive.drive(0, -findTapeSpeed, 0); // Strafe right slowly
-            } else {
                 drive.drive(0, findTapeSpeed, 0); // Strafe left slowly
+            } else {
+                drive.drive(0, -findTapeSpeed, 0); // Strafe right slowly
             }
         }
     }
