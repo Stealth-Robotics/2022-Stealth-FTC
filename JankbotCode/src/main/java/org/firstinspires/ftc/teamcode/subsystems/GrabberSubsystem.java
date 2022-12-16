@@ -90,6 +90,12 @@ public class GrabberSubsystem extends SubsystemBase {
         armPosition= armPosition.down;
 
     }
+    public void armAutoScorePosition()
+    {
+        armServo.setPosition(ARM_SCORE_POSITION);
+        rotationServo.setPosition(ROTATOR_SCORE_POSITION+0.12);
+    }
+
     public void toggleArm(){
         switch (armPosition) {
             case down:

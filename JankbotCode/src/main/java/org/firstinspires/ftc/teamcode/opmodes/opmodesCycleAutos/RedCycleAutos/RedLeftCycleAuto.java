@@ -84,14 +84,15 @@ public class RedLeftCycleAuto extends StealthOpMode {
                     new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
                     new ParallelCommandGroup(
                             new HighPolePreset(extender, grabber, -150),
-                            new WaitCommand(100),
+                            new WaitCommand(1000),
                             new InstantCommand(() -> grabber.setRotationPositionScore()),
+
                             new WaitCommand(200)
                     ),
                     new InstantCommand(() -> grabber.openGripper()),
                     new WaitCommand(300),
                     new InstantCommand(() -> grabber.closeGripper()),
-                    new InstantCommand(() -> grabber.armAutoPickupPosition(0.3, -0.1)),
+                    new InstantCommand(() -> grabber.armAutoPickupPosition(0.12, -0.1)),
                     new WaitBeforeAuto(1000, new ResetRobot(extender, grabber)),
                     new InstantCommand(() -> grabber.openGripper()),
                     new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
@@ -100,7 +101,7 @@ public class RedLeftCycleAuto extends StealthOpMode {
                     new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
                     new ParallelCommandGroup(
                             new HighPolePreset(extender, grabber, -150),
-                            new WaitCommand(100),
+                            new WaitCommand(1000),
                             new InstantCommand(() -> grabber.setRotationPositionScore()),
                             new WaitCommand(100)
                     ),
