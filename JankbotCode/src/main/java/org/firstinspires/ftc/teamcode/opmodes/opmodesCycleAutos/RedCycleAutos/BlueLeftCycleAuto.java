@@ -23,8 +23,8 @@ import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "Red Left | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
-public class RedLeftCycleAuto extends StealthOpMode {
+@Autonomous(name = "Blue Left | Cycle Auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class BlueLeftCycleAuto extends StealthOpMode {
 
     // Subsystems
     DriveSubsystem drive;
@@ -159,52 +159,52 @@ public class RedLeftCycleAuto extends StealthOpMode {
                 );
             default:
                 return new SequentialCommandGroup(
-                    new InstantCommand(() -> grabber.closeGripper()),
-                    new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
-                    new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
-                    // new MidPolePreset(extender, grabber, 0),
-                    new InstantCommand(() -> grabber.openGripper()),
-                    //new ResetRobot(extender, grabber),
-                    new InstantCommand(() -> grabber.armAutoPickupPosition(0.12, -0.1)),
-                    //   new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajfx1),
-                    new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
-                    new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
-                    new WaitBeforeAuto(500, new InstantCommand(() -> grabber.setArmPositionUp())),
-                    new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                    new ParallelCommandGroup(
-                            new HighPolePreset(extender, grabber, -220)
-                    ),
-                    new InstantCommand(() -> grabber.setRotationPositionScore()),
-                    new WaitCommand(500),
-                    new InstantCommand(() -> grabber.openGripper()),
-                    new WaitCommand(300),
-                    new InstantCommand(() -> grabber.closeGripper()),
-                    //DO NOT TOUCH ANYTHING ABOVE THIS IT IS PERFECT JUST LIKE YOU
+                        new InstantCommand(() -> grabber.closeGripper()),
+                        new InstantCommand(() -> drive.setPoseEstimate(RedLeftCycleAutoTrajectories.startingPose.getX(), RedLeftCycleAutoTrajectories.startingPose.getY(), RedLeftCycleAutoTrajectories.startingPose.getHeading())),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory1),
+                        // new MidPolePreset(extender, grabber, 0),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        //new ResetRobot(extender, grabber),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.12, -0.1)),
+                        //   new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajfx1),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory2),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
+                        new ParallelCommandGroup(
+                                new HighPolePreset(extender, grabber, -220)
+                        ),
+                        new InstantCommand(() -> grabber.setRotationPositionScore()),
+                        new WaitCommand(500),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        new WaitCommand(300),
+                        new InstantCommand(() -> grabber.closeGripper()),
+                        //DO NOT TOUCH ANYTHING ABOVE THIS IT IS PERFECT JUST LIKE YOU
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.forawrdABit),
-                    new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
-                    new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
+                        new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
-                    new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
-                    new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
-                    new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
-                    new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
-                    new ParallelCommandGroup(
-                            new HighPolePreset(extender, grabber, -220)
-                    ),
-                    new InstantCommand(() -> grabber.setRotationPositionScore()),
-                    new WaitCommand(500),
-                    new InstantCommand(() -> grabber.openGripper()),
-                    new WaitCommand(300),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
+                        new WaitBeforeAuto(500, new InstantCommand(() -> grabber.closeGripper())),
+                        new WaitBeforeAuto(1000, new InstantCommand(() -> grabber.setArmPositionUp())),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory3),
+                        new ParallelCommandGroup(
+                                new HighPolePreset(extender, grabber, -220)
+                        ),
+                        new InstantCommand(() -> grabber.setRotationPositionScore()),
+                        new WaitCommand(500),
+                        new InstantCommand(() -> grabber.openGripper()),
+                        new WaitCommand(300),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.forawrdABit),
-                    new InstantCommand(() -> grabber.armUpPosition()),
-                    new InstantCommand(() -> grabber.closeGripper()),
-                    new WaitBeforeAuto(1000, new ResetRobot(extender, grabber)),
+                        new InstantCommand(() -> grabber.armUpPosition()),
+                        new InstantCommand(() -> grabber.closeGripper()),
+                        new WaitBeforeAuto(1000, new ResetRobot(extender, grabber)),
 
-                    new InstantCommand(()->grabber.armUpPosition()),
-                    new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.slot2Park),
-                    new InstantCommand()
+                        new InstantCommand(()->grabber.armUpPosition()),
+                        new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.slot2Park),
+                        new InstantCommand()
                 );
         }
     }

@@ -24,7 +24,7 @@ import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "RED Right | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
+@Autonomous(name = "Red Right | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
 public class RedRightCycleAuto extends StealthOpMode {
 
     // Subsystems
