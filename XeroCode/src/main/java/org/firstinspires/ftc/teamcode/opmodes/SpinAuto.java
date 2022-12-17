@@ -73,10 +73,10 @@ public class SpinAuto extends StealthOpMode {
 
                     new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
-                    new TurnToDegreesCommand(drive, 37),
+                    new TurnToDegreesCommand(drive, 40),
 
                     new ElevatorToPosition(elevator, 1.0),
-                    new DriveForwardInchesCommand(drive, 8.75),
+                    new DriveForwardInchesCommand(drive, 7.5),
 
                     new WaitCommand(1000),
                     new InstantCommand(() -> gripper.open()),
@@ -86,7 +86,7 @@ public class SpinAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 0),
 
                     new TurnToDegreesCommand(drive, 87),
-                    new DriveForwardInchesCommand(drive, -23.0),
+                    new DriveForwardInchesCommand(drive, -45.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading()),
                     new EndOpModeCommand(this)
@@ -103,10 +103,10 @@ public class SpinAuto extends StealthOpMode {
 
                     new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
-                    new TurnToDegreesCommand(drive, 37),
+                    new TurnToDegreesCommand(drive, 40),
 
                     new ElevatorToPosition(elevator, 1.0),
-                    new DriveForwardInchesCommand(drive, 8.75),
+                    new DriveForwardInchesCommand(drive, 7.5),
 
                     new WaitCommand(1000),
                     new InstantCommand(() -> gripper.open()),
@@ -116,7 +116,7 @@ public class SpinAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 0),
 
                     new TurnToDegreesCommand(drive, 87),
-                    new DriveForwardInchesCommand(drive, -23.0),
+                    new DriveForwardInchesCommand(drive, -30.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading()),
                     new EndOpModeCommand(this)
@@ -133,10 +133,10 @@ public class SpinAuto extends StealthOpMode {
 
                     new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
-                    new TurnToDegreesCommand(drive, 37),
+                    new TurnToDegreesCommand(drive, 40),
 
                     new ElevatorToPosition(elevator, 1.0),
-                    new DriveForwardInchesCommand(drive, 8.75),
+                    new DriveForwardInchesCommand(drive, 7.5),
 
                     new WaitCommand(1000),
                     new InstantCommand(() -> gripper.open()),
@@ -146,7 +146,7 @@ public class SpinAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 0),
 
                     new TurnToDegreesCommand(drive, -87),
-                    new DriveForwardInchesCommand(drive, -23.0),
+                    new DriveForwardInchesCommand(drive, -2.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
