@@ -72,13 +72,11 @@ public class AwesomeAuto extends StealthOpMode {
                 new DriveForwardInchesCommand(drive, 9.0),
 
                 new ParallelCommandGroup(
-                        new WaitCommand(750),
                         new ElevatorToPosition(elevator, 0.4),
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
                                 new InstantCommand(() -> gripper.open())
-                        ),
-                        new WaitCommand(750)
+                        )
                 ),
 
                 new DriveForwardInchesCommand(drive, -5.0),

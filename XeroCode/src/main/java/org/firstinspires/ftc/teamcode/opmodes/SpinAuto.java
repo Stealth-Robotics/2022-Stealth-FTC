@@ -79,13 +79,11 @@ public class SpinAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 8.75),
 
                     new ParallelCommandGroup(
-                            new WaitCommand(1000),
                             new ElevatorToPosition(elevator, 0.4),
                             new SequentialCommandGroup(
                                     new WaitCommand(750),
                                     new InstantCommand(() -> gripper.open())
-                            ),
-                            new WaitCommand(750)
+                            )
                     ),
 
                     new DriveForwardInchesCommand(drive, -5.0),

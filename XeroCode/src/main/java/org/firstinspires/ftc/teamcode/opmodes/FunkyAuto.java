@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToPosition;
+import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
@@ -16,13 +17,12 @@ import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.AutoToTeleStorage;
-import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "TallRIGHT| Wallace The Plump", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class PlumpAuto extends StealthOpMode {
+@Autonomous(name = "CycleLEFT| Wallace The Funky", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class FunkyAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -59,7 +59,8 @@ public class PlumpAuto extends StealthOpMode {
     public Command getAutoCommand() {
         AutoToTeleStorage.clear();
 
-        SleeveDetection.ParkingPosition positionFromCamera = cameraSubsystem.getPosition();
+//        SleeveDetection.ParkingPosition positionFromCamera = cameraSubsystem.getPosition();
+        SleeveDetection.ParkingPosition positionFromCamera = SleeveDetection.ParkingPosition.LEFT;
 
         if (positionFromCamera == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
@@ -69,28 +70,52 @@ public class PlumpAuto extends StealthOpMode {
                     new ElevatorToPosition(elevator, 0.02),
 
                     new DriveForwardInchesCommand(drive, 36.0),
-                    new DriveForwardInchesCommand(drive, -0.6),
+                    new DriveForwardInchesCommand(drive, -2),
 
                     new TurnToDegreesCommand(drive, 90),
-                    new DriveForwardInchesCommand(drive, 23.0),
-                    new TurnToDegreesCommand(drive, -45),
+                    new DriveForwardInchesCommand(drive, 22.5),
+                    new TurnToDegreesCommand(drive, 45),  // face poll
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.8),
+
+                    new InstantCommand(() -> gripper.open()), // drop and backup
+                    new WaitCommand(500),
+                    new DriveForwardInchesCommand(drive, -5.0),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.10),
+                            new TurnToDegreesCommand(drive, -90)
+                    ),
+
+                    new DriveForwardInchesCommand(drive, 21),
+                    new StrafeForInches(drive, 36),
+                    new StrafeForInches(drive, -2),
+                    new DriveForwardInchesCommand(drive, 26),   //get to cone stack
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator, 0.25),
+
+                    new DriveForwardInchesCommand(drive, -24),
+                    new StrafeForInches(drive, -24),
+                    new DriveForwardInchesCommand(drive, -21),   //get back to pole
+
+                    new TurnToDegreesCommand(drive, 45),  //face poll 2.0
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
+                    new InstantCommand(() -> gripper.open()), // drop and backup
+                    new WaitCommand(500),
+                    new DriveForwardInchesCommand(drive, -5.0),
+
                     new ParallelCommandGroup(
-                            new ElevatorToPosition(elevator, 0.4),
-                            new SequentialCommandGroup(
-                                    new WaitCommand(750),
-                                    new InstantCommand(() -> gripper.open()),
-                                    new DriveForwardInchesCommand(drive, -5.0)
-                            )
+                            new ElevatorToPosition(elevator, 0.10),
+                            new TurnToDegreesCommand(drive, -90)
                     ),
 
-                    new ElevatorToPosition(elevator, 0),
 
-                    new TurnToDegreesCommand(drive, 90),
-                    new DriveForwardInchesCommand(drive, 48.0),
+                    new ElevatorToPosition(elevator, 0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
@@ -107,7 +132,7 @@ public class PlumpAuto extends StealthOpMode {
 
                     new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
-                    new TurnToDegreesCommand(drive, -45),
+                    new TurnToDegreesCommand(drive, 45),  //face poll
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
@@ -121,9 +146,39 @@ public class PlumpAuto extends StealthOpMode {
                     ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new StrafeForInches(drive, 30),
+                    new StrafeForInches(drive, -4),
+                    new DriveForwardInchesCommand(drive, 24),   //get to cone stack
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator, 0.15),
+
+                    new DriveForwardInchesCommand(drive, -48),
+                    new StrafeForInches(drive, -14),
+                    new DriveForwardInchesCommand(drive, -12),   //get back to pole
+
+                    new TurnToDegreesCommand(drive, 45), //face poll 2.0
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
 
-                    new TurnToDegreesCommand(drive, -87),
+                    new TurnToDegreesCommand(drive, 87),
                     new DriveForwardInchesCommand(drive, -23.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
@@ -141,7 +196,7 @@ public class PlumpAuto extends StealthOpMode {
 
                     new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
-                    new TurnToDegreesCommand(drive, -45),
+                    new TurnToDegreesCommand(drive, 45),  //face poll
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
@@ -155,7 +210,40 @@ public class PlumpAuto extends StealthOpMode {
                     ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new StrafeForInches(drive, 30),
+                    new StrafeForInches(drive, -4),
+                    new DriveForwardInchesCommand(drive, 24),   //get to cone stack
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator, 0.15),
+
+                    new DriveForwardInchesCommand(drive, -48),
+                    new StrafeForInches(drive, -14),
+                    new DriveForwardInchesCommand(drive, -12),   //get back to pole
+
+                    new TurnToDegreesCommand(drive, 45),  //face poll 2.0
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 45.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)

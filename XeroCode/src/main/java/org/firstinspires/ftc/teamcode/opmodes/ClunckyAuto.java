@@ -86,13 +86,33 @@ public class ClunckyAuto extends StealthOpMode {
                             )
                     ),
 
-                    new ElevatorToPosition(elevator, 0),
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
 
                     new TurnToDegreesCommand(drive, 90),
-                    new DriveForwardInchesCommand(drive, 45.0),
+                    new DriveForwardInchesCommand(drive, 24),
 
-                    new InstantCommand(() -> gripper.open()),
-                    new ElevatorToPosition(elevator, 0.6),
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator,0.15),
+
+                    new DriveForwardInchesCommand(drive, 5),
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, -19),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
@@ -123,6 +143,31 @@ public class ClunckyAuto extends StealthOpMode {
                     ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 24),
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator,0.15),
+
+                    new DriveForwardInchesCommand(drive, 5),
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, -19),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
 
                     new TurnToDegreesCommand(drive, -87),
@@ -149,17 +194,43 @@ public class ClunckyAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 7.3),
 
                     new ParallelCommandGroup(
-                            new WaitCommand(1000),
                             new ElevatorToPosition(elevator, 0.4),
                             new SequentialCommandGroup(
                                     new WaitCommand(750),
                                     new InstantCommand(() -> gripper.open())
-                            ),
-                            new WaitCommand(750)
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 24),
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator,0.15),
+
+                    new DriveForwardInchesCommand(drive, 5),
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, -19),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
                     ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 45.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
