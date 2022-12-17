@@ -54,6 +54,8 @@ public class LeftStartAuto extends StealthOpMode {
         camera = new CameraSubsystem(hardwareMap);
         colorSensor = new ColorSensorSubsystem(hardwareMap);
         register(drive, elevator, gripper, camera, colorSensor);
+
+        camera.setLeftSide();
     }
 
     @Override
@@ -75,7 +77,7 @@ public class LeftStartAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         AutoToTeleStorage.finalAutoHeading = 0;
-        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.LEFT;
+        SleeveDetection.ParkingPosition position = camera.getPosition();
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
@@ -85,16 +87,16 @@ public class LeftStartAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, -24),
                     new StrafeForInches(drive, 10),
-                    new TurnToDegrees(drive, 48),
+                    new TurnToDegrees(drive, 53),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new DriveForwardInchesCommand(drive, 12).withTimeout(1000),
-                    new WaitCommand(200),
-                    new MoveElevatorPercentage(elevator, 0.6),
+                    new DriveForwardInchesCommand(drive, 9).withTimeout(1000),
+                    new WaitCommand(100),
+                    new MoveElevatorPercentage(elevator, 0.59),
                     new GripperOpenCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.64),
+                    new MoveElevatorPercentage(elevator, 0.65),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -12)
+                            new DriveForwardInchesCommand(drive, -9)
                     ),
                     new TurnToDegrees(drive, 0),
                     new DriveForwardInchesCommand(drive, 20),
@@ -102,42 +104,23 @@ public class LeftStartAuto extends StealthOpMode {
                     new StrafeForInches(drive, -2),
                     new DriveForwardInchesCommand(drive, 20),
                     new AlignToTapeCommand(drive, colorSensor, AlignToTapeCommand.Direction.LEFT).withTimeout(1000),
-                    new WaitCommand(200),
+                    new WaitCommand(100),
                     new MoveElevatorPercentage(elevator, 0.095),
-                    new WaitCommand(200),
+                    new WaitCommand(100),
                     new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.3),
                     new DriveForwardInchesCommand(drive, -24),
                     new TurnToDegrees(drive, 90),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new TurnToDegrees(drive, 138),
-                    new DriveForwardInchesCommand(drive, 10),
+                    new TurnToDegrees(drive, 136),
+                    new DriveForwardInchesCommand(drive, 11),
                     new MoveElevatorPercentage(elevator, 0.61),
                     new GripperOpenCommand(gripper),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0),
-                            new DriveForwardInchesCommand(drive, -9.5)
+                            new DriveForwardInchesCommand(drive, -11)
                     ),
-                    new TurnToDegrees(drive, 0),
-                    new TurnToDegrees(drive, -90),
-                    new StrafeForInches(drive, -2),
-                    new DriveForwardInchesCommand(drive, 20),
-                    new AlignToTapeCommand(drive, colorSensor, AlignToTapeCommand.Direction.LEFT).withTimeout(1000),
-                    new WaitCommand(200),
-                    new MoveElevatorPercentage(elevator, 0.067),
-                    new WaitCommand(200),
-                    new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
-                    new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.3),
-                    new DriveForwardInchesCommand(drive, -24),
-                    new TurnToDegrees(drive, 90),
-                    new MoveElevatorPercentage(elevator, 0.63),
-                    new TurnToDegrees(drive, 135),
-                    new DriveForwardInchesCommand(drive, 10),
-                    new MoveElevatorPercentage(elevator, 0.61),
-                    new GripperOpenCommand(gripper),
-                    new DriveForwardInchesCommand(drive, -9.5),
                     new TurnToDegrees(drive, 180),
                     new DriveForwardInchesCommand(drive, 24),
                     new StrafeForInches(drive, -24),
@@ -152,46 +135,103 @@ public class LeftStartAuto extends StealthOpMode {
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.1),
-                    new StrafeForInches(drive, 12),
+                    new StrafeForInches(drive, 18),
                     new DriveForwardInchesCommand(drive, 24),
-                    new StrafeForInches(drive, -12),
-                    new TurnToDegrees(drive, 46),
+                    new StrafeForInches(drive, -24),
+                    new StrafeForInches(drive, 10),
+                    new TurnToDegrees(drive, 53),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new DriveForwardInchesCommand(drive, 9.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 9).withTimeout(1000),
+                    new WaitCommand(100),
+                    new MoveElevatorPercentage(elevator, 0.59),
                     new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.65),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -10)
+                            new DriveForwardInchesCommand(drive, -9)
                     ),
-                    new TurnToDegrees(drive, 2),
+                    new TurnToDegrees(drive, 0),
+                    new DriveForwardInchesCommand(drive, 20),
+                    new TurnToDegrees(drive, -90),
+                    new StrafeForInches(drive, -2),
+                    new DriveForwardInchesCommand(drive, 20),
+                    new AlignToTapeCommand(drive, colorSensor, AlignToTapeCommand.Direction.LEFT).withTimeout(1000),
+                    new WaitCommand(100),
+                    new MoveElevatorPercentage(elevator, 0.095),
+                    new WaitCommand(100),
+                    new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.3),
+                    new DriveForwardInchesCommand(drive, -24),
+                    new TurnToDegrees(drive, 90),
+                    new MoveElevatorPercentage(elevator, 0.63),
+                    new TurnToDegrees(drive, 136),
+                    new DriveForwardInchesCommand(drive, 11),
+                    new MoveElevatorPercentage(elevator, 0.61),
+                    new GripperOpenCommand(gripper),
                     new ParallelCommandGroup(
-                            new GripperCloseCommand(gripper)
+                            new MoveElevatorPercentage(elevator, 0),
+                            new DriveForwardInchesCommand(drive, -11)
                     ),
-                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
-                    new EndOpModeCommand(this)
+                    new TurnToDegrees(drive, 180),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new ParallelCommandGroup(
+                            new TurnToDegrees(drive, 0),
+                            new MoveElevatorPercentage(elevator, 0)
+                    )
             );
         } else { // RIGHT
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.1),
-                    new StrafeForInches(drive, 12),
+                    new StrafeForInches(drive, 18),
                     new DriveForwardInchesCommand(drive, 24),
-                    new StrafeForInches(drive, -12),
-                    new TurnToDegrees(drive, 46),
+                    new StrafeForInches(drive, -24),
+                    new StrafeForInches(drive, 10),
+                    new TurnToDegrees(drive, 53),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new DriveForwardInchesCommand(drive, 9.5).withTimeout(4000),
+                    new DriveForwardInchesCommand(drive, 9).withTimeout(1000),
+                    new WaitCommand(100),
+                    new MoveElevatorPercentage(elevator, 0.59),
                     new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.65),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.0),
-                            new DriveForwardInchesCommand(drive, -10)
+                            new DriveForwardInchesCommand(drive, -9)
                     ),
-                    new TurnToDegrees(drive, 2),
+                    new TurnToDegrees(drive, 0),
+                    new DriveForwardInchesCommand(drive, 20),
+                    new TurnToDegrees(drive, -90),
+                    new StrafeForInches(drive, -2),
+                    new DriveForwardInchesCommand(drive, 20),
+                    new AlignToTapeCommand(drive, colorSensor, AlignToTapeCommand.Direction.LEFT).withTimeout(1000),
+                    new WaitCommand(100),
+                    new MoveElevatorPercentage(elevator, 0.095),
+                    new WaitCommand(100),
+                    new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.3),
+                    new DriveForwardInchesCommand(drive, -24),
+
+                    new TurnToDegrees(drive, 90),
+                   new MoveElevatorPercentage(elevator, 0.63),
+                    new TurnToDegrees(drive, 136),
+                    new DriveForwardInchesCommand(drive, 11),
+                    new MoveElevatorPercentage(elevator, 0.61),
+                    new GripperOpenCommand(gripper),
                     new ParallelCommandGroup(
-                            new GripperCloseCommand(gripper),
-                            new StrafeForInches(drive, -24)
+                            new MoveElevatorPercentage(elevator, 0),
+                            new DriveForwardInchesCommand(drive, -11)
                     ),
-                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
-                    new EndOpModeCommand(this)
+                    new TurnToDegrees(drive, 180),
+                    new DriveForwardInchesCommand(drive, 24),
+                    new StrafeForInches(drive, 24),
+                    new ParallelCommandGroup(
+                            new TurnToDegrees(drive, 0),
+                            new MoveElevatorPercentage(elevator, 0)
+                    ),
+                    new DriveForwardInchesCommand(drive, 2)
+
             );
         }
 

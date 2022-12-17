@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems.pipelines;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -9,6 +11,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+@Config
 public class SleeveDetection extends OpenCvPipeline {
     /*
     YELLOW  = Parking Left
@@ -23,7 +26,10 @@ public class SleeveDetection extends OpenCvPipeline {
     }
 
     // TOPLEFT anchor point for the bounding box
-    private static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(90, 50);
+    public static Point SLEEVE_LEFT_ANCHOR_POINT = new Point(35, 50);
+    public static Point SLEEVE_RIGHT_ANCHOR_POINT = new Point(150, 55);
+
+    public static Point SLEEVE_TOPLEFT_ANCHOR_POINT = SLEEVE_LEFT_ANCHOR_POINT;
 
     // Width and height for the bounding box
     public static int REGION_WIDTH = 60;
@@ -35,19 +41,19 @@ public class SleeveDetection extends OpenCvPipeline {
             CYAN    = new Scalar(0, 255, 255),
             MAGENTA = new Scalar(255, 0, 255);
 
-    // Anchor point definitions
-    Point sleeve_pointA = new Point(
-            SLEEVE_TOPLEFT_ANCHOR_POINT.x,
-            SLEEVE_TOPLEFT_ANCHOR_POINT.y);
-    Point sleeve_pointB = new Point(
-            SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-            SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-
     // Running variable storing the parking position
     private volatile ParkingPosition position = ParkingPosition.LEFT;
 
     @Override
     public Mat processFrame(Mat input) {
+        // Anchor point definitions
+        Point sleeve_pointA = new Point(
+                SLEEVE_TOPLEFT_ANCHOR_POINT.x,
+                SLEEVE_TOPLEFT_ANCHOR_POINT.y);
+        Point sleeve_pointB = new Point(
+                SLEEVE_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                SLEEVE_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+
         // Get the submat frame, and then sum all the values
         Mat areaMat = input.submat(new Rect(sleeve_pointA, sleeve_pointB));
         Scalar sumColors = Core.sumElems(areaMat);

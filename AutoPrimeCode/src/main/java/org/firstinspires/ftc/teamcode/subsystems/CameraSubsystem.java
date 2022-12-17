@@ -78,6 +78,14 @@ public class CameraSubsystem extends SubsystemBase {
         return pipeline.getPosition();
     }
 
+    public void setLeftSide() {
+        SleeveDetection.SLEEVE_TOPLEFT_ANCHOR_POINT = SleeveDetection.SLEEVE_LEFT_ANCHOR_POINT;
+    }
+
+    public void setRightSide() {
+        SleeveDetection.SLEEVE_TOPLEFT_ANCHOR_POINT = SleeveDetection.SLEEVE_RIGHT_ANCHOR_POINT;
+    }
+
     @Override
     public void periodic() {
         telemetry.addData("Camera fps", webcam.getFps());

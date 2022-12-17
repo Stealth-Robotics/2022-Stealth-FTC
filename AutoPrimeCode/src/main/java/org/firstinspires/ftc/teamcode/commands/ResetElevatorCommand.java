@@ -17,16 +17,16 @@ public class ResetElevatorCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        elevator.startLimitSwitchReset();
+        elevator.downSlowForReset();
     }
 
     @Override
     public void end(boolean interrupted) {
-        elevator.limitSwitchReset();
+        elevator.completeReset();
     }
 
     @Override
     public boolean isFinished() {
-        return elevator.isAtLimitSwitch();
+        return elevator.isStalled();
     }
 }
