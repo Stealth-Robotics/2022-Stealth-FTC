@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -71,26 +70,22 @@ public class PlumpAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, 90),
+                    new TurnToDegreesCommand(drive, -90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, -45),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
-                    new ParallelCommandGroup(
-                            new ElevatorToPosition(elevator, 0.4),
-                            new SequentialCommandGroup(
-                                    new WaitCommand(750),
-                                    new InstantCommand(() -> gripper.open()),
-                                    new DriveForwardInchesCommand(drive, -5.0)
-                            )
-                    ),
+                    new WaitCommand(1000),
+                    new InstantCommand(() -> gripper.open()),
+                    new WaitCommand(1000),
 
+                    new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
 
-                    new TurnToDegreesCommand(drive, 90),
-                    new DriveForwardInchesCommand(drive, 48.0),
+                    new TurnToDegreesCommand(drive, -87),
+                    new DriveForwardInchesCommand(drive, -23.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
@@ -105,20 +100,16 @@ public class PlumpAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, 90),
+                    new TurnToDegreesCommand(drive, -90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, -45),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
-                    new ParallelCommandGroup(
-                            new ElevatorToPosition(elevator, 0.4),
-                            new SequentialCommandGroup(
-                                    new WaitCommand(750),
-                                    new InstantCommand(() -> gripper.open())
-                            )
-                    ),
+                    new WaitCommand(1000),
+                    new InstantCommand(() -> gripper.open()),
+                    new WaitCommand(1000),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
@@ -139,23 +130,22 @@ public class PlumpAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, 90),
+                    new TurnToDegreesCommand(drive, -90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, -45),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
-                    new ParallelCommandGroup(
-                            new ElevatorToPosition(elevator, 0.4),
-                            new SequentialCommandGroup(
-                                    new WaitCommand(750),
-                                    new InstantCommand(() -> gripper.open())
-                            )
-                    ),
+                    new WaitCommand(1000),
+                    new InstantCommand(() -> gripper.open()),
+                    new WaitCommand(1000),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
+
+                    new TurnToDegreesCommand(drive, -87),
+                    new DriveForwardInchesCommand(drive, -23.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)

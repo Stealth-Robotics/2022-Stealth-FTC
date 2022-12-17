@@ -59,8 +59,8 @@ public class FunkyAuto extends StealthOpMode {
     public Command getAutoCommand() {
         AutoToTeleStorage.clear();
 
-//        SleeveDetection.ParkingPosition positionFromCamera = cameraSubsystem.getPosition();
-        SleeveDetection.ParkingPosition positionFromCamera = SleeveDetection.ParkingPosition.LEFT;
+        SleeveDetection.ParkingPosition positionFromCamera = cameraSubsystem.getPosition();
+//        SleeveDetection.ParkingPosition positionFromCamera = SleeveDetection.ParkingPosition.LEFT;
 
         if (positionFromCamera == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
@@ -72,7 +72,7 @@ public class FunkyAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -2),
 
-                    new TurnToDegreesCommand(drive, 90),
+                    new TurnToDegreesCommand(drive, 90, 0.5),
                     new DriveForwardInchesCommand(drive, 22.5),
                     new TurnToDegreesCommand(drive, 45),  // face poll
 
