@@ -139,13 +139,21 @@ public class ScoringAuto extends StealthOpMode {
                 new InstantCommand(() -> grabber.grabberOpen()),                //sets up to grab second cone from stack
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new WaitBeforeCommand(0, new InstantCommand(() -> grabber.right())),
+                                new InstantCommand(() -> grabber.setLiftPos(.3)),
+
+                                new WaitBeforeCommand(250,
+                                        new SequentialCommandGroup(
+                                                new InstantCommand(() -> grabber.right()),
+                                                new InstantCommand(() -> lift.setTarget(0))
+                                        )),
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone1),
-                                new InstantCommand(() -> lift.setTarget(0)),
+                                new WaitBeforeCommand(1000, new InstantCommand(() -> grabber.setLiftPos(.59)))
 
 
-                                new InstantCommand(() -> grabber.setLiftPos(.6))
-                        )),
+
+                                )),
+
+
                 new InstantCommand(() -> grabber.grabberClose()),
                 new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1650))),
                 //scores second cone
@@ -160,15 +168,17 @@ public class ScoringAuto extends StealthOpMode {
                 new InstantCommand(() -> grabber.grabberOpen()),                //sets up to grab second cone from stack
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new WaitBeforeCommand(0, new InstantCommand(() -> grabber.right())),
-
-
-
+                                new InstantCommand(() -> grabber.setLiftPos(.3)),
+                                new WaitBeforeCommand(250,
+                                        new SequentialCommandGroup(
+                                                new InstantCommand(() -> grabber.right()),
+                                                new InstantCommand(() -> lift.setTarget(0))
+                                        )),
                                 new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone2),
-                                new InstantCommand(() -> lift.setTarget(0)),
+                                new WaitBeforeCommand(1000, new InstantCommand(() -> grabber.setLiftPos(.63)))
+                )
 
-                                new InstantCommand(() -> grabber.setLiftPos(.63))
-                        )),
+                        ),
                 new InstantCommand(() -> grabber.grabberClose()),
 
 

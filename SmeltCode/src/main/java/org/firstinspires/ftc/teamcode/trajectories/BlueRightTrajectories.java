@@ -26,12 +26,12 @@ public class BlueRightTrajectories {
     //drives to pole to score first stack cone
     public static TrajectorySequence back2 = TrajectorySequenceBuilder.buildTrajectorySequence(back1.end())
             .back(5)
-            .splineToSplineHeading(new Pose2d(-32.5, 13.75, Math.toRadians(217)), 0)
+            .splineToSplineHeading(new Pose2d(-32.25, 14, Math.toRadians(217)), 0)
             .build();
     //gets second cone from stack
     public static TrajectorySequence getCone1 = TrajectorySequenceBuilder.buildTrajectorySequence(back2.end())
             .forward(3)
-            .splineToSplineHeading(new Pose2d(-60.75, 10.5,  Math.toRadians(175)), Math.toRadians(180))
+            .splineToSplineHeading(new Pose2d(-60.75, 10.5,  Math.toRadians(180)), Math.toRadians(180))
             .build();
     public static TrajectorySequence scoreCone1 = TrajectorySequenceBuilder.buildTrajectorySequence(getCone1.end())
             .back(5)

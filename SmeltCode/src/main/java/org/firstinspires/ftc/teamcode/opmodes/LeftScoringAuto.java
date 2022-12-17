@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorAutoCommand;
@@ -32,7 +33,7 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "left score auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+@Autonomous(name = "left good score auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
 public class LeftScoringAuto extends StealthOpMode {
 
     // Subsystems
@@ -94,7 +95,7 @@ public class LeftScoringAuto extends StealthOpMode {
         lift.setDefaultCommand(new DefaultElevatorAutoCommand(lift));
         telemetry.addData("tag", camera.getID());
         telemetry.addData("tag id", camera.getID());
-        drive.setPoseEstimate(new Pose2d(42.55, 62.425, Math.toRadians(270)));
+        drive.setPoseEstimate(new Pose2d(30.5, 62.425, Math.toRadians(270)));
         TrajectorySequence park = BlueLeftTrajectories.park3;
         switch (camera.getID()) {
             case 0:
@@ -137,13 +138,20 @@ public class LeftScoringAuto extends StealthOpMode {
                 new InstantCommand(() -> grabber.grabberOpen()),                //sets up to grab second cone from stack
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new WaitBeforeCommand(0, new InstantCommand(() -> grabber.right())),
+                                new InstantCommand(() -> grabber.setLiftPos(.3)),
+
+                                new WaitBeforeCommand(100,
+                                        new SequentialCommandGroup(
+                                                new InstantCommand(() -> grabber.right()),
+                                                new InstantCommand(() -> lift.setTarget(0))
+                                        )),
                                 new FollowTrajectorySequence(drive, BlueLeftTrajectories.getCone1),
-                                new InstantCommand(() -> lift.setTarget(0)),
+                                new WaitBeforeCommand(1000, new InstantCommand(() -> grabber.setLiftPos(.59)))
 
 
-                                new InstantCommand(() -> grabber.setLiftPos(.6))
+
                         )),
+
                 new InstantCommand(() -> grabber.grabberClose()),
                 new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1650))),
                 //scores second cone
@@ -158,15 +166,21 @@ public class LeftScoringAuto extends StealthOpMode {
                 new InstantCommand(() -> grabber.grabberOpen()),                //sets up to grab second cone from stack
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new WaitBeforeCommand(0, new InstantCommand(() -> grabber.right())),
+                                new InstantCommand(() -> grabber.setLiftPos(.3)),
 
+                                new WaitBeforeCommand(250,
+                                        new SequentialCommandGroup(
+                                                new InstantCommand(() -> grabber.right()),
+                                                new InstantCommand(() -> lift.setTarget(0))
+                                        )),
 
 
                                 new FollowTrajectorySequence(drive, BlueLeftTrajectories.getCone2),
-                                new InstantCommand(() -> lift.setTarget(0)),
+                                new WaitBeforeCommand(1000, new InstantCommand(() -> grabber.setLiftPos(.63)))
 
-                                new InstantCommand(() -> grabber.setLiftPos(.63))
+
                         )),
+
                 new InstantCommand(() -> grabber.grabberClose()),
 
 
