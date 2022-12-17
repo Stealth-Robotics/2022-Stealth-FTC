@@ -6,11 +6,9 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorAutoCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GrabberDropRelease;
@@ -20,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
-import org.firstinspires.ftc.teamcode.trajectories.BlueRightTrajectories;
+import org.firstinspires.ftc.teamcode.trajectories.BlueLeftTrajectories;
 import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.commands.WaitBeforeCommand;
@@ -34,8 +32,8 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Autonomous(name = "score auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class ScoringAuto extends StealthOpMode {
+@Autonomous(name = "left score auto", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class LeftScoringAuto extends StealthOpMode {
 
     // Subsystems
     DriveSubsystem drive;
@@ -96,31 +94,31 @@ public class ScoringAuto extends StealthOpMode {
         lift.setDefaultCommand(new DefaultElevatorAutoCommand(lift));
         telemetry.addData("tag", camera.getID());
         telemetry.addData("tag id", camera.getID());
-        drive.setPoseEstimate(new Pose2d(-42.55, 62.425, Math.toRadians(270)));
-        TrajectorySequence park = BlueRightTrajectories.park3;
+        drive.setPoseEstimate(new Pose2d(42.55, 62.425, Math.toRadians(270)));
+        TrajectorySequence park = BlueLeftTrajectories.park3;
         switch (camera.getID()) {
             case 0:
-                park = BlueRightTrajectories.park1;
+                park = BlueLeftTrajectories.park1;
                 break;
             case 1:
-                park = BlueRightTrajectories.park2;
+                park = BlueLeftTrajectories.park2;
                 break;
             case 2:
-                park = BlueRightTrajectories.park3;
+                park = BlueLeftTrajectories.park3;
 
         }
         return new SequentialCommandGroup(
                 //drives to pole
                 new InstantCommand(() -> grabber.setLiftPos(.5)),
                 new ParallelCommandGroup(
-                        new FollowTrajectory(drive, BlueRightTrajectories.forward1),
+                        new FollowTrajectory(drive, BlueLeftTrajectories.forward1),
                         new InstantCommand(() -> lift.setTarget(2730))
                 ),
                 //drops cone 1
                 new WaitBeforeCommand(250, new GrabberDropRelease(grabber)),
                 //drives to get cone
                 new ParallelCommandGroup(
-                        new FollowTrajectorySequence(drive, BlueRightTrajectories.back1),
+                        new FollowTrajectorySequence(drive, BlueLeftTrajectories.back1),
                         new InstantCommand(() -> lift.setTarget(0)),
                         new InstantCommand(() -> grabber.setLiftPos(.57))
                 ),
@@ -131,7 +129,7 @@ public class ScoringAuto extends StealthOpMode {
                 //drives to pole
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.back2),
+                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.back2),
                                 new InstantCommand(() -> grabber.setPos(1)),
                                 new InstantCommand(() -> grabber.setLiftPos(.43))
                         )),
@@ -140,7 +138,7 @@ public class ScoringAuto extends StealthOpMode {
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new WaitBeforeCommand(0, new InstantCommand(() -> grabber.right())),
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone1),
+                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.getCone1),
                                 new InstantCommand(() -> lift.setTarget(0)),
 
 
@@ -151,7 +149,7 @@ public class ScoringAuto extends StealthOpMode {
                 //scores second cone
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone1),
+                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.scoreCone1),
                                 new InstantCommand(() -> grabber.setPos(1)),
                                 new InstantCommand(() -> grabber.setLiftPos(0.43))
 
@@ -164,7 +162,7 @@ public class ScoringAuto extends StealthOpMode {
 
 
 
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.getCone2),
+                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.getCone2),
                                 new InstantCommand(() -> lift.setTarget(0)),
 
                                 new InstantCommand(() -> grabber.setLiftPos(.63))
@@ -176,7 +174,7 @@ public class ScoringAuto extends StealthOpMode {
                 new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1650))),
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
-                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scoreCone2),
+                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.scoreCone2),
                                 new InstantCommand(() -> grabber.setPos(1)),
                                 new InstantCommand(() -> grabber.setLiftPos(0.43))
                         )),
@@ -191,7 +189,7 @@ public class ScoringAuto extends StealthOpMode {
 //
 //                                new WaitBeforeCommand(500,
 //                                        new ParallelCommandGroup(
-//                                                new FollowTrajectorySequence(drive, BlueRightTrajectories.getcone3),
+//                                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.getcone3),
 //                                                new InstantCommand(() -> lift.setTarget(0))
 //                                        )),
 //
@@ -206,7 +204,7 @@ public class ScoringAuto extends StealthOpMode {
 //                new InstantCommand(() -> lift.setTarget(2730)),
 //                new WaitBeforeCommand(500,
 //                        new ParallelCommandGroup(
-//                                new FollowTrajectorySequence(drive, BlueRightTrajectories.scorecone3),
+//                                new FollowTrajectorySequence(drive, BlueLeftTrajectories.scorecone3),
 //                                new InstantCommand(() -> grabber.setPos(.7)),
 //                                new InstantCommand(() -> grabber.setLiftPos(0.75))
 //                        )),

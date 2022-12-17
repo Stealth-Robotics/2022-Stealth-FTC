@@ -26,7 +26,6 @@ public class GrabberSubsystem extends SubsystemBase {
     public static double LEFT_POSITION = .9;
     public static double RIGHT_POSITION = 0;
     boolean open = true;
-   //!(jank > smelt)
     public GrabberSubsystem(HardwareMap hardwareMap) {
         grabberServo = hardwareMap.get(Servo.class, "grabberServo");
         liftServo = hardwareMap.get(Servo.class, "liftServo");
@@ -81,6 +80,9 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public void setLiftPos(double pos) {
         liftServo.setPosition(pos);
+    }
+    public void setGrabberPos(double pos){
+        grabberServo.setPosition(pos);
     }
 
 
