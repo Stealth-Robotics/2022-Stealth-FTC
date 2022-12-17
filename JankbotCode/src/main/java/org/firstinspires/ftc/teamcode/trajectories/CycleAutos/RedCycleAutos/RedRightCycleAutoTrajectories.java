@@ -19,20 +19,20 @@ public class RedRightCycleAutoTrajectories {
             . build();
     //spline and forward to go to location to pick up the cones
     public static TrajectorySequence trajectory2 = TrajectorySequenceBuilder.buildTrajectorySequence(trajfx1.end())
-            .lineToSplineHeading(new Pose2d(50, -10.5, Math.toRadians(0)))
+            .lineToSplineHeading(new Pose2d(50, -11.5, Math.toRadians(0)))
             //  .forward(18)
             .build();
     //pick up the cone here
     //
     //going to the location to score the cone
     public static TrajectorySequence trajectory3 = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory2.end())
-            .lineToSplineHeading(new Pose2d(43, -9, Math.toRadians(-24)))
+            .lineToSplineHeading(new Pose2d(43, -9, Math.toRadians(-22)))
             .build();
     //score the cone
     //
     //come back to pick up antother cone
     public static TrajectorySequence trajectory4 = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory3.end())
-            .lineToSplineHeading(new Pose2d(50, -10.5, Math.toRadians(0)))
+            .lineToSplineHeading(new Pose2d(50, -11.5, Math.toRadians(0)))
             .build();
 
 //different parking sections

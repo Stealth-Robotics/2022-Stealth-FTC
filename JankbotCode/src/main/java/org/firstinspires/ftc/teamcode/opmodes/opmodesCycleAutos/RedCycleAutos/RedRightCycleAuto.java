@@ -24,7 +24,7 @@ import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "Red Right | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
+@Autonomous(name = "Right | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
 public class RedRightCycleAuto extends StealthOpMode {
 
     // Subsystems
@@ -86,7 +86,7 @@ public class RedRightCycleAuto extends StealthOpMode {
                         new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.forawrdABit),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
                         new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
-                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.1, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
                         new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.trajectory4),
@@ -106,7 +106,7 @@ public class RedRightCycleAuto extends StealthOpMode {
                         new WaitBeforeAuto(1000, new ResetRobot(extender, grabber)),
 
                         new InstantCommand(()->grabber.armUpPosition()),
-                        new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.slot3Park),
+                        new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.slot1Park),
                         new InstantCommand()
                 );
             case 2:
@@ -135,7 +135,7 @@ public class RedRightCycleAuto extends StealthOpMode {
                         new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.forawrdABit),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
                         new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
-                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.1, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
                         new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.trajectory4),
@@ -184,7 +184,7 @@ public class RedRightCycleAuto extends StealthOpMode {
                         new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.forawrdABit),
                     new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
                     new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
-                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.1, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
                     new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.trajectory4),
@@ -204,7 +204,7 @@ public class RedRightCycleAuto extends StealthOpMode {
                     new WaitBeforeAuto(1000, new ResetRobot(extender, grabber)),
 
                     new InstantCommand(()->grabber.armUpPosition()),
-                    new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.slot1Park),
+                    new FollowTrajectorySequence(drive, RedRightCycleAutoTrajectories.slot2Park),
                     new InstantCommand()
                 );
         }

@@ -23,7 +23,7 @@ import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "Red Left | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
+@Autonomous(name = "Left | Cycle Auto", group = "Blue Auto", preselectTeleOp = "RED | Tele-Op")
 public class RedLeftCycleAuto extends StealthOpMode {
 
     // Subsystems
@@ -85,7 +85,7 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.forawrdABit),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
                         new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
-                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.1, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
@@ -134,7 +134,7 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.forawrdABit),
                         new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
                         new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
-                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.1, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
@@ -183,7 +183,7 @@ public class RedLeftCycleAuto extends StealthOpMode {
                         new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.forawrdABit),
                     new InstantCommand(() -> grabber.armAutoPickupPosition(0.4,0)),
                     new WaitBeforeAuto(1000, new ResetRobotAuto(extender, grabber)),
-                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.08, -0.1)),
+                        new InstantCommand(() -> grabber.armAutoPickupPosition(0.1, -0.1)),
 
                         new InstantCommand(() -> grabber.openGripper()),
                     new FollowTrajectorySequence(drive, RedLeftCycleAutoTrajectories.trajectory4),
