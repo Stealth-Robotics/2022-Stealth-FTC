@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.trajectories.CycleAutos.RedCycleAutos;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectories.TrajectorySequenceBuilder;
@@ -27,7 +26,7 @@ public class RedLeftCycleAutoTrajectories {
     //
     //going to the location to score the cone
     public static TrajectorySequence trajectory3 = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory2.end())
-            .lineToSplineHeading(new Pose2d(-43, -9, Math.toRadians(205)))
+            .lineToSplineHeading(new Pose2d(-43, -9, Math.toRadians(209)))
             .build();
     //score the cone
     //
@@ -39,17 +38,23 @@ public class RedLeftCycleAutoTrajectories {
 //different parking sections
 
     //left
-    public static TrajectorySequence trajectory5 = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory4.end())
+    public static TrajectorySequence slot1Park = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory4.end())
             .lineToSplineHeading(new Pose2d(-60, -15, Math.toRadians(180)))
+            .build();
+    public static TrajectorySequence forawrdABit = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory3.end())
+            .forward(5)
             .build();
 
 
     //right
-    public static TrajectorySequence trajectory6 = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory5.end())
-            .lineToSplineHeading(new Pose2d(-14, -15, Math.toRadians(-180)))
+    public static TrajectorySequence slot3Park = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory4.end())
+            .lineToSplineHeading(new Pose2d(-10, -15, Math.toRadians(-180)))
             .build();
 
 
+    public static TrajectorySequence slot2Park = TrajectorySequenceBuilder.buildTrajectorySequence(trajectory4.end())
+            .lineToSplineHeading(new Pose2d(-30, -15, Math.toRadians(-180)))
+            .build();
     // fixing trajectories
 
 }
