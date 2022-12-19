@@ -29,7 +29,7 @@ public class ElevatorResetCommand extends CommandBase {
      */
     @Override
     public void initialize() {
-        elevator.startLimitSwitchReset();
+        elevator.downSlowForReset();
     }
 
 
@@ -38,7 +38,7 @@ public class ElevatorResetCommand extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        elevator.limitSwitchReset();
+        elevator.completeReset();
     }
 
     /**
@@ -46,6 +46,6 @@ public class ElevatorResetCommand extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return elevator.isAtLimitSwitch();
+        return elevator.isStalled();
     }
 }

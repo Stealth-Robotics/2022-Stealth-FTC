@@ -20,12 +20,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     final DcMotorEx elevatorMotor;
     final DigitalChannel lowerLimitSwitch;
 
-    public static int UPPER_LIMIT_TICKS = 3850;
+    public static int UPPER_LIMIT_TICKS = 4200;
     public static int MAX_VELOCITY_TICKS_PER_SEC = 2000;
     public static double RESET_VELOCITY_TICKS_PER_SEC = 500;
-    public static int RESET_TICKS = -4000;
-    public static double LITTLE_UP = 0.04;
-    public static double LITTLE_DOWN = -0.04;
+    public static int RESET_TICKS = -6000;
+    public static double LITTLE_UP = 0.004;
+    public static double LITTLE_DOWN = -0.004;
+    public static double RESET_STALL_TIME_SEC = 0.100; // 100ms
+    public static double RESET_POWER = 0.17;
+
+    final Debouncer stalledDebouncer = new Debouncer(RESET_STALL_TIME_SEC, Debouncer.DebounceType.kRising);
 
     int targetTicks = 0;
 
@@ -46,6 +50,35 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         lowerLimitSwitch = hardwareMap.get(DigitalChannel.class, "limitSwitch");
     }
+
+    /**
+     * Start the motor moving down gently. We'll look for it to stall to find the bottom.
+     */
+    public void downSlowForReset() {
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        elevatorMotor.setPower(-RESET_POWER);
+        stalledDebouncer.calculate(false); // Reset the debouncer
+    }
+
+    /**
+     * True if the elevator is stalled, indicating we're at the bottom during a reset.
+     */
+    public boolean isStalled() {
+        telemetry.addData("Elevator velocity", elevatorMotor.getVelocity());
+        return stalledDebouncer.calculate(Math.abs(elevatorMotor.getVelocity()) < 1);
+    }
+
+    /**
+     * We're stalled going down, so we know we're at the bottom. Reset the system to zero.
+     */
+    public void completeReset() {
+        elevatorMotor.setPower(0);
+        elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        targetTicks = 0;
+        elevatorMotor.setTargetPosition(targetTicks);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
 
     /**
      * Start the motor moving down gently. We'll look for the limit switch to get hit and stop it then.
@@ -131,7 +164,5 @@ public class ElevatorSubsystem extends SubsystemBase {
         telemetry.addData("Elevator current ticks", elevatorMotor.getCurrentPosition());
         telemetry.addData("Elevator target ticks", targetTicks);
         telemetry.addData("Elevator limit switch", isAtLimitSwitch() ? 1 : 0);
-        telemetry.addData("Elevator current location", getCurrentLocation());
-        telemetry.addData("Elevator target location", getTargetLocation());
     }
 }
