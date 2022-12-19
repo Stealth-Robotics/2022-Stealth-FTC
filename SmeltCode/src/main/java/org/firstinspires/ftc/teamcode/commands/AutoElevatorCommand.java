@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
-
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
@@ -9,21 +7,27 @@ import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 /**
  * Spin a wheel forward forever, until the command is cancelled.
  */
-public class LiftUp extends CommandBase {
+public class AutoElevatorCommand extends CommandBase {
     final ElevatorSubsystem lift;
+    final int target;
 
-    public LiftUp(ElevatorSubsystem lift) {
+    public AutoElevatorCommand(ElevatorSubsystem lift, int target) {
         this.lift = lift;
+        this.target = target;
         addRequirements(lift);
+    }
+    @Override public void initialize(){
+        lift.setTarget(target);
+    }
+
+
+    @Override
+    public void execute(){
+        lift.runToPosition();
     }
 
     @Override
-    public void execute() {
-        int newPos = lift.getPos() + 100;
-        lift.setTarget(newPos);
-        lift.runToPosition();
-        telemetry.addData("execute newPos", newPos);
+    public boolean isFinished() {
+        return !lift.isBusy();
     }
-
-
 }

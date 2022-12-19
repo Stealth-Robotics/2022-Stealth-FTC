@@ -74,7 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
         headingOffset = 0 - (-imu.getAngularOrientation().firstAngle);
     }
     public void headingAfterAuto(double finalAutoHeading){
-        headingOffset = -finalAutoHeading;
+        headingOffset = finalAutoHeading - (-imu.getAngularOrientation().firstAngle);
     }
 
 

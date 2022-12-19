@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 import java.util.function.DoubleSupplier;
 
@@ -13,15 +11,20 @@ import java.util.function.DoubleSupplier;
  */
 public class DefaultElevatorCommand extends CommandBase {
     final ElevatorSubsystem lift;
+    DoubleSupplier rightY;
 
 
-    public DefaultElevatorCommand(ElevatorSubsystem lift) {
+    public DefaultElevatorCommand(ElevatorSubsystem lift, DoubleSupplier rightY) {
         this.lift = lift;
+        this.rightY = rightY;
         addRequirements(lift);
     }
 
     @Override
     public void execute(){
+        if(rightY.getAsDouble() != 0){
+            lift.setTarget(lift.getPos() + (int)(300 * rightY.getAsDouble()));
+        }
         lift.runToPosition();
     }
 

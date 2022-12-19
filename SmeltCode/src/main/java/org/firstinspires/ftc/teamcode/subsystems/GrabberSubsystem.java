@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.stealthrobotics.library.Alliance;
 
 /**
- * A very simple subsystem that has a single wheel that you can turn.
+ * Subsystem that contains all the servos for the grabber
  */
 @Config
 public class GrabberSubsystem extends SubsystemBase {
@@ -19,55 +19,71 @@ public class GrabberSubsystem extends SubsystemBase {
     final Servo liftServo;
     final Servo rotateServo;
 
-    public static double OPEN_POSITION = 0.5;
-    public static double CLOSED_POSITION = 0.7;
-    public static double UP_POSITION = .1;
-    public static double DOWN_POSITION = .5;
-    public static double LEFT_POSITION = .7;
+    public static double OPEN_POSITION = 0.4;
+    public static double CLOSED_POSITION = 0.65;
+    public static double UP_POSITION = .29;
+    public static double DOWN_POSITION = .64;
+    public static double LEFT_POSITION = .9;
     public static double RIGHT_POSITION = 0;
     boolean open = true;
-    final int CENTER_POSITION = 0;
-
     public GrabberSubsystem(HardwareMap hardwareMap) {
         grabberServo = hardwareMap.get(Servo.class, "grabberServo");
         liftServo = hardwareMap.get(Servo.class, "liftServo");
         rotateServo = hardwareMap.get(Servo.class, "rotateServo");
 
     }
-    public void toggleOpen(){
+
+    public void toggleOpen() {
         open = !open;
-        if(open){
+        if (open) {
             grabberServo.setPosition(OPEN_POSITION);
-        }
-        else{
+        } else {
             grabberServo.setPosition(CLOSED_POSITION);
         }
     }
-    public void grabberClose(){
+
+    public void grabberClose() {
         grabberServo.setPosition(CLOSED_POSITION);
     }
-    public void grabberOpen(){
+
+    public void grabberOpen() {
         grabberServo.setPosition(OPEN_POSITION);
     }
-    public void up(){
+
+    public void up() {
         liftServo.setPosition(UP_POSITION);
     }
-    public void down(){
+
+    public void down() {
         liftServo.setPosition(DOWN_POSITION);
     }
-    public void left(){
+
+    public void left() {
         rotateServo.setPosition(LEFT_POSITION);
     }
-    public void right(){
+
+    public void right() {
         rotateServo.setPosition(RIGHT_POSITION);
     }
-    public double getPos(){return rotateServo.getPosition();}
-    public void setPos(double pos){rotateServo.setPosition(pos);}
-    public double getLiftPos(){return liftServo.getPosition();}
-    public void setLiftPos(double pos){liftServo.setPosition(pos);}
 
+    public double getPos() {
+        return rotateServo.getPosition();
+    }
 
+    public void setPos(double pos) {
+        rotateServo.setPosition(pos);
+    }
 
+    public double getLiftPos() {
+        return liftServo.getPosition();
+    }
+
+    public void setLiftPos(double pos) {
+        liftServo.setPosition(pos);
+    }
+    public void setGrabberPos(double pos){
+        grabberServo.setPosition(pos);
+    }
 
 
 }

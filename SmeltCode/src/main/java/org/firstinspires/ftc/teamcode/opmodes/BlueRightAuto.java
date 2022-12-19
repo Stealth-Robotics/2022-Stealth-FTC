@@ -46,7 +46,7 @@ public class BlueRightAuto extends StealthOpMode {
         grabber = new GrabberSubsystem(hardwareMap);
         grabber.grabberClose();
         grabber.setLiftPos(0.5);
-        grabber.setPos(0);
+        grabber.right();
 
         register(drive, camera);
 
@@ -85,7 +85,7 @@ public class BlueRightAuto extends StealthOpMode {
         telemetry.addData("tag id", camera.getID());
 
         Trajectory trajectory1 = mecanumDrive.trajectoryBuilder(new Pose2d(-35, 62, Math.toRadians(270)))
-                .lineToSplineHeading(new Pose2d(-36, 27.5, 0))
+                .lineToSplineHeading(new Pose2d(-36, 32.5, 0))
                 .build();
         Trajectory traj2 = mecanumDrive.trajectoryBuilder(trajectory1.end()).forward(5).build();
         drive.setPoseEstimate(new Pose2d(-35, 62, Math.toRadians(270)));
