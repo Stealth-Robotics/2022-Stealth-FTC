@@ -5,7 +5,10 @@ import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.stealthrobotics.library.AutoToTeleStorage;
 
 /**
  * This is the most basic Mecanum subsystem you can have, and provides simple methods to drive and stop.
@@ -17,6 +20,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
     final DcMotor rightRearDrive;
     final BNO055IMU imu;
     boolean fieldcentric = true;
+    double headingOffset = 0.0;
 
     public SimpleMecanumDriveSubsystem(HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -24,10 +28,10 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -63,18 +67,36 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
             x = rotX;
             y = rotY;
         }
+        y = y * Math.abs(y);
+        x = x * Math.abs(x);
+        rotation = rotation * Math.abs(rotation);
 
-        drive(y, x, rotation);
+        drive(y*0.5, x*0.5, rotation*0.5);
     }
 
     public void togglefieldcentric() {
         fieldcentric = !fieldcentric;
     }
 
-    public double getHeading() {
+//    public double getHeading() {
+//        return -imu.getAngularOrientation().firstAngle;
+//    }
+
+    // The actual heading from the IMU, only adjusted so that positive is clockwise
+    public double getRawHeading() {
         return -imu.getAngularOrientation().firstAngle;
     }
 
+    // The heading we'll use to drive the bot, adjusted for an offset which we can set any time
+    // we want to correct for gyro drift as we drive.
+    public double getHeading() {
+        return getRawHeading() - headingOffset + AutoToTeleStorage.finalAutoHeading;
+    }
+
+    // Adjust our heading so the front of the bot is forward, no matter how we've drifted over time.
+    public void resetHeading() {
+        headingOffset = getRawHeading();
+        AutoToTeleStorage.finalAutoHeading = 0;    }
     public void drive(double y, double x, double rotation) {
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
@@ -104,6 +126,7 @@ public class SimpleMecanumDriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        telemetry.addData("Drive ticks", getTicks());
         telemetry.addData("Field centric driving", fieldcentric);
         telemetry.addData("Bot Heading", getHeading());
     }
