@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToPosition;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
@@ -25,6 +27,7 @@ public class AwesomeAuto extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
+    CameraSubsystem cameraSubsystem;
 
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
@@ -35,8 +38,10 @@ public class AwesomeAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        cameraSubsystem = new CameraSubsystem(hardwareMap);
+        register(drive, elevator, gripper, cameraSubsystem);
     }
+
 
     /**
      * This is where we create the one command we want to run in our autonomous opmode.
@@ -66,9 +71,13 @@ public class AwesomeAuto extends StealthOpMode {
                 new ElevatorToPosition(elevator, 0.67),
                 new DriveForwardInchesCommand(drive, 9.0),
 
-                new WaitCommand(1000),
-                new InstantCommand(() -> gripper.open()),
-                new WaitCommand(1000),
+                new ParallelCommandGroup(
+                        new ElevatorToPosition(elevator, 0.4),
+                        new SequentialCommandGroup(
+                                new WaitCommand(500),
+                                new InstantCommand(() -> gripper.open())
+                        )
+                ),
 
                 new DriveForwardInchesCommand(drive, -5.0),
                 new ElevatorToPosition(elevator, 0),

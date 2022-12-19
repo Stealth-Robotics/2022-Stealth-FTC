@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -9,9 +10,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.ElevatorToPosition;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegreesCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
@@ -25,6 +28,7 @@ public class SpinAuto extends StealthOpMode {
     SimpleMecanumDriveSubsystem drive;
     ElevatorSubsystem elevator;
     GripperSubsystem gripper;
+    CameraSubsystem cameraSubsystem;
 
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
@@ -35,8 +39,10 @@ public class SpinAuto extends StealthOpMode {
         drive = new SimpleMecanumDriveSubsystem(hardwareMap);
         elevator = new ElevatorSubsystem(hardwareMap);
         gripper = new GripperSubsystem(hardwareMap);
-        register(drive, elevator, gripper);
+        cameraSubsystem = new CameraSubsystem(hardwareMap);
+        register(drive, elevator, gripper, cameraSubsystem);
     }
+
 
     /**
      * This is where we create the one command we want to run in our autonomous opmode.
@@ -53,34 +59,99 @@ public class SpinAuto extends StealthOpMode {
     public Command getAutoCommand() {
         AutoToTeleStorage.clear();
 
-        return new SequentialCommandGroup(
-                new InstantCommand(() -> drive.turbomodeon()),
-                new InstantCommand(() -> gripper.close()),
-                new WaitCommand(500),
-                new ElevatorToPosition(elevator, 0.02),
+        SleeveDetection.ParkingPosition positionFromCamera = cameraSubsystem.getPosition();
 
-                new DriveForwardInchesCommand(drive, 36.0),
-                new DriveForwardInchesCommand(drive, -0.6),
+        if (positionFromCamera == SleeveDetection.ParkingPosition.LEFT) {
+            return new SequentialCommandGroup(
+                    new InstantCommand(() -> drive.turbomodeon()),
+                    new InstantCommand(() -> gripper.close()),
+                    new WaitCommand(500),
+                    new ElevatorToPosition(elevator, 0.02),
 
-                new TurnToDegreesCommand(drive,90),
-                new DriveForwardInchesCommand(drive,23.0),
-                new TurnToDegreesCommand(drive,37),
+                    new DriveForwardInchesCommand(drive, 36.0),
+                    new DriveForwardInchesCommand(drive, -0.6),
 
-                new ElevatorToPosition(elevator, 1.0),
-                new DriveForwardInchesCommand(drive, 8.75),
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 23.0),
+                    new TurnToDegreesCommand(drive, 40),
 
-                new WaitCommand(1000),
-                new InstantCommand(() -> gripper.open()),
-                new WaitCommand(1000),
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.5),
 
-                new DriveForwardInchesCommand(drive, -5.0),
-                new ElevatorToPosition(elevator, 0),
+                    new WaitCommand(1000),
+                    new InstantCommand(() -> gripper.open()),
+                    new WaitCommand(1000),
 
-                new TurnToDegreesCommand(drive,87),
-                new DriveForwardInchesCommand(drive,-23.0),
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0),
 
-                new SaveAutoHeadingCommand(() -> drive.getHeading()),
-                new EndOpModeCommand(this)
-        );
+                    new TurnToDegreesCommand(drive, 87),
+                    new DriveForwardInchesCommand(drive, -45.0),
+
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
+            );
+        } else if (positionFromCamera == SleeveDetection.ParkingPosition.CENTER) {
+            return new SequentialCommandGroup(
+                    new InstantCommand(() -> drive.turbomodeon()),
+                    new InstantCommand(() -> gripper.close()),
+                    new WaitCommand(500),
+                    new ElevatorToPosition(elevator, 0.02),
+
+                    new DriveForwardInchesCommand(drive, 36.0),
+                    new DriveForwardInchesCommand(drive, -0.6),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 23.0),
+                    new TurnToDegreesCommand(drive, 40),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.5),
+
+                    new WaitCommand(1000),
+                    new InstantCommand(() -> gripper.open()),
+                    new WaitCommand(1000),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0),
+
+                    new TurnToDegreesCommand(drive, 87),
+                    new DriveForwardInchesCommand(drive, -30.0),
+
+                    new SaveAutoHeadingCommand(() -> drive.getHeading()),
+                    new EndOpModeCommand(this)
+            );
+        } else { // RIGHT
+            return new SequentialCommandGroup(
+                    new InstantCommand(() -> drive.turbomodeon()),
+                    new InstantCommand(() -> gripper.close()),
+                    new WaitCommand(500),
+                    new ElevatorToPosition(elevator, 0.02),
+
+                    new DriveForwardInchesCommand(drive, 36.0),
+                    new DriveForwardInchesCommand(drive, -0.6),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 23.0),
+                    new TurnToDegreesCommand(drive, 40),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.5),
+
+                    new WaitCommand(1000),
+                    new InstantCommand(() -> gripper.open()),
+                    new WaitCommand(1000),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0),
+
+                    new TurnToDegreesCommand(drive, -87),
+                    new DriveForwardInchesCommand(drive, -2.0),
+
+                    new SaveAutoHeadingCommand(() -> drive.getHeading())
+//                new EndOpModeCommand(this)
+            );
+
+        }
     }
 }

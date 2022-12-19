@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,13 +16,12 @@ import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.stealthrobotics.library.AutoToTeleStorage;
-import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "TallRIGHT| Wallace The Plump", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
-public class PlumpAuto extends StealthOpMode {
+@Autonomous(name = "CycleRIGHT| Wallace The Clunky", group = "Blue Auto", preselectTeleOp = "BLUE | Tele-Op")
+public class ClunckyAuto extends StealthOpMode {
 
     // Subsystems
     SimpleMecanumDriveSubsystem drive;
@@ -70,22 +70,49 @@ public class PlumpAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, -90),
+                    new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, -45),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
-                    new WaitCommand(1000),
-                    new InstantCommand(() -> gripper.open()),
-                    new WaitCommand(1000),
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 24),
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator,0.15),
+
+                    new DriveForwardInchesCommand(drive, 5),
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, -19),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
-
-                    new TurnToDegreesCommand(drive, -87),
-                    new DriveForwardInchesCommand(drive, -23.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)
@@ -100,16 +127,45 @@ public class PlumpAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, -90),
+                    new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, -45),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
-                    new WaitCommand(1000),
-                    new InstantCommand(() -> gripper.open()),
-                    new WaitCommand(1000),
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open())
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 24),
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator,0.15),
+
+                    new DriveForwardInchesCommand(drive, 5),
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, -19),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
@@ -130,22 +186,51 @@ public class PlumpAuto extends StealthOpMode {
                     new DriveForwardInchesCommand(drive, 36.0),
                     new DriveForwardInchesCommand(drive, -0.6),
 
-                    new TurnToDegreesCommand(drive, -90),
+                    new TurnToDegreesCommand(drive, 90),
                     new DriveForwardInchesCommand(drive, 23.0),
                     new TurnToDegreesCommand(drive, -45),
 
                     new ElevatorToPosition(elevator, 1.0),
                     new DriveForwardInchesCommand(drive, 7.3),
 
-                    new WaitCommand(1000),
-                    new InstantCommand(() -> gripper.open()),
-                    new WaitCommand(1000),
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open())
+                            )
+                    ),
+
+                    new DriveForwardInchesCommand(drive, -5.0),
+                    new ElevatorToPosition(elevator, 0.10),
+
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 24),
+
+                    new InstantCommand(() -> gripper.close()),
+                    new ElevatorToPosition(elevator,0.15),
+
+                    new DriveForwardInchesCommand(drive, 5),
+                    new TurnToDegreesCommand(drive, -90),
+                    new DriveForwardInchesCommand(drive, -19),
+
+                    new ElevatorToPosition(elevator, 1.0),
+                    new DriveForwardInchesCommand(drive, 7.3),
+
+                    new ParallelCommandGroup(
+                            new ElevatorToPosition(elevator, 0.4),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(750),
+                                    new InstantCommand(() -> gripper.open()),
+                                    new DriveForwardInchesCommand(drive, -5.0)
+                            )
+                    ),
 
                     new DriveForwardInchesCommand(drive, -5.0),
                     new ElevatorToPosition(elevator, 0),
 
-                    new TurnToDegreesCommand(drive, -87),
-                    new DriveForwardInchesCommand(drive, -23.0),
+                    new TurnToDegreesCommand(drive, 90),
+                    new DriveForwardInchesCommand(drive, 45.0),
 
                     new SaveAutoHeadingCommand(() -> drive.getHeading())
 //                new EndOpModeCommand(this)

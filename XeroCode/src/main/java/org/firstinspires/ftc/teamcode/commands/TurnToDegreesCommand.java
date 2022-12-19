@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 
 public class TurnToDegreesCommand extends CommandBase {
     final SimpleMecanumDriveSubsystem drive;
+    double speed;
     double degrees;
     double endAngle;
     boolean positiveDirection;
@@ -15,6 +16,14 @@ public class TurnToDegreesCommand extends CommandBase {
     public TurnToDegreesCommand(SimpleMecanumDriveSubsystem drive, double degrees) {
         this.drive = drive;
         this.degrees = degrees;
+        this.speed = 0.25;
+        addRequirements(drive);
+    }
+
+    public TurnToDegreesCommand(SimpleMecanumDriveSubsystem drive, double degrees, double speed) {
+        this.drive = drive;
+        this.degrees = degrees;
+        this.speed = speed;
         addRequirements(drive);
     }
 
@@ -22,7 +31,7 @@ public class TurnToDegreesCommand extends CommandBase {
     public void initialize() {
         endAngle = Math.toRadians(degrees);
         positiveDirection = drive.getHeading() < endAngle;
-        double drive_power = 0.25;
+        double drive_power = speed;
         if (!positiveDirection) {
             drive_power *= -1;
         }
