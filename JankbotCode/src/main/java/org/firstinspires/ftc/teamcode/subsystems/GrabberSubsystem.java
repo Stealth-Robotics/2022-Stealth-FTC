@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import static org.stealthrobotics.library.opmodes.StealthOpMode.telemetry;
 
 @Config
 public class GrabberSubsystem extends SubsystemBase {
@@ -15,22 +13,34 @@ public class GrabberSubsystem extends SubsystemBase {
     final Servo armServo;
 
     boolean open = true;
-    boolean isUp = false;
+    boolean isUp = true;
 
-    public double GRIPPER_CLOSED_POSITION = 0.4;
-    public double GRIPPER_OPEN_POSITION = 0.7;
+    public static double  GRIPPER_CLOSED_POSITION = 0.4;
+    public static  double GRIPPER_OPEN_POSITION = 0.7;
 
-    public double ARM_UP_POSITION = 0.85;
-    public double ARM_DOWN_POSITION = 0.3;
-    public double ARM_DOWN_POSITION_LOWEST = 0.2;
-    public double ARM_DOWN_POSITION_HIGHER = 0.4;
+    public static double ARM_SCORE_POSITION = 0.75;
+    public static double ARM_UP_POSITION = 0.7;
+    public static double ARM_DOWN_POSITION = 0.2;
+
+    public static double ARM_DOWN_POSITION_LOWEST = 0.2;
+    public static double ARM_DOWN_POSITION_HIGHER = 0.4;
 
 
-    public double ROTATOR_UP_POSITION = 0.45;
-    public double ROTATOR_DOWN_POSITION = 0.8;
-    public double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
-    public double ROTATOR_DOWN_POSITION_HIGHER = 0.7;
+    public static double ROTATOR_SCORE_POSITION = 0.1;
+    public static double ROTATOR_UP_POSITION =0.5;
+    public static double ROTATOR_DOWN_POSITION = 0.9;
 
+
+    public static double ROTATOR_DOWN_POSITION_LOWEST = 0.9;
+    public static double ROTATOR_DOWN_POSITION_HIGHER = 0.7;
+
+
+    private enum ArmPosition {
+        score,
+        up,
+        down
+    }
+    private ArmPosition armPosition = ArmPosition.down;;
 
     public GrabberSubsystem(HardwareMap hardwareMap) {
         gripperServo = hardwareMap.get(Servo.class, "gripper");
@@ -41,11 +51,16 @@ public class GrabberSubsystem extends SubsystemBase {
     public void toggleOpen(){
         open = !open;
         if(open){
-            gripperServo.setPosition(GRIPPER_OPEN_POSITION);
-        }
-        else{
             gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
         }
+        else{
+            gripperServo.setPosition(GRIPPER_OPEN_POSITION);
+
+        }
+    }
+    public void openGripper(){
+        gripperServo.setPosition(GRIPPER_OPEN_POSITION);
+        open = true;
     }
 
     public void closeGripper(){
@@ -53,7 +68,53 @@ public class GrabberSubsystem extends SubsystemBase {
         gripperServo.setPosition(GRIPPER_CLOSED_POSITION);
     }
 
+    public void armScorePosition(){
+        armServo.setPosition(ARM_SCORE_POSITION);
+        rotationServo.setPosition(ROTATOR_SCORE_POSITION);
+        armPosition = armPosition.score;
+    }
+    public void armUpPosition(){
+        armServo.setPosition(ARM_UP_POSITION);
+        rotationServo.setPosition(ROTATOR_UP_POSITION);
+        armPosition=armPosition.up;
+    }
+    public void armPickupPosition(){
+        armServo.setPosition(ARM_DOWN_POSITION);
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+        armPosition= armPosition.down;
+    }
+    public void armAutoPickupPosition(double autoOffset, double rotOffset){
+        armServo.setPosition(ARM_DOWN_POSITION + autoOffset);
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION + rotOffset);
+
+        armPosition= armPosition.down;
+
+    }
+    public void armAutoScorePosition()
+    {
+        armServo.setPosition(ARM_SCORE_POSITION);
+        rotationServo.setPosition(ROTATOR_SCORE_POSITION+0.12);
+    }
+
     public void toggleArm(){
+        switch (armPosition) {
+            case down:
+                armPosition = ArmPosition.up;
+                armUpPosition();
+                //closeGripper();
+                break;
+            case up:
+                armPosition = ArmPosition.score;
+                armScorePosition();
+                break;
+            case score:
+                armPosition = ArmPosition.down;
+                armPickupPosition();
+                break;
+        }
+
+
+        /*
         isUp = !isUp;
         if(isUp){
             armServo.setPosition(ARM_DOWN_POSITION);
@@ -62,10 +123,20 @@ public class GrabberSubsystem extends SubsystemBase {
         else{
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
+        }*/
+    }
+    public void toggleArmNoScorePos() {
+        switch (armPosition) {
+            case up:
+                armPickupPosition();
+                break;
+            case down:
+                armUpPosition();
+                break;
         }
     }
 
-    public void toggleArmHigher(){
+        public void toggleArmHigher(){
         isUp = !isUp;
         if(isUp){
             armServo.setPosition(ARM_DOWN_POSITION_HIGHER);
@@ -90,13 +161,44 @@ public class GrabberSubsystem extends SubsystemBase {
 
     public void toggleArmDownCone(){
         isUp = !isUp;
-        if(isUp){
+        if (isUp) {
             armServo.setPosition(ARM_DOWN_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
-        }
-        else{
+            armPosition = armPosition.down;
+        } else {
             armServo.setPosition(ARM_UP_POSITION);
             rotationServo.setPosition(ROTATOR_UP_POSITION);
+            armPosition = armPosition.up;
         }
+
+
+    }
+
+    public void setArmPositionUp() {
+        armServo.setPosition(ARM_UP_POSITION);
+        isUp = true;
+    }
+
+    public void setArmPositionDown() {
+        armServo.setPosition(ARM_DOWN_POSITION);
+        isUp = !true;
+        armPosition = armPosition.down;
+    }
+
+    public void setRotationPositionUp() {
+        rotationServo.setPosition(ROTATOR_UP_POSITION);
+
+    }
+
+    public void setRotationPositionDown() {
+        rotationServo.setPosition(ROTATOR_DOWN_POSITION);
+    }
+    public void setRotationPositionScore() {
+        rotationServo.setPosition(ROTATOR_SCORE_POSITION);
+    }
+
+    @Override
+    public void periodic() {
+        telemetry.addData("Grabber servo open:", open);
     }
 }

@@ -38,7 +38,9 @@ public class BlueLeftSleeveMovementAuto extends StealthOpMode {
         grabber = new GrabberSubsystem(hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
         //mecanumDrive.getLocalizer().update();
-        register(drive, camera);
+        register(drive, camera,grabber);
+        new InstantCommand(() -> grabber.closeGripper());
+
     }
 
     @Override
@@ -60,19 +62,22 @@ public class BlueLeftSleeveMovementAuto extends StealthOpMode {
                     new InstantCommand(() -> drive.setPoseEstimate(BlueLeftAutoTrajectories.startingPose.getX(),BlueLeftAutoTrajectories.startingPose.getY(),BlueLeftAutoTrajectories.startingPose.getHeading())),
                     new FollowTrajectory(drive, BlueLeftAutoTrajectories.trajectory1),
                     new FollowTrajectory(drive, BlueLeftAutoTrajectories.trajectory2A)
-                    );
+
+                );
             case 0:
                 return new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(BlueLeftAutoTrajectories.startingPose.getX(),BlueLeftAutoTrajectories.startingPose.getY(),BlueLeftAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectory(drive, BlueLeftAutoTrajectories.trajectory1),
                         new FollowTrajectory(drive, BlueLeftAutoTrajectories.trajectory2B)
+
                 );
             default:
                 return new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),
                         new InstantCommand(() -> drive.setPoseEstimate(BlueLeftAutoTrajectories.startingPose.getX(),BlueLeftAutoTrajectories.startingPose.getY(),BlueLeftAutoTrajectories.startingPose.getHeading())),
                         new FollowTrajectory(drive, BlueLeftAutoTrajectories.trajectory1)
+
                 );
         }
     }

@@ -177,6 +177,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
      * @param cameraMatrix the camera matrix used when finding the detection
      */
     void drawAxisMarker(Mat buf, double length, int thickness, Mat rvec, Mat tvec, Mat cameraMatrix) {
+        /*
         // The points in 3D space we wish to project onto the 2D image plane.
         // The origin of the coordinate space is assumed to be in the center of the detection.
         MatOfPoint3f axis = new MatOfPoint3f(
@@ -197,9 +198,11 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
         Imgproc.line(buf, projectedPoints[0], projectedPoints[3], blue, thickness);
 
         Imgproc.circle(buf, projectedPoints[0], thickness, white, -1);
+         */
     }
 
     void draw3dCubeMarker(Mat buf, double length, double tagWidth, double tagHeight, int thickness, Mat rvec, Mat tvec, Mat cameraMatrix) {
+        /*
         //axis = np.float32([[0,0,0], [0,3,0], [3,3,0], [3,0,0],
         //       [0,0,-3],[0,3,-3],[3,3,-3],[3,0,-3] ])
 
@@ -236,6 +239,8 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline {
         Imgproc.line(buf, projectedPoints[5], projectedPoints[6], green, thickness);
         Imgproc.line(buf, projectedPoints[6], projectedPoints[7], green, thickness);
         Imgproc.line(buf, projectedPoints[4], projectedPoints[7], green, thickness);
+
+         */
     }
 
     /**

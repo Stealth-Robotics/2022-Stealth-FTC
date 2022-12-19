@@ -36,7 +36,8 @@ public class BlueRightSleeveMovementAuto extends StealthOpMode {
         grabber = new GrabberSubsystem(hardwareMap);
         camera = new CameraSubsystem(hardwareMap);
         //mecanumDrive.getLocalizer().update();
-        register(drive, camera);
+        register(drive, camera, grabber);
+        new InstantCommand(() -> grabber.closeGripper());
     }
 
     @Override
@@ -54,11 +55,12 @@ public class BlueRightSleeveMovementAuto extends StealthOpMode {
         switch (camera.getID()) {
             case 2:
                 return new SequentialCommandGroup(
-                        new InstantCommand(() -> grabber.closeGripper()),
-                        new InstantCommand(() -> drive.setPoseEstimate(BlueRightAutoTrajectories.startingPose.getX(),BlueRightAutoTrajectories.startingPose.getY(),BlueRightAutoTrajectories.startingPose.getHeading())),
+                    new InstantCommand(() -> grabber.closeGripper()),
+                    new InstantCommand(() -> drive.setPoseEstimate(BlueRightAutoTrajectories.startingPose.getX(),BlueRightAutoTrajectories.startingPose.getY(),BlueRightAutoTrajectories.startingPose.getHeading())),
                     new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory1),
                     new FollowTrajectory(drive, BlueRightAutoTrajectories.trajectory2A)
-                    );
+
+                );
             case 0:
                 return new SequentialCommandGroup(
                         new InstantCommand(() -> grabber.closeGripper()),

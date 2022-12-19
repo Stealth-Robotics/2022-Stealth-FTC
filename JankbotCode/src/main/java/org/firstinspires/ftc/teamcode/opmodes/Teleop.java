@@ -6,15 +6,17 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.commands.ElevatorBackwardManualCommand;
-import org.firstinspires.ftc.teamcode.commands.ElevatorForwardManualCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtenderDefault;
+import org.firstinspires.ftc.teamcode.commands.ExtenderToPosition;
+import org.firstinspires.ftc.teamcode.commands.Presets.HighPolePreset;
+import org.firstinspires.ftc.teamcode.commands.Presets.MidPolePreset;
+import org.firstinspires.ftc.teamcode.commands.Presets.ResetRobot;
+import org.firstinspires.ftc.teamcode.commands.ResetElevator;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ArmMotorSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ExtenderSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GrabberSubsystem;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 @Config
@@ -22,15 +24,16 @@ public abstract class Teleop extends StealthOpMode {
 
     // Subsystems
     DriveSubsystem drive;
-    ArmMotorSubsystem armMotors;
+
 
     // Game controllers
     GamepadEx driveGamepad;
     GamepadEx mechGamepad;
 
     CameraSubsystem camera;
-    ElevatorSubsystem elevator;
     GrabberSubsystem grabber;
+
+    ExtenderSubsystem extender;
 
     double armPositionA = 0;
     double armPositionB = 0.5;
@@ -39,15 +42,21 @@ public abstract class Teleop extends StealthOpMode {
     @Override
     public void initialize() {
         drive = new DriveSubsystem(new SampleMecanumDrive(hardwareMap),hardwareMap);
-        camera = new CameraSubsystem(hardwareMap);
-        elevator = new ElevatorSubsystem(hardwareMap);
+        //camera = new CameraSubsystem(hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
-        armMotors = new ArmMotorSubsystem(hardwareMap);
-        register(drive, armMotors, camera, elevator, grabber);
+        extender = new ExtenderSubsystem(hardwareMap);
+        register(drive, /*camera,*/ grabber, extender);
 
         driveGamepad = new GamepadEx(gamepad1);
         mechGamepad = new GamepadEx(gamepad2);
 
+        extender.setDefaultCommand(
+                new ExtenderDefault(
+                        extender,
+                        () -> driveGamepad.gamepad.left_trigger,
+                        () -> driveGamepad.gamepad.right_trigger
+                )
+        );
 
         drive.setDefaultCommand(
                 new DefaultDriveCommand(
@@ -59,36 +68,34 @@ public abstract class Teleop extends StealthOpMode {
                 )
         );
 
-        elevator.setDefaultCommand(new DefaultElevatorCommand(elevator));
-        /*
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.39)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(1.0)));
-        mechGamepad.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(new InstantCommand(() -> elevator.setTargetLocation(0.67)));
-        */
+        grabber.closeGripper();
+        //grabber.toggleArm();
+        //open the claw
         driveGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(new InstantCommand(() -> grabber.toggleOpen()));
+        //high goal preset
+        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new HighPolePreset(extender, grabber,0));
+        //mid preset
+        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MidPolePreset(extender,grabber,0));
+        //low goal and pick up
+        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
+        //ground junction
+        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.toggleArmNoScorePos()));
+        //reset the heading
+        driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.resetHeading()));
+        //reset the robot
+        driveGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetRobot(extender, grabber));
+        //pickup knocked over cone from the ground
+      //  driveGamepad.getGamepadButton(GamepadKeys.Button.).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
+        //reset just the elevator
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(new ResetElevator(extender));
+        //elevator tested
+        driveGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(new ExtenderToPosition(extender, 1500, 1));
+        /// THIS IS JUST FOR TESTING PLEASE REMOVE BEFORE COMP
+        driveGamepad.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(new InstantCommand(() -> grabber.armPickupPosition()));
+
 
 
         //TODO: MAKE BETTER TRAJECTORY SIDD SUGESTED FOR 1 and 3 PARKING SPOT
-
-        //mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.armToPosition(0.5)));
-        //mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.armToPosition(0)));
-        //mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.armToPosition(1)));
-
-        driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenPressed(new InstantCommand(() -> grabber.toggleArm()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.toggleArmDownCone()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.toggleArmHigher()));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.toggleArmLowest()));
-        //mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(0)));
-        //mechGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(0.5)));
-        //mechGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> grabber.rotaterToPosition(1)));
-
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(() -> System.out.println("UwU"));
-        driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.resetHeading()));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.START).whenPressed(new InstantCommand(() -> drive.toggleRobotCentric()));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenHeld(new ElevatorForwardManualCommand(armMotors));
-        //driveGamepad.getGamepadButton(GamepadKeys.Button.B).whenHeld(new ElevatorBackwardManualCommand(armMotors));
     }
 
     /**
