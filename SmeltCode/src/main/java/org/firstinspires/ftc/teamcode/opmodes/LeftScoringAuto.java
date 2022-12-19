@@ -52,7 +52,7 @@ public class LeftScoringAuto extends StealthOpMode {
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
-        grabber.grabberClose();
+        grabber.setGrabberPos(0.68);
         grabber.setLiftPos(0.29);
         grabber.right();
         lift = new ElevatorSubsystem(hardwareMap);
@@ -99,13 +99,13 @@ public class LeftScoringAuto extends StealthOpMode {
         TrajectorySequence park = BlueLeftTrajectories.park3;
         switch (camera.getID()) {
             case 0:
-                park = BlueLeftTrajectories.park1;
+                park = BlueLeftTrajectories.park3;
                 break;
             case 1:
                 park = BlueLeftTrajectories.park2;
                 break;
             case 2:
-                park = BlueLeftTrajectories.park3;
+                park = BlueLeftTrajectories.park1;
 
         }
         return new SequentialCommandGroup(
@@ -125,7 +125,7 @@ public class LeftScoringAuto extends StealthOpMode {
                 ),
                 //grabs a cone and starts lifting lift
                 new InstantCommand(() -> grabber.grabberClose()),
-                new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1650))),
+                new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1700))),
 
                 //drives to pole
                 new WaitBeforeCommand(500,
@@ -153,7 +153,7 @@ public class LeftScoringAuto extends StealthOpMode {
                         )),
 
                 new InstantCommand(() -> grabber.grabberClose()),
-                new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1650))),
+                new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1700))),
                 //scores second cone
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
@@ -185,7 +185,7 @@ public class LeftScoringAuto extends StealthOpMode {
 
 
                 //scores third cone
-                new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1650))),
+                new WaitBeforeCommand(100, new InstantCommand(() -> lift.setTarget(1700))),
                 new WaitBeforeCommand(500,
                         new ParallelCommandGroup(
                                 new FollowTrajectorySequence(drive, BlueLeftTrajectories.scoreCone2),

@@ -53,7 +53,7 @@ public class ScoringAuto extends StealthOpMode {
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
         drive = new DriveSubsystem(mecanumDrive, hardwareMap);
         grabber = new GrabberSubsystem(hardwareMap);
-        grabber.grabberClose();
+        grabber.setGrabberPos(0.68);
         grabber.setLiftPos(0.29);
         grabber.right();
         lift = new ElevatorSubsystem(hardwareMap);
