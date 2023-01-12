@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequenceRunner;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
+import org.stealthrobotics.library.AutoToTeleStorage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +61,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
+    double headingOffset = 0.0;
+
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 
@@ -266,6 +269,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         setDrivePower(vel);
     }
 
+
     @NonNull
     @Override
     public List<Double> getWheelPositions() {
@@ -317,5 +321,18 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
+    }
+
+
+    public void stop() {
+        setMotorPowers(0,0,0,0);
+    }
+
+    public double getRawHeading() {
+        return -imu.getAngularOrientation().firstAngle;
+    }
+
+    public double getHeading() {
+        return getRawHeading() - headingOffset + AutoToTeleStorage.finalAutoHeading;
     }
 }
