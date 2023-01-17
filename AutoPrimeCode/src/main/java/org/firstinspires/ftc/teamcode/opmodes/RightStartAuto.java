@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.commands.AlignToTapeCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
@@ -33,6 +34,7 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
+@Disabled
 @Autonomous(name = "RightSideStart", preselectTeleOp = "BLUE | Tele-Op")
 public class RightStartAuto extends StealthOpMode {
 

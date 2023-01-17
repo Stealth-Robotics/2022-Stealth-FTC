@@ -6,9 +6,11 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.commands.AlignToTapeCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
@@ -16,10 +18,12 @@ import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
 import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ColorSensorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
+import org.firstinspires.ftc.teamcode.trajectories.LeftAutoTrajectories;
 import org.stealthrobotics.library.AutoToTeleStorage;
 import org.stealthrobotics.library.commands.EndOpModeCommand;
 import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
@@ -33,6 +37,7 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
+@Disabled
 @Autonomous(name = "LeftSideStart", preselectTeleOp = "BLUE | Tele-Op")
 public class LeftStartAuto extends StealthOpMode {
 
