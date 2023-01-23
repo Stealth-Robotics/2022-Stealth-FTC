@@ -11,28 +11,55 @@ public class LeftAutoTrajectories {
             .splineToSplineHeading(new Pose2d(-52, -38, Math.toRadians(90)), Math.toRadians(90))
             .build();
     public static Trajectory trajectory2 = TrajectoryBuilder.buildTrajectory(trajectory1.end())
-            .strafeRight(29)
+            .strafeRight(20)
             .build();
     public static Trajectory trajectory3 = TrajectoryBuilder.buildTrajectory(trajectory1.end())
-            .lineToSplineHeading(new Pose2d(-38, -36, Math.toRadians(45)))
+            .lineToSplineHeading(new Pose2d(-38, -33, Math.toRadians(45)))
             .build();
     public static Trajectory trajectory4 = TrajectoryBuilder.buildTrajectory(trajectory3.end())
-            .forward(5)
+            .forward(3)
             .build();
     public static Trajectory trajectory5 = TrajectoryBuilder.buildTrajectory(trajectory4.end())
-            .back(5)
+            .back(3)
             .build();
     public static Trajectory trajectory6 = TrajectoryBuilder.buildTrajectory(trajectory5.end())
-            .splineToSplineHeading(new Pose2d(-60, -36, Math.toRadians(180)), Math.toRadians(190))
+            .lineToLinearHeading(new Pose2d(-40, -16, Math.toRadians(180)))
             .build();
     public static Trajectory trajectory7 = TrajectoryBuilder.buildTrajectory(trajectory6.end())
-            .strafeRight(23)
+            .forward(28)
             .build();
-    public static Trajectory trajectory8 = TrajectoryBuilder.buildTrajectory(trajectory7.end())
-            .forward(5)
+    public static Trajectory trajectory8B = TrajectoryBuilder.buildTrajectory(trajectory7.end())
+            .back(5)
+            .build();
+    public static Trajectory trajectory8 = TrajectoryBuilder.buildTrajectory(trajectory8B.end())
+            .lineToLinearHeading(new Pose2d(-40, -20, Math.toRadians(-45)))
             .build();
     public static Trajectory trajectory9 = TrajectoryBuilder.buildTrajectory(trajectory8.end())
-            .back(5)
+            .forward(6)
+            .build();
+    public static Trajectory trajectory10 = TrajectoryBuilder.buildTrajectory(trajectory9.end())
+            .lineToLinearHeading(new Pose2d(-40, -11, Math.toRadians(-45)))
+            .build();
+    public static Trajectory trajectory11 = TrajectoryBuilder.buildTrajectory(trajectory10.end())
+            .forward(24)
+            .build();
+    public static Trajectory trajectory12 = TrajectoryBuilder.buildTrajectory(trajectory11.end())
+            .lineToLinearHeading(new Pose2d(-40, -10, Math.toRadians(180)))
+            .build();
+    public static Trajectory trajectory13 = TrajectoryBuilder.buildTrajectory(trajectory12.end())
+            .forward(4)
+            .build();
+    public static Trajectory trajectory14 = TrajectoryBuilder.buildTrajectory(trajectory13.end())
+            .back(4)
+            .build();
+    public static Trajectory trajectory15 = TrajectoryBuilder.buildTrajectory(trajectory14.end())
+            .lineToLinearHeading(new Pose2d(-40, -11, Math.toRadians(-45)))
+            .build();
+    public static Trajectory trajectory16 = TrajectoryBuilder.buildTrajectory(trajectory15.end())
+            .forward(4)
+            .build();
+    public static Trajectory trajectory17 = TrajectoryBuilder.buildTrajectory(trajectory16.end())
+            .back(4)
             .build();
 
 
