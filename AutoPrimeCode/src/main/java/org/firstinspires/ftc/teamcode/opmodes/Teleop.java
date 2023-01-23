@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.DefaultElevatorCommand;
 import org.firstinspires.ftc.teamcode.commands.DefaultMecanumDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.ResetElevatorCommand;
-import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ColorSensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
@@ -72,6 +71,26 @@ public abstract class Teleop extends StealthOpMode {
         mechGamepad.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(new ResetElevatorCommand(elevator));
 
         mechGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> gripper.toggle()));
+
+        //Tip Cone
+        Button button = driveGamepad.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> gripper.close()),
+                        new InstantCommand(() -> elevator.setTargetLocation(0.01)),
+                        new WaitCommand(500),
+                        new InstantCommand(() -> drive.setPower(-1), drive),
+                        new WaitCommand(100),
+                        new InstantCommand(() -> drive.setPower(0), drive),
+                        new InstantCommand(() -> gripper.open()),
+                        new WaitCommand(550),
+                        new InstantCommand(() -> drive.setPower(1), drive),
+                        new WaitCommand(50),
+                        new InstantCommand(() -> drive.setPower(0), drive),
+                        new InstantCommand(() -> gripper.close())
+                        )
+        );
+
+
         driveGamepad.getGamepadButton(GamepadKeys.Button.X).whenPressed(new InstantCommand(() -> drive.togglefieldcentric()));
         driveGamepad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(new InstantCommand(() -> drive.resetHeading()));
     }

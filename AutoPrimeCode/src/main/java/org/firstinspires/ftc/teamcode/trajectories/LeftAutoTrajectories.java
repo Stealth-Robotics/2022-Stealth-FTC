@@ -13,7 +13,7 @@ public class LeftAutoTrajectories {
     public static Trajectory trajectory2 = TrajectoryBuilder.buildTrajectory(trajectory1.end())
             .strafeRight(20)
             .build();
-    public static Trajectory trajectory3 = TrajectoryBuilder.buildTrajectory(trajectory1.end())
+    public static Trajectory trajectory3 = TrajectoryBuilder.buildTrajectory(trajectory2.end())
             .lineToSplineHeading(new Pose2d(-38, -33, Math.toRadians(45)))
             .build();
     public static Trajectory trajectory4 = TrajectoryBuilder.buildTrajectory(trajectory3.end())
@@ -26,7 +26,7 @@ public class LeftAutoTrajectories {
             .lineToLinearHeading(new Pose2d(-40, -16, Math.toRadians(180)))
             .build();
     public static Trajectory trajectory7 = TrajectoryBuilder.buildTrajectory(trajectory6.end())
-            .forward(28)
+            .forward(26)
             .build();
     public static Trajectory trajectory8B = TrajectoryBuilder.buildTrajectory(trajectory7.end())
             .back(5)
