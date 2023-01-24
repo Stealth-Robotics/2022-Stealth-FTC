@@ -86,7 +86,7 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         AutoToTeleStorage.finalAutoHeading = 0;
-        SleeveDetection.ParkingPosition position = camera.getPosition();
+        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.LEFT;
         //IF THIS IS CHANGED, CHANGE IN LEFT AUTO TRAJECTORIES
         drive.setPoseEstimate(-31, -64.5, Math.toRadians(90));
 

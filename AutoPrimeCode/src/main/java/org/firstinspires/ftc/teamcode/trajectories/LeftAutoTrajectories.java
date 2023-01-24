@@ -14,7 +14,7 @@ public class LeftAutoTrajectories {
             .strafeRight(20)
             .build();
     public static Trajectory trajectory3 = TrajectoryBuilder.buildTrajectory(trajectory2.end())
-            .lineToSplineHeading(new Pose2d(-38, -33, Math.toRadians(45)))
+            .lineToSplineHeading(new Pose2d(-42, -36, Math.toRadians(45)))
             .build();
     public static Trajectory trajectory4 = TrajectoryBuilder.buildTrajectory(trajectory3.end())
             .forward(3)
@@ -35,16 +35,16 @@ public class LeftAutoTrajectories {
             .lineToLinearHeading(new Pose2d(-40, -20, Math.toRadians(-45)))
             .build();
     public static Trajectory trajectory9 = TrajectoryBuilder.buildTrajectory(trajectory8.end())
-            .forward(6)
+            .forward(4)
             .build();
     public static Trajectory trajectory10 = TrajectoryBuilder.buildTrajectory(trajectory9.end())
-            .lineToLinearHeading(new Pose2d(-40, -11, Math.toRadians(-45)))
+            .back(4)
             .build();
     public static Trajectory trajectory11 = TrajectoryBuilder.buildTrajectory(trajectory10.end())
-            .forward(24)
+            .lineToLinearHeading(new Pose2d(-40, -16, Math.toRadians(180)))
             .build();
     public static Trajectory trajectory12 = TrajectoryBuilder.buildTrajectory(trajectory11.end())
-            .lineToLinearHeading(new Pose2d(-40, -10, Math.toRadians(180)))
+            .forward(26)
             .build();
     public static Trajectory trajectory13 = TrajectoryBuilder.buildTrajectory(trajectory12.end())
             .forward(4)
@@ -53,13 +53,10 @@ public class LeftAutoTrajectories {
             .back(4)
             .build();
     public static Trajectory trajectory15 = TrajectoryBuilder.buildTrajectory(trajectory14.end())
-            .lineToLinearHeading(new Pose2d(-40, -11, Math.toRadians(-45)))
             .build();
     public static Trajectory trajectory16 = TrajectoryBuilder.buildTrajectory(trajectory15.end())
-            .forward(4)
             .build();
     public static Trajectory trajectory17 = TrajectoryBuilder.buildTrajectory(trajectory16.end())
-            .back(4)
             .build();
 
 
