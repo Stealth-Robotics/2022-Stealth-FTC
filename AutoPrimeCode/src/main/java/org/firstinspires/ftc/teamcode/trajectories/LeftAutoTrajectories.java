@@ -52,12 +52,6 @@ public class LeftAutoTrajectories {
     public static Trajectory trajectory14 = TrajectoryBuilder.buildTrajectory(trajectory13.end())
             .back(4)
             .build();
-    public static Trajectory trajectory15 = TrajectoryBuilder.buildTrajectory(trajectory14.end())
-            .build();
-    public static Trajectory trajectory16 = TrajectoryBuilder.buildTrajectory(trajectory15.end())
-            .build();
-    public static Trajectory trajectory17 = TrajectoryBuilder.buildTrajectory(trajectory16.end())
-            .build();
 
 
 }

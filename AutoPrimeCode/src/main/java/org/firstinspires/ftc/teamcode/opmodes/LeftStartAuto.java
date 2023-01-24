@@ -37,7 +37,6 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Disabled
 @Autonomous(name = "LeftSideStart", preselectTeleOp = "BLUE | Tele-Op")
 public class LeftStartAuto extends StealthOpMode {
 
