@@ -124,11 +124,31 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                     new ParallelCommandGroup(
                             new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory10),
                             new MoveElevatorPercentage(elevator, 0)
-                    )
+                    ),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11),
+                            new MoveElevatorPercentage(elevator, 0.13),
+                            new GripperOpenCommand(gripper)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.3),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory13),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.63),
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory14)
+
+                    ),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.64),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory15),
+                    new MoveElevatorPercentage(elevator, 0)
 
 
 
-                    );
+
+            );
         } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
 
