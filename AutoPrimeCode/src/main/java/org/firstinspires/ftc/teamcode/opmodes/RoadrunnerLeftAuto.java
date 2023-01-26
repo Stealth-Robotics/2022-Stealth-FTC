@@ -134,9 +134,10 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.3),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12A),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory13),
                     new ParallelCommandGroup(
-                            new MoveElevatorPercentage(elevator, 0.63),
+                            new MoveElevatorPercentage(elevator, 0.64),
                             new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory14)
 
                     ),
