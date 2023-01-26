@@ -51,6 +51,7 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
     DriveSubsystem drive;
 
 
+
     /**
      * Executed when you init the selected opmode. This is where you setup your hardware.
      */
@@ -127,7 +128,7 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                     ),
                     new ParallelCommandGroup(
                             new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11),
-                            new MoveElevatorPercentage(elevator, 0.13),
+                            new MoveElevatorPercentage(elevator, 0.11),
                             new GripperOpenCommand(gripper)
                     ),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),

@@ -29,8 +29,6 @@ public class ColorSensorSubsystem extends SubsystemBase {
     private final ColorSensor colorSensorLeft;
     private final ColorSensor colorSensorRight;
 
-    // TODO: change to use this type for your sensors: RevColorSensorV3
-
     public static int TAPE_RED_THRESHOLD_L = 280;
     public static int TAPE_BLUE_THRESHOLD_L = 340;
 
@@ -42,7 +40,6 @@ public class ColorSensorSubsystem extends SubsystemBase {
         colorSensorRight = hardwareMap.get(ColorSensor.class, "colorSensorRight");
     }
 
-    // TODO: change to call getNormalizedColors() once per sensor. Perhaps an update() method?
 
     public boolean doesLeftSensorSeeTape() {
         int r = colorSensorLeft.red();
