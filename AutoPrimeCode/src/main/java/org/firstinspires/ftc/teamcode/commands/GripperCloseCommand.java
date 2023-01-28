@@ -10,7 +10,7 @@ public class GripperCloseCommand extends SequentialCommandGroup {
     public GripperCloseCommand(GripperSubsystem gripper){
         addCommands(
                 new InstantCommand(() -> gripper.close()),
-                new WaitCommand(1000)
+                new WaitCommand(500)
         );
     }
 }

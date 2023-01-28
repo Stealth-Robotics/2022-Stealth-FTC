@@ -10,7 +10,7 @@ public class GripperOpenCommand extends SequentialCommandGroup {
     public GripperOpenCommand(GripperSubsystem gripper){
         addCommands(
                 new InstantCommand(() -> gripper.open()),
-                new WaitCommand(1000)
+                new WaitCommand(500)
         );
     }
 }

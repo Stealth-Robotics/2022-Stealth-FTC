@@ -35,7 +35,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
         elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevatorMotor.setTargetPositionTolerance(10);
+        elevatorMotor.setTargetPositionTolerance(20);
         elevatorMotor.setTargetPosition(0);
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
