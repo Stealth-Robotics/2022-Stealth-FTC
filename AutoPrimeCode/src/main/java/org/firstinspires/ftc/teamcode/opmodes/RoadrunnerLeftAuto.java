@@ -2,33 +2,24 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.commands.AlignToTapeCommand;
-import org.firstinspires.ftc.teamcode.commands.DriveForwardInchesCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectory;
-import org.firstinspires.ftc.teamcode.commands.FollowTrajectorySequence;
 import org.firstinspires.ftc.teamcode.commands.GripperCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.GripperOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveElevatorPercentage;
-import org.firstinspires.ftc.teamcode.commands.StrafeForInches;
-import org.firstinspires.ftc.teamcode.commands.TurnToDegrees;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ColorSensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.GripperSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleMecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pipelines.SleeveDetection;
 import org.firstinspires.ftc.teamcode.trajectories.LeftAutoTrajectories;
 import org.stealthrobotics.library.AutoToTeleStorage;
-import org.stealthrobotics.library.commands.EndOpModeCommand;
-import org.stealthrobotics.library.commands.SaveAutoHeadingCommand;
 import org.stealthrobotics.library.opmodes.StealthOpMode;
 
 /**
@@ -49,7 +40,6 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
     CameraSubsystem camera;
     ColorSensorSubsystem colorSensor;
     DriveSubsystem drive;
-
 
 
     /**
@@ -94,42 +84,48 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
         if (position == SleeveDetection.ParkingPosition.LEFT) {
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.1),
-                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory1),
-                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory2),
-                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory3),
-                    new MoveElevatorPercentage(elevator, 0.63),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.1),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(250),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory1_goOverGroundJunct)
+                            )
+                    ),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory2),
+                            new MoveElevatorPercentage(elevator, 0.63)
+                    ),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory4),
                     new MoveElevatorPercentage(elevator, 0.59),
                     new GripperOpenCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.64),
+                    new MoveElevatorPercentage(elevator, 0.65),
                     new ParallelCommandGroup(
-                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory5),
-                            new MoveElevatorPercentage(elevator, 0)
-                    ),
-                    new ParallelCommandGroup(
-                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory6),
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory5),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryStrafe),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory6)
+                            ),
                             new MoveElevatorPercentage(elevator, 0.13)
-
                     ),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory7),
                     new GripperCloseCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.3),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8B),
-                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8),
-                    new MoveElevatorPercentage(elevator, 0.63),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8),
+                            new MoveElevatorPercentage(elevator, 0.63)
+
+                    ),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory9),
                     new MoveElevatorPercentage(elevator, 0.59),
                     new GripperOpenCommand(gripper),
                     new MoveElevatorPercentage(elevator, 0.64),
                     new ParallelCommandGroup(
-                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory10),
-                            new MoveElevatorPercentage(elevator, 0)
-                    ),
-                    new ParallelCommandGroup(
-                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11),
-                            new MoveElevatorPercentage(elevator, 0.11),
-                            new GripperOpenCommand(gripper)
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory10),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11)
+                            ),
+                            new MoveElevatorPercentage(elevator, 0.11)
                     ),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),
                     new GripperCloseCommand(gripper),
@@ -143,11 +139,15 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                     ),
                     new MoveElevatorPercentage(elevator, 0.59),
                     new GripperOpenCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.64),
-                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory15),
-                    new MoveElevatorPercentage(elevator, 0)
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory15),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory16)
 
-
+                            ),
+                            new MoveElevatorPercentage(elevator, 0)
+                    )
 
 
             );

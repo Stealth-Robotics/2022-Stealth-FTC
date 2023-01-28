@@ -19,10 +19,10 @@ public class MeepMeepTesting {
 
                                 .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(90)), Math.toRadians(90))
                                 .strafeRight(34)
-                                .lineToSplineHeading(new Pose2d(-28, -28, Math.toRadians(35)))
                                 .forward(4)
                                 .back(4)
-                                .lineToLinearHeading(new Pose2d(-40, -9, Math.toRadians(180)))
+                                .strafeLeft(12)
+                                .splineToLinearHeading(new Pose2d(-49, -11, Math.toRadians(180)), Math.toRadians(180))
                                 .forward(24)
                                 .lineToLinearHeading(new Pose2d(-28, -16, Math.toRadians(-45)))
                                 .forward(4)
