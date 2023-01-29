@@ -13,7 +13,7 @@ public class LeftAutoTrajectories {
             .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(90)), Math.toRadians(90))
             .build();
     public static Trajectory trajectory2 = TrajectoryBuilder.buildTrajectory(trajectory1_goOverGroundJunct.end())
-            .strafeRight(34,
+            .strafeRight(35,
                     SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                     SampleMecanumDrive.getAccelerationConstraint(300))            .build();
 
@@ -47,7 +47,7 @@ public class LeftAutoTrajectories {
     public static Trajectory trajectory8 = TrajectoryBuilder.buildTrajectory(trajectory8B.end())
             .lineToLinearHeading(new Pose2d(-29, -15, Math.toRadians(-39)),
                     SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                    SampleMecanumDrive.getAccelerationConstraint(200))
+                    SampleMecanumDrive.getAccelerationConstraint(250))
             .build();
     public static Trajectory trajectory9 = TrajectoryBuilder.buildTrajectory(trajectory8.end())
             .forward(6,
@@ -60,9 +60,7 @@ public class LeftAutoTrajectories {
                     SampleMecanumDrive.getAccelerationConstraint(100))
             .build();
     public static Trajectory trajectory11 = TrajectoryBuilder.buildTrajectory(trajectory10.end())
-            .lineToLinearHeading(new Pose2d(-40, -10.5, Math.toRadians(180)),
-                    SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                    SampleMecanumDrive.getAccelerationConstraint(200))
+            .splineToSplineHeading(new Pose2d(-47, -13, Math.toRadians(180)), Math.toRadians(180))
 
             .build();
     public static Trajectory trajectory12 = TrajectoryBuilder.buildTrajectory(trajectory11.end())
@@ -76,24 +74,39 @@ public class LeftAutoTrajectories {
                     SampleMecanumDrive.getAccelerationConstraint(300))
             .build();
     public static Trajectory trajectory13 = TrajectoryBuilder.buildTrajectory(trajectory12A.end())
-            .lineToLinearHeading(new Pose2d(-31, -17, Math.toRadians(-40)),
+            .lineToLinearHeading(new Pose2d(-31, -17, Math.toRadians(-45)),
                     SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                    SampleMecanumDrive.getAccelerationConstraint(200))
+                    SampleMecanumDrive.getAccelerationConstraint(250))
             .build();
     public static Trajectory trajectory14 = TrajectoryBuilder.buildTrajectory(trajectory13.end())
-            .forward(5,
+            .forward(5.5,
                     SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                     SampleMecanumDrive.getAccelerationConstraint(100))
             .build();
-    public static Trajectory trajectory15 = TrajectoryBuilder.buildTrajectory(trajectory13.end())
-            .back(5,
+    public static Trajectory trajectory15 = TrajectoryBuilder.buildTrajectory(trajectory14.end())
+            .back(5.5,
                     SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                     SampleMecanumDrive.getAccelerationConstraint(100))
             .build();
-    public static Trajectory trajectory16 = TrajectoryBuilder.buildTrajectory(trajectory12A.end())
-            .lineToLinearHeading(new Pose2d(-56, -10.5, Math.toRadians(180)),
+    public static Trajectory trajectoryLeft = TrajectoryBuilder.buildTrajectory(trajectory15.end())
+            .lineToLinearHeading(new Pose2d(-58, -11, Math.toRadians(85)),
                     SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                    SampleMecanumDrive.getAccelerationConstraint(200))
+                    SampleMecanumDrive.getAccelerationConstraint(300))
+            .build();
+    public static Trajectory trajectoryCenter = TrajectoryBuilder.buildTrajectory(trajectory15.end())
+            .lineToLinearHeading(new Pose2d(-34, -14, Math.toRadians(85)),
+                    SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    SampleMecanumDrive.getAccelerationConstraint(300))
+            .build();
+    public static Trajectory trajectoryRight = TrajectoryBuilder.buildTrajectory(trajectory15.end())
+            .lineToLinearHeading(new Pose2d(-34, -14, Math.toRadians(0)),
+                    SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    SampleMecanumDrive.getAccelerationConstraint(300))
+            .build();
+    public static Trajectory trajectoryRightA = TrajectoryBuilder.buildTrajectory(trajectoryRight.end())
+                    .forward(20,
+                    SampleMecanumDrive.getVelocityConstraint(100, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                    SampleMecanumDrive.getAccelerationConstraint(300))
             .build();
 
 

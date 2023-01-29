@@ -27,12 +27,12 @@ public class MeepMeepTesting {
                                 .lineToLinearHeading(new Pose2d(-28, -16, Math.toRadians(-45)))
                                 .forward(4)
                                 .back(4)
-                                .lineToLinearHeading(new Pose2d(-40, -9, Math.toRadians(180)))
+                                .splineToSplineHeading(new Pose2d(-47, -11, Math.toRadians(180)), Math.toRadians(180))
                                 .forward(24)
                                 .lineToLinearHeading(new Pose2d(-31, -17, Math.toRadians(-45)))
                                 .forward(4)
                                 .back(4)
-                                .lineToLinearHeading(new Pose2d(-35, -35, Math.toRadians(90)))
+                                .lineToLinearHeading(new Pose2d(-36, -10, Math.toRadians(90)))
 
                                 .build()
                 );

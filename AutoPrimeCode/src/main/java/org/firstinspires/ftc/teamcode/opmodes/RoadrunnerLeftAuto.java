@@ -77,11 +77,86 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
     @Override
     public Command getAutoCommand() {
         AutoToTeleStorage.finalAutoHeading = 0;
-        SleeveDetection.ParkingPosition position = SleeveDetection.ParkingPosition.LEFT;
+        SleeveDetection.ParkingPosition position = camera.getPosition();
         //IF THIS IS CHANGED, CHANGE IN LEFT AUTO TRAJECTORIES
         drive.setPoseEstimate(-31, -64.5, Math.toRadians(90));
 
         if (position == SleeveDetection.ParkingPosition.LEFT) {
+            return new SequentialCommandGroup(
+                    new GripperCloseCommand(gripper),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.1),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(250),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory1_goOverGroundJunct)
+                            )
+                    ),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory2),
+                            new MoveElevatorPercentage(elevator, 0.63)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory4),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory5),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryStrafe),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory6)
+                            ),
+                            new MoveElevatorPercentage(elevator, 0.13)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory7),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.25),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8B),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8),
+                            new MoveElevatorPercentage(elevator, 0.63)
+
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory9),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.64),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory10),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11)
+                            ),
+                            new MoveElevatorPercentage(elevator, 0.1)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.25),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12A),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory13),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.64),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(500),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory14)
+
+                            )
+
+                    ),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory15),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryLeft)
+
+                            ),
+                            new MoveElevatorPercentage(elevator, 0)
+
+                    )
+
+
+            );
+        } else if (position == SleeveDetection.ParkingPosition.CENTER) {
             return new SequentialCommandGroup(
                     new GripperCloseCommand(gripper),
                     new ParallelCommandGroup(
@@ -125,7 +200,7 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory10),
                                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11)
                             ),
-                            new MoveElevatorPercentage(elevator, 0.11)
+                            new MoveElevatorPercentage(elevator, 0.1)
                     ),
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),
                     new GripperCloseCommand(gripper),
@@ -134,7 +209,11 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory13),
                     new ParallelCommandGroup(
                             new MoveElevatorPercentage(elevator, 0.64),
-                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory14)
+                            new SequentialCommandGroup(
+                                    new WaitCommand(500),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory14)
+
+                            )
 
                     ),
                     new MoveElevatorPercentage(elevator, 0.59),
@@ -143,20 +222,88 @@ public class RoadrunnerLeftAuto extends StealthOpMode {
                     new ParallelCommandGroup(
                             new SequentialCommandGroup(
                                     new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory15),
-                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory16)
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryCenter)
 
                             ),
                             new MoveElevatorPercentage(elevator, 0)
+
                     )
 
 
             );
-        } else if (position == SleeveDetection.ParkingPosition.CENTER) {
-            return new SequentialCommandGroup(
-
-            );
         } else { // RIGHT
             return new SequentialCommandGroup(
+                    new GripperCloseCommand(gripper),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.1),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(250),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory1_goOverGroundJunct)
+                            )
+                    ),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory2),
+                            new MoveElevatorPercentage(elevator, 0.63)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory4),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory5),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryStrafe),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory6)
+                            ),
+                            new MoveElevatorPercentage(elevator, 0.13)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory7),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.3),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8B),
+                    new ParallelCommandGroup(
+                            new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory8),
+                            new MoveElevatorPercentage(elevator, 0.63)
+
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory9),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.64),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory10),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory11)
+                            ),
+                            new MoveElevatorPercentage(elevator, 0.1)
+                    ),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12),
+                    new GripperCloseCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.3),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory12A),
+                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory13),
+                    new ParallelCommandGroup(
+                            new MoveElevatorPercentage(elevator, 0.64),
+                            new SequentialCommandGroup(
+                                    new WaitCommand(500),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory14)
+
+                            )
+
+                    ),
+                    new MoveElevatorPercentage(elevator, 0.59),
+                    new GripperOpenCommand(gripper),
+                    new MoveElevatorPercentage(elevator, 0.65),
+                    new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectory15),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryRight),
+                                    new FollowTrajectory(mecanumDrive, LeftAutoTrajectories.trajectoryRightA)
+
+
+                            )
+                    ),
+                    new MoveElevatorPercentage(elevator, 0)
 
 
             );

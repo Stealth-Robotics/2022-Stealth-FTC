@@ -34,7 +34,6 @@ import org.stealthrobotics.library.opmodes.StealthOpMode;
  * name then your Alliance color will be set correctly for use throughout.
  */
 @SuppressWarnings("unused")
-@Disabled
 @Autonomous(name = "RightSideStart", preselectTeleOp = "BLUE | Tele-Op")
 public class RightStartAuto extends StealthOpMode {
 
@@ -90,7 +89,7 @@ public class RightStartAuto extends StealthOpMode {
                     new StrafeForInches(drive, 24),
                     new StrafeForInches(drive, -10),
                     new TurnToDegrees(drive, -48),
-                    new MoveElevatorPercentage(elevator, 0.63),
+                    new MoveElevatorPercentage(elevator, 0.64),
                     new DriveForwardInchesCommand(drive, 9).withTimeout(1000),
                     new WaitCommand(100),
                     new MoveElevatorPercentage(elevator, 0.6),
@@ -111,11 +110,11 @@ public class RightStartAuto extends StealthOpMode {
                     new WaitCommand(100),
                     new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.3),
+                    new MoveElevatorPercentage(elevator, 0.28),
                     new DriveForwardInchesCommand(drive, -24),
                     new TurnToDegrees(drive, -90),
                     new MoveElevatorPercentage(elevator, 0.63),
-                    new TurnToDegrees(drive, -125),
+                    new TurnToDegrees(drive, -127),
                     new DriveForwardInchesCommand(drive, 10),
                     new MoveElevatorPercentage(elevator, 0.61),
                     new GripperOpenCommand(gripper),
@@ -124,8 +123,8 @@ public class RightStartAuto extends StealthOpMode {
                             new DriveForwardInchesCommand(drive, -9.5)
                     ),
                     new TurnToDegrees(drive, 180),
-                    new DriveForwardInchesCommand(drive, 24),
-                    new StrafeForInches(drive, 24),
+                    new DriveForwardInchesCommand(drive, 23),
+                    new StrafeForInches(drive, -24),
                     new ParallelCommandGroup(
                             new TurnToDegrees(drive, 0),
                             new MoveElevatorPercentage(elevator, 0)
@@ -164,7 +163,7 @@ public class RightStartAuto extends StealthOpMode {
                     new WaitCommand(100),
                     new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.3),
+                    new MoveElevatorPercentage(elevator, 0.28),
                     new DriveForwardInchesCommand(drive, -24),
                     new TurnToDegrees(drive, -90),
                     new MoveElevatorPercentage(elevator, 0.63),
@@ -215,7 +214,7 @@ public class RightStartAuto extends StealthOpMode {
                     new WaitCommand(100),
                     new DriveForwardInchesCommand(drive, 8).withTimeout(1000),
                     new GripperCloseCommand(gripper),
-                    new MoveElevatorPercentage(elevator, 0.3),
+                    new MoveElevatorPercentage(elevator, 0.28),
                     new DriveForwardInchesCommand(drive, -24),
                     new TurnToDegrees(drive, -90),
                     new MoveElevatorPercentage(elevator, 0.63),
@@ -228,8 +227,8 @@ public class RightStartAuto extends StealthOpMode {
                             new DriveForwardInchesCommand(drive, -9.5)
                     ),
                     new TurnToDegrees(drive, 180),
-                    new DriveForwardInchesCommand(drive, 24),
-                    new StrafeForInches(drive, -24),
+                    new DriveForwardInchesCommand(drive, 23),
+                    new StrafeForInches(drive, 24),
                     new ParallelCommandGroup(
                             new TurnToDegrees(drive, 0),
                             new MoveElevatorPercentage(elevator, 0)
